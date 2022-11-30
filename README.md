@@ -1,1 +1,1 @@
-AED Project
+AED Final Project - Vaccine Management System
