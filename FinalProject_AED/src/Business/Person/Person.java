@@ -21,8 +21,8 @@ public class Person {
     private String gender;
     private long phoneNumber;
 
-    public Person(String personId, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
-        this.personId = "person_"+this.personCounter;
+    public Person(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
+        this.personId = "person_"+Person.personCounter;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
