@@ -22,11 +22,7 @@ public class Person {
     private long phoneNumber;
 
     public Person(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
-<<<<<<< HEAD
-        this.personId = "person_"+this.personCounter;
-=======
         this.personId = "person_"+Person.personCounter;
->>>>>>> main
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
