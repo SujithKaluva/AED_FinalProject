@@ -15,8 +15,8 @@ public class SalesPersonDirectory {
     
     private ArrayList<SalesPerson> salesPersonDirectory;
 
-    public SalesPersonDirectory(ArrayList<SalesPerson> salesPersonDirectory) {
-        this.salesPersonDirectory = salesPersonDirectory;
+    public SalesPersonDirectory() {
+        this.salesPersonDirectory = new ArrayList<>();
     }
 
     public ArrayList<SalesPerson> getSalesPersonDirectory() {

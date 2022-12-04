@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @author tendusmac
  */
 public class patientDirectory {
-    
+
     private ArrayList<Patient> patientdirectory;
 
-    public patientDirectory(ArrayList<Patient> patientdirectory) {
-        this.patientdirectory = patientdirectory;
+    public patientDirectory() {
+        this.patientdirectory = new ArrayList<>();
     }
 
     public ArrayList<Patient> getPatientdirectory() {
@@ -26,13 +26,9 @@ public class patientDirectory {
     public void setPatientdirectory(ArrayList<Patient> patientdirectory) {
         this.patientdirectory = patientdirectory;
     }
-
     
-
+    public void addPatient(Patient pObj){
+        this.patientdirectory.add(pObj);
     }
-    
-    
-    
-    
-    
 
+}
