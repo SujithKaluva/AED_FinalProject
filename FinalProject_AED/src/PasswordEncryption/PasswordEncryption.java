@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class PasswordEncryption {
     
-    public byte[] getSHA(String input) throws NoSuchAlgorithmException{  
+    public static byte[] getSHA(String input) throws NoSuchAlgorithmException{  
         /* MessageDigest instance for hashing using SHA512*/  
         MessageDigest md = MessageDigest.getInstance("SHA-512");  
   
@@ -21,7 +21,7 @@ public class PasswordEncryption {
         return md.digest(input.getBytes(StandardCharsets.UTF_8));  
     }  
       
-    public String toHexString(byte[] hash){  
+    public static String toHexString(byte[] hash){  
         /* Convert byte array of hash into digest */  
         BigInteger number = new BigInteger(1, hash);  
   
@@ -37,7 +37,7 @@ public class PasswordEncryption {
         return hexString.toString();  
     }  
     
-    public String getEncryptedPassword(String plainPassword){
+    public static String getEncryptedPassword(String plainPassword){
         try {
             return toHexString(getSHA(plainPassword));
         } catch (NoSuchAlgorithmException ex) {
@@ -46,7 +46,7 @@ public class PasswordEncryption {
         }
     }
     
-    public boolean matchPassword(String savedPassword, String enteredPassword){
+    public static boolean matchPassword(String savedPassword, String enteredPassword){
         try {
             return savedPassword.equals(toHexString(getSHA(enteredPassword)));
         } catch (NoSuchAlgorithmException ex) {
