@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class VaccineDirectory {
     private ArrayList<Vaccine> vaccineDirectory;
 
-    public VaccineDirectory(ArrayList<Vaccine> vaccineDirectory) {
-        this.vaccineDirectory = vaccineDirectory;
+    public VaccineDirectory() {
+        this.vaccineDirectory = new ArrayList<>();
     }
 
     public ArrayList<Vaccine> getVaccineDirectory() {
