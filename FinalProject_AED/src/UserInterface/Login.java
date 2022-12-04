@@ -61,7 +61,6 @@ public class Login extends javax.swing.JFrame {
         );
 
         rightPanel.setBackground(new java.awt.Color(21, 135, 181));
-        rightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         userNameTxt.setBackground(new java.awt.Color(204, 255, 255));
         userNameTxt.setToolTipText("Username");
@@ -70,7 +69,6 @@ public class Login extends javax.swing.JFrame {
                 userNameTxtActionPerformed(evt);
             }
         });
-        rightPanel.add(userNameTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 252, 32));
 
         passwordTxt.setBackground(new java.awt.Color(204, 255, 255));
         passwordTxt.setToolTipText("Password");
@@ -79,13 +77,10 @@ public class Login extends javax.swing.JFrame {
                 passwordTxtActionPerformed(evt);
             }
         });
-        rightPanel.add(passwordTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 252, 32));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/padlock.png"))); // NOI18N
-        rightPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 30, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/user.png"))); // NOI18N
-        rightPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 30, 30));
 
         signUpBtn.setBackground(new java.awt.Color(255, 255, 204));
         signUpBtn.setText("Sign Up");
@@ -94,7 +89,6 @@ public class Login extends javax.swing.JFrame {
                 signUpBtnActionPerformed(evt);
             }
         });
-        rightPanel.add(signUpBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, -1, -1));
 
         loginBtn.setBackground(new java.awt.Color(255, 255, 204));
         loginBtn.setText("Login");
@@ -103,11 +97,51 @@ public class Login extends javax.swing.JFrame {
                 loginBtnActionPerformed(evt);
             }
         });
-        rightPanel.add(loginBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, -1, -1));
 
         userRole.setBackground(new java.awt.Color(204, 255, 255));
         userRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patient", "Doctor", "Community Admin", "Hospital Admin", "System Admin" }));
-        rightPanel.add(userRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 163, 250, 30));
+
+        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
+        rightPanel.setLayout(rightPanelLayout);
+        rightPanelLayout.setHorizontalGroup(
+            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(140, 140, 140)
+                .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(userNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(loginBtn)
+                .addGap(8, 8, 8)
+                .addComponent(signUpBtn))
+        );
+        rightPanelLayout.setVerticalGroup(
+            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginBtn)
+                    .addComponent(signUpBtn)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,12 +150,12 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
+                .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -137,88 +171,88 @@ public class Login extends javax.swing.JFrame {
 
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
         // TODO add your handling code here:
-        if(userRole.getSelectedItem().toString().equals("Patient")){
-            CreatePatientPanel createPatientCmp = new CreatePatientPanel();
-            this.setContentPane(createPatientCmp);
-            this.invalidate();
-            this.validate();
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "Please Contact Admin for Sign Up!");
-        }
+//        if(userRole.getSelectedItem().toString().equals("Patient")){
+//            CreatePatientPanel createPatientCmp = new CreatePatientPanel();
+//            this.setContentPane(createPatientCmp);
+//            this.invalidate();
+//            this.validate();
+//        }
+//        else{
+//            JOptionPane.showMessageDialog(this, "Please Contact Admin for Sign Up!");
+//        }
 
     }//GEN-LAST:event_signUpBtnActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
-        HashMap<String,String> pManager;
-        if(userNameTxt.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please enter valid username.");
-        }
-        else if(!passwordTxt.isValid()){
-            JOptionPane.showMessageDialog(this, "Please enter valid password.");
-        }
-        else if(userRole.getSelectedItem().toString().equals("Patient")){
-            pManager = ecoSys.getPatientDirectory().getPasswordManager();
-            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
-                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-            }
-            else{
-                PatientWorkArea patWrkArea = new PatientWorkArea(ecoSys.getPatientDirectory().getPatientMap().get(userNameTxt.getText()));
-                this.setContentPane(patWrkArea);
-                this.invalidate();
-                this.validate();
-            }
-        }
-        else if(userRole.getSelectedItem().toString().equals("System Admin")){
-            pManager = ecoSys.getSystemAdminDirectory().getPasswordManager();
-            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
-                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-            }
-            else{
-                SysAdminWorkArea sysAdmWrkArea = new SysAdminWorkArea();
-                this.setContentPane(sysAdmWrkArea);
-                this.invalidate();
-                this.validate();
-            }
-        }
-        else if(userRole.getSelectedItem().toString().equals("Doctor")){
-            pManager = ecoSys.getDoctorDirectory().getPasswordManager();
-            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
-                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-            }
-            else{
-                DoctorWorkArea docWrkArea = new DoctorWorkArea(ecoSys.getDoctorDirectory().getDoctorMap().get(userNameTxt.getText()));
-                this.setContentPane(docWrkArea);
-                this.invalidate();
-                this.validate();
-            }
-
-        }
-        else if(userRole.getSelectedItem().toString().equals("Community Admin")){
-            pManager = ecoSys.getCommunitydminDirectory().getPasswordManager();
-            if(!(pManager.containsKey(passwordTxt.getText()) && pManager.get(passwordTxt.getText()).equals(userNameTxt.getText()))){
-                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-            }
-            else{
-                CommunityAdminWorkArea sysAdmWrkArea = new CommunityAdminWorkArea(userNameTxt.getText());
-                this.setContentPane(sysAdmWrkArea);
-                this.invalidate();
-                this.validate();
-            }
-        }
-        else if(userRole.getSelectedItem().toString().equals("Hospital Admin")){
-            pManager = ecoSys.getHospitalAdminDirectory().getPasswordManager();
-            if(!(pManager.containsKey(passwordTxt.getText()) && pManager.get(passwordTxt.getText()).equals(userNameTxt.getText()))){
-                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-            }
-            else{
-                HospitalAdminWorkArea sysAdmWrkArea = new HospitalAdminWorkArea(userNameTxt.getText());
-                this.setContentPane(sysAdmWrkArea);
-                this.invalidate();
-                this.validate();
-            }
-        }
+//        HashMap<String,String> pManager;
+//        if(userNameTxt.getText().isEmpty()){
+//            JOptionPane.showMessageDialog(this, "Please enter valid username.");
+//        }
+//        else if(!passwordTxt.isValid()){
+//            JOptionPane.showMessageDialog(this, "Please enter valid password.");
+//        }
+//        else if(userRole.getSelectedItem().toString().equals("Patient")){
+//            pManager = ecoSys.getPatientDirectory().getPasswordManager();
+//            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
+//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+//            }
+//            else{
+//                PatientWorkArea patWrkArea = new PatientWorkArea(ecoSys.getPatientDirectory().getPatientMap().get(userNameTxt.getText()));
+//                this.setContentPane(patWrkArea);
+//                this.invalidate();
+//                this.validate();
+//            }
+//        }
+//        else if(userRole.getSelectedItem().toString().equals("System Admin")){
+//            pManager = ecoSys.getSystemAdminDirectory().getPasswordManager();
+//            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
+//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+//            }
+//            else{
+//                SysAdminWorkArea sysAdmWrkArea = new SysAdminWorkArea();
+//                this.setContentPane(sysAdmWrkArea);
+//                this.invalidate();
+//                this.validate();
+//            }
+//        }
+//        else if(userRole.getSelectedItem().toString().equals("Doctor")){
+//            pManager = ecoSys.getDoctorDirectory().getPasswordManager();
+//            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
+//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+//            }
+//            else{
+//                DoctorWorkArea docWrkArea = new DoctorWorkArea(ecoSys.getDoctorDirectory().getDoctorMap().get(userNameTxt.getText()));
+//                this.setContentPane(docWrkArea);
+//                this.invalidate();
+//                this.validate();
+//            }
+//
+//        }
+//        else if(userRole.getSelectedItem().toString().equals("Community Admin")){
+//            pManager = ecoSys.getCommunitydminDirectory().getPasswordManager();
+//            if(!(pManager.containsKey(passwordTxt.getText()) && pManager.get(passwordTxt.getText()).equals(userNameTxt.getText()))){
+//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+//            }
+//            else{
+//                CommunityAdminWorkArea sysAdmWrkArea = new CommunityAdminWorkArea(userNameTxt.getText());
+//                this.setContentPane(sysAdmWrkArea);
+//                this.invalidate();
+//                this.validate();
+//            }
+//        }
+//        else if(userRole.getSelectedItem().toString().equals("Hospital Admin")){
+//            pManager = ecoSys.getHospitalAdminDirectory().getPasswordManager();
+//            if(!(pManager.containsKey(passwordTxt.getText()) && pManager.get(passwordTxt.getText()).equals(userNameTxt.getText()))){
+//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+//            }
+//            else{
+//                HospitalAdminWorkArea sysAdmWrkArea = new HospitalAdminWorkArea(userNameTxt.getText());
+//                this.setContentPane(sysAdmWrkArea);
+//                this.invalidate();
+//                this.validate();
+//            }
+//        }
     }//GEN-LAST:event_loginBtnActionPerformed
 
     /**

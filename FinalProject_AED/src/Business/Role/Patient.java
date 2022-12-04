@@ -17,7 +17,7 @@ public class Patient extends Person {
     public static int patientCounter=1;
     private String password;
 
-    public Patient(String PatientId, String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
+    public Patient(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
         super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
         this.PatientId = "patient_"+patientCounter;
         this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);

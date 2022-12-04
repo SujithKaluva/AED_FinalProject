@@ -4,6 +4,7 @@
  */
 package UserInterface;
 
+import Business.Role.Patient;
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
 import javax.swing.JComponent;
@@ -57,17 +58,17 @@ public class PatientRegistration extends javax.swing.JPanel {
                         errorMsg = String.format("Please enter a valid %s", name);
                     }
                     break;
-                case "patientEmailId":
-                    if (!ecoSystem.getPatientDirectory().isUsernameAvailable(text)) {
-                        raiseError = true;
-                        errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
-                        break;
-                    }
-                    if (!text.matches("^(.+)@(.+)$")) {
-                        raiseError = true;
-                        errorMsg = String.format("Please enter a valid %s", name);
-                    }
-                    break;
+//                case "patientEmailId":
+//                    if (!ecoSystem.getPatientDirectory().isUsernameAvailable(text)) {
+//                        raiseError = true;
+//                        errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
+//                        break;
+//                    }
+//                    if (!text.matches("^(.+)@(.+)$")) {
+//                        raiseError = true;
+//                        errorMsg = String.format("Please enter a valid %s", name);
+//                    }
+//                    break;
                 case "patientZipCode":
                     if (!text.matches("^[0-9]{5}")) {
                         raiseError = true;
@@ -439,16 +440,15 @@ public class PatientRegistration extends javax.swing.JPanel {
         boolean validated = false;
         boolean validatedOtherFields = false;
         String selectedGender = gender.getSelectedItem().toString();
-        String selectedCity = city.getSelectedItem()==null?"":city.getSelectedItem().toString();
-        String selectedCommunity = community.getSelectedItem()==null?"":community.getSelectedItem().toString();
+        String selectedCity = city.getSelectedItem() == null ? "" : city.getSelectedItem().toString();
+        String selectedCommunity = community.getSelectedItem() == null ? "" : community.getSelectedItem().toString();
         JDateChooser strtDt = dateOfBirth;
-        if(!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt!=null){
+        if (!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt != null) {
             validatedOtherFields = true;
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
         }
-        JTextField[] VARIABLE_CONSTANTS = {firstName, lastName, eMailId, phone, addressLine1, addressLine2,state,zipCode,passWord};
+        JTextField[] VARIABLE_CONSTANTS = {firstName, lastName, eMailId, phone, addressLine1, addressLine2, state, zipCode, passWord};
         for (JTextField field : VARIABLE_CONSTANTS) {
             if (!validateData(field)) {
                 validated = false;
@@ -459,34 +459,35 @@ public class PatientRegistration extends javax.swing.JPanel {
             }
         }
 
-        if (validated && validatedOtherFields) {
-       
-            String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber
-            Patient patient = new Patient(firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), passWord.getText());
-            System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-            System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-
-            //back to login page
-            Home home = new Home();
-            ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
-            home.setVisible(true);
-        }
-        else{
-            //JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-        }
+        Patient patient = new Patient( passWord.getText(),firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
+//        if (validated && validatedOtherFields) {
+//       
+//            String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber
+//            Patient patient = new Patient(firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), passWord.getText());
+//            System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
+//            System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
+//
+//            //back to login page
+//            Home home = new Home();
+//            ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
+//            home.setVisible(true);
+//        }
+//        else{
+//            //JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+//        }
     }//GEN-LAST:event_createPatientActionPerformed
 
     private void cityItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cityItemStateChanged
         // TODO add your handling code here:
-        String cityName = city.getSelectedItem().toString();
-        ArrayList<String> communityBoxList = new ArrayList<String>();
-        for(Community c:ecoSystem.getCommunityList()){
-            if(c.getCity().getCity().equals(cityName)){
-                communityBoxList.add(c.getCommunity());
-            }
-        }
-        DefaultComboBoxModel communityModelList = new DefaultComboBoxModel(communityBoxList.toArray());
-        community.setModel(communityModelList);
+//        String cityName = city.getSelectedItem().toString();
+//        ArrayList<String> communityBoxList = new ArrayList<String>();
+//        for(Community c:ecoSystem.getCommunityList()){
+//            if(c.getCity().getCity().equals(cityName)){
+//                communityBoxList.add(c.getCommunity());
+//            }
+//        }
+//        DefaultComboBoxModel communityModelList = new DefaultComboBoxModel(communityBoxList.toArray());
+//        community.setModel(communityModelList);
     }//GEN-LAST:event_cityItemStateChanged
 
     private void cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityActionPerformed
@@ -495,9 +496,9 @@ public class PatientRegistration extends javax.swing.JPanel {
 
     private void backToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeActionPerformed
         // TODO add your handling code here:
-        Home home = new Home();
-        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
-        home.setVisible(true);
+//        Home home = new Home();
+//        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
+//        home.setVisible(true);
     }//GEN-LAST:event_backToHomeActionPerformed
 
 
