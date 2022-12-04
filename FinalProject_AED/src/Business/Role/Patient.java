@@ -15,36 +15,25 @@ public class Patient extends Person {
     
     private String PatientId;
     public static int patientCounter=1;
-    
+    private String password;
 
-    public Patient(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
+    public Patient(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
         super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
-        
-        this.PatientId="Patient_"+this.patientCounter;
+        this.PatientId = "patient_"+patientCounter;
+        this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
         patientCounter++;
     }
-    
 
+    public String getPassword() {
+        return password;
+    }
 
-    
-    
-
+    public void setPassword(String password) {
+        this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
+    }
+   
     public String getPatientId() {
         return PatientId;
     }
-
-    public void setPatientId(String PatientId) {
-        this.PatientId = PatientId;
-    }
-
-    
-
-    
-    
-    
-    
-    
-    
-    
     
 }
