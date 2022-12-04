@@ -15,8 +15,8 @@ public class diseaseDirectory {
     
     private ArrayList<Disease> dieasedirectory;
 
-    public diseaseDirectory(ArrayList<Disease> dieasedirectory) {
-        this.dieasedirectory = dieasedirectory;
+    public diseaseDirectory() {
+        this.dieasedirectory = new ArrayList();
     }
 
     public ArrayList<Disease> getDieasedirectory() {

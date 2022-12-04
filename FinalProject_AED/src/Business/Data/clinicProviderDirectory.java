@@ -15,8 +15,8 @@ public class clinicProviderDirectory {
     
     private ArrayList<clinicProvider> clinicproviderdirectory;
 
-    public clinicProviderDirectory(ArrayList<clinicProvider> clinicproviderdirectory) {
-        this.clinicproviderdirectory = clinicproviderdirectory;
+    public clinicProviderDirectory() {
+        this.clinicproviderdirectory = new ArrayList<>();
     }
 
     public ArrayList<clinicProvider> getClinicproviderdirectory() {

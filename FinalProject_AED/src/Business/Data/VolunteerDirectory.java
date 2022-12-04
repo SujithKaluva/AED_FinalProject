@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class VolunteerDirectory {
     private ArrayList<Volunteer> volunteerDirectory;
 
-    public VolunteerDirectory(ArrayList<Volunteer> volunteerDirectory) {
-        this.volunteerDirectory = volunteerDirectory;
+    public VolunteerDirectory() {
+        this.volunteerDirectory = new ArrayList<>();
     }
 
     public ArrayList<Volunteer> getVolunteerDirectory() {
