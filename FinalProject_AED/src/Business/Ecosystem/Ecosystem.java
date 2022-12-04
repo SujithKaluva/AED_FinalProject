@@ -13,16 +13,34 @@ import Business.Data.*;
 
 public class Ecosystem {
     
-    public ClinicAdminDirectory clinicadmindirectory;
-    public EnterpriseDirectory enterprisedirectory;
-    public SalesPersonDirectory salespersondirectory;
-    public VaccineDirectory vaccinedirectory;
-    public VolunteerDirectory volunteerdirectory;
+    public ClinicAdminDirectory clinicAdminDirectory;
+    public EnterpriseDirectory enterpriseDirectory;
+    public SalesPersonDirectory salesPersonDirectory;
+    public VaccineDirectory vaccineDirectory;
+    public VolunteerDirectory volunteerDirectory;
     public clinicDirectory clinicdirectory;
     public clinicOfficerDirectory clinicofficerdirectory;
     public diseaseDirectory diseasedirectory;
     public patientDirectory patientdirectory;
+
+    public  Ecosystem(){
+    
+        clinicAdminDirectory=new ClinicAdminDirectory();
+        enterpriseDirectory=new EnterpriseDirectory();
+        salesPersonDirectory=new SalesPersonDirectory();
+        vaccineDirectory=new VaccineDirectory();
+        volunteerDirectory=new VolunteerDirectory();
+        clinicdirectory=new clinicDirectory();
+        clinicofficerdirectory=new clinicOfficerDirectory();
+        diseasedirectory=new diseaseDirectory();
+        patientdirectory=new patientDirectory();
+        
+     
+   
+    }
     
     
+    
+   
     
 }
