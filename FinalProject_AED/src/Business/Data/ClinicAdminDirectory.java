@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class ClinicAdminDirectory {
     private ArrayList<ClinicAdmin> ClinicAdminDirectory;
 
-    public ClinicAdminDirectory(ArrayList<ClinicAdmin> ClinicAdminDirectory) {
-        this.ClinicAdminDirectory = ClinicAdminDirectory;
+    public ClinicAdminDirectory() {
+        this.ClinicAdminDirectory = new ArrayList<>();
     }
 
     public ArrayList<ClinicAdmin> getClinicAdminDirectory() {
