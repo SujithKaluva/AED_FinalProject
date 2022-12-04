@@ -13,6 +13,7 @@ import Business.Data.*;
 
 public class Ecosystem {
     
+    public static Ecosystem system;
     public ClinicAdminDirectory clinicAdminDirectory;
     public EnterpriseDirectory enterpriseDirectory;
     public SalesPersonDirectory salesPersonDirectory;
@@ -34,13 +35,18 @@ public class Ecosystem {
         clinicofficerdirectory=new clinicOfficerDirectory();
         diseasedirectory=new diseaseDirectory();
         patientdirectory=new patientDirectory();
-        
-     
-   
     }
     
-    
-    
-   
+    public static Ecosystem getInstance() {
+        if (system == null) {
+            system = new Ecosystem();
+            //system.Configure();
+            return system;
+        }
+        return system;
+    }
+    public static void setInstance(Ecosystem sys) {
+       system = sys;
+    }
     
 }

@@ -4,6 +4,8 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.Ecosystem.Ecosystem;
 import Business.Role.Patient;
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
@@ -20,10 +22,15 @@ public class PatientRegistration extends javax.swing.JPanel {
     /**
      * Creates new form PatientRegistration
      */
+    private Ecosystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+   
     public PatientRegistration() {
         initComponents();
+        system = dB4OUtil.retrieveSystem();
+        Ecosystem.setInstance(system);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -460,9 +467,10 @@ public class PatientRegistration extends javax.swing.JPanel {
         }
 
         Patient patient = new Patient( passWord.getText(),firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
+        
 //        if (validated && validatedOtherFields) {
 //       
-//            String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber
+  //            String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber
 //            Patient patient = new Patient(firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), passWord.getText());
 //            System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
 //            System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
@@ -500,7 +508,7 @@ public class PatientRegistration extends javax.swing.JPanel {
 //        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
 //        home.setVisible(true);
     }//GEN-LAST:event_backToHomeActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressLine1;

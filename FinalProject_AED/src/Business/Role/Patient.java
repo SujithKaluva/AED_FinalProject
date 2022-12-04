@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Business.Role;
+import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
 import java.util.*;
 
@@ -13,6 +14,7 @@ import java.util.*;
  */
 public class Patient extends Person {
     
+    Ecosystem ecoSystem = Ecosystem.getInstance();
     private String PatientId;
     public static int patientCounter=1;
     private String password;
@@ -22,6 +24,7 @@ public class Patient extends Person {
         this.PatientId = "patient_"+patientCounter;
         this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
         patientCounter++;
+        ecoSystem.patientdirectory.addPatient(this);
     }
 
     public String getPassword() {
