@@ -16,6 +16,7 @@ public class Patient extends Person {
     private String PatientId;
     public static int patientCounter=1;
     
+    
 
     public Patient(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
         super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
