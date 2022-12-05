@@ -7,6 +7,7 @@ package UserInterface;
 import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Role.Patient;
+import Mail.SMTPMail;
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
 import javax.swing.JComponent;
@@ -502,6 +503,7 @@ public class PatientRegistration extends javax.swing.JPanel {
     private void backToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeActionPerformed
         // TODO add your handling code here:
         dB4OUtil.storeSystem(system);
+        SMTPMail.sendEmailMessage("sujithkaluva1999@gmail.com");
 //        Home home = new Home();
 //        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
 //        home.setVisible(true);
