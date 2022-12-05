@@ -503,7 +503,7 @@ public class PatientRegistration extends javax.swing.JPanel {
     private void backToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToHomeActionPerformed
         // TODO add your handling code here:
         dB4OUtil.storeSystem(system);
-        SMTPMail.sendEmailMessage("sujithkaluva1999@gmail.com");
+        SMTPMail.sendEmailMessage("sujithkaluva1999@gmail.com","Subject","Body");
 //        Home home = new Home();
 //        ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
 //        home.setVisible(true);
