@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Business.Role;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
+import com.db4o.ObjectContainer;
 import java.util.*;
 
 
@@ -15,6 +17,7 @@ import java.util.*;
 public class Patient extends Person {
     
     Ecosystem ecoSystem = Ecosystem.getInstance();
+    DB4OUtil db4oUtil = DB4OUtil.getInstance();
     private String PatientId;
     public static int patientCounter=1;
     private String password;
@@ -25,6 +28,8 @@ public class Patient extends Person {
         this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
         patientCounter++;
         ecoSystem.patientdirectory.addPatient(this);
+        System.out.print(ecoSystem.patientdirectory.getPatientdirectory().size());
+        
     }
 
     public String getPassword() {

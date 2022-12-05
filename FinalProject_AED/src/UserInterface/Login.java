@@ -192,6 +192,10 @@ public class Login extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
+        PatientRegistration cmWrkArea = new PatientRegistration();
+                this.setContentPane(cmWrkArea);
+                this.invalidate();
+                this.validate();
 //        HashMap<String,String> pManager;
 //        if(userNameTxt.getText().isEmpty()){
 //            JOptionPane.showMessageDialog(this, "Please enter valid username.");

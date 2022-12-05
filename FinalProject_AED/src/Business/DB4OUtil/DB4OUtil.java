@@ -5,6 +5,7 @@
 package Business.DB4OUtil;
 //import Business.ConfigureASystem;
 //import Business.EcoSystem;
+import Business.Ecosystem.ConfigureSystem;
 import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
 import com.db4o.Db4o;
@@ -72,14 +73,14 @@ public class DB4OUtil {
     public Ecosystem retrieveSystem(){
         ObjectContainer conn = createConnection();
         System.out.print("Test--"+Ecosystem.class);
-        //ObjectSet<Ecosystem> systems = conn.query(Ecosystem.class); // Change to the object you want to save
+        ObjectSet<Ecosystem> systems = conn.query(Ecosystem.class); // Change to the object you want to save
         Ecosystem system = new Ecosystem();
-//        if (systems.size() == 0){
-//            //system = ConfigureASystem.configure();  // If there's no System in the record, create a new one
-//        }
-//        else{
-//            system = systems.get(systems.size() - 1);
-//        }
+        if (systems.size() == 0){
+            system = ConfigureSystem.configure();  // If there's no System in the record, create a new one
+        }
+        else{
+            system = systems.get(systems.size() - 1);
+        }
         conn.close();
         return system;
     }
