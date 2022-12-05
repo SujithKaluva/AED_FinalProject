@@ -5,6 +5,8 @@
 package Business.DB4OUtil;
 //import Business.ConfigureASystem;
 //import Business.EcoSystem;
+import Business.Ecosystem.ConfigureSystem;
+import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
 import com.db4o.Db4o;
 import com.db4o.Db4oEmbedded;
@@ -24,15 +26,23 @@ import java.util.Date;
  * @author sreej
  */
 public class DB4OUtil {
-    public static void main(String args[])
-  {
-     storeSystem();
-        
-  }
     private static final String FILENAME = Paths.get("Databank.db4o").toAbsolutePath().toString();// path to the data store
     private static DB4OUtil dB4OUtil;
     
-     private static ObjectContainer createConnection() {
+    public synchronized static DB4OUtil getInstance(){
+        if (dB4OUtil == null){
+            dB4OUtil = new DB4OUtil();
+        }
+        return dB4OUtil;
+    }
+
+    protected synchronized static void shutdown(ObjectContainer conn) {
+        if (conn != null) {
+            conn.close();
+        }
+    }
+
+    private ObjectContainer createConnection() {
         try {
 
             EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
@@ -43,7 +53,7 @@ public class DB4OUtil {
             config.common().updateDepth(Integer.MAX_VALUE);
 
             //Register your top most Class here
-            
+            config.common().objectClass(Ecosystem.class).cascadeOnUpdate(true); // Change to the object you want to save
 
             ObjectContainer db = Db4oEmbedded.openFile(config, FILENAME);
             return db;
@@ -52,22 +62,27 @@ public class DB4OUtil {
         }
         return null;
     }
-    
-    public static synchronized void storeSystem() {
+
+    public synchronized void storeSystem(Ecosystem system) {
         ObjectContainer conn = createConnection();
-        Date d=new Date(12/01/2000);
-        Person p =new Person("s","v",d, "sreeja","f",123456789) ;
-        conn.store(p);
+        conn.store(system);
         conn.commit();
         conn.close();
     }
     
-    
-   
-
-
-    
-
-    
+    public Ecosystem retrieveSystem(){
+        ObjectContainer conn = createConnection();
+        System.out.print("Test--"+Ecosystem.class);
+        ObjectSet<Ecosystem> systems = conn.query(Ecosystem.class); // Change to the object you want to save
+        Ecosystem system = new Ecosystem();
+        if (systems.size() == 0){
+            system = ConfigureSystem.configure();  // If there's no System in the record, create a new one
+        }
+        else{
+            system = systems.get(systems.size() - 1);
+        }
+        conn.close();
+        return system;
+    }
     
 }
