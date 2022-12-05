@@ -4,6 +4,9 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.Ecosystem.Ecosystem;
+
 /**
  *
  * @author sreej
@@ -13,8 +16,12 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    private Ecosystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     public Login() {
         initComponents();
+        system = dB4OUtil.retrieveSystem();
+        Ecosystem.setInstance(system);
     }
 
     /**
@@ -185,6 +192,10 @@ public class Login extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
+        PatientRegistration cmWrkArea = new PatientRegistration();
+                this.setContentPane(cmWrkArea);
+                this.invalidate();
+                this.validate();
 //        HashMap<String,String> pManager;
 //        if(userNameTxt.getText().isEmpty()){
 //            JOptionPane.showMessageDialog(this, "Please enter valid username.");
