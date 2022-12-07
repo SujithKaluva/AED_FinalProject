@@ -3,16 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Business.Ecosystem;
+
 import Business.Data.*;
+import PasswordEncryption.PasswordManager;
 
 /**
  *
  * @author tendusmac
  */
-
-
 public class Ecosystem {
-    
+
     public static Ecosystem system;
     public ClinicAdminDirectory clinicAdminDirectory;
     public EnterpriseDirectory enterpriseDirectory;
@@ -23,20 +23,67 @@ public class Ecosystem {
     public clinicOfficerDirectory clinicofficerdirectory;
     public diseaseDirectory diseasedirectory;
     public patientDirectory patientdirectory;
+    public PasswordManager passwordManager;
 
-    public  Ecosystem(){
+    public Ecosystem() {
+
+        clinicAdminDirectory = new ClinicAdminDirectory();
+        enterpriseDirectory = new EnterpriseDirectory();
+        salesPersonDirectory = new SalesPersonDirectory();
+        vaccineDirectory = new VaccineDirectory();
+        volunteerDirectory = new VolunteerDirectory();
+        clinicdirectory = new clinicDirectory();
+        clinicofficerdirectory = new clinicOfficerDirectory();
+        diseasedirectory = new diseaseDirectory();
+        patientdirectory = new patientDirectory();
+        passwordManager = new PasswordManager();
     
-        clinicAdminDirectory=new ClinicAdminDirectory();
-        enterpriseDirectory=new EnterpriseDirectory();
-        salesPersonDirectory=new SalesPersonDirectory();
-        vaccineDirectory=new VaccineDirectory();
-        volunteerDirectory=new VolunteerDirectory();
-        clinicdirectory=new clinicDirectory();
-        clinicofficerdirectory=new clinicOfficerDirectory();
-        diseasedirectory=new diseaseDirectory();
-        patientdirectory=new patientDirectory();
     }
-    
+
+    public static Ecosystem getSystem() {
+        return system;
+    }
+
+    public ClinicAdminDirectory getClinicAdminDirectory() {
+        return clinicAdminDirectory;
+    }
+
+    public EnterpriseDirectory getEnterpriseDirectory() {
+        return enterpriseDirectory;
+    }
+
+    public SalesPersonDirectory getSalesPersonDirectory() {
+        return salesPersonDirectory;
+    }
+
+    public VaccineDirectory getVaccineDirectory() {
+        return vaccineDirectory;
+    }
+
+    public VolunteerDirectory getVolunteerDirectory() {
+        return volunteerDirectory;
+    }
+
+    public clinicDirectory getClinicdirectory() {
+        return clinicdirectory;
+    }
+
+    public clinicOfficerDirectory getClinicofficerdirectory() {
+        return clinicofficerdirectory;
+    }
+
+    public diseaseDirectory getDiseasedirectory() {
+        return diseasedirectory;
+    }
+
+    public patientDirectory getPatientdirectory() {
+        return patientdirectory;
+    }
+
+    public PasswordManager getPasswordManager() {
+        return passwordManager;
+    }
+
     public static Ecosystem getInstance() {
         if (system == null) {
             system = new Ecosystem();
@@ -45,8 +92,9 @@ public class Ecosystem {
         }
         return system;
     }
+
     public static void setInstance(Ecosystem sys) {
-       system = sys;
+        system = sys;
     }
-    
+
 }
