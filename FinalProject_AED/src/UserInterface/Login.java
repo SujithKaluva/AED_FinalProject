@@ -50,6 +50,7 @@ public class Login extends javax.swing.JFrame {
         userRole = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -59,7 +60,6 @@ public class Login extends javax.swing.JFrame {
         leftPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/Vaccine1.jpg"))); // NOI18N
-        jLabel4.setPreferredSize(new java.awt.Dimension(700, 700));
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
@@ -123,13 +123,20 @@ public class Login extends javax.swing.JFrame {
 
         userRole.setBackground(new java.awt.Color(255, 255, 255));
         userRole.setForeground(new java.awt.Color(0, 0, 0));
-        userRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patient", "Doctor", "Community Admin", "Hospital Admin", "System Admin" }));
+        userRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patient", "Volunteer", "Clinic Officer", "Clinic Admin", "Sales Admin", "Sales Person", "Manufacturer", "FInance Admin", "Research Scientist", "Clinic Provider", "System Admin" }));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/hospital.png"))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Lao MN", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Vaccine Management System");
+
+        jButton1.setText("SysAdmin");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
@@ -140,7 +147,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(193, 193, 193))
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(89, 89, 89)
+                .addGap(41, 41, 41)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +164,10 @@ public class Login extends javax.swing.JFrame {
                                     .addGap(8, 8, 8)
                                     .addComponent(signUpBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(272, 272, 272)))
                 .addContainerGap(107, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
@@ -181,6 +191,8 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loginBtn)
                     .addComponent(signUpBtn))
+                .addGap(81, 81, 81)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -213,10 +225,13 @@ public class Login extends javax.swing.JFrame {
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
         // TODO add your handling code here:
 //        if(userRole.getSelectedItem().toString().equals("Patient")){
-        PatientRegistration cmWrkArea = new PatientRegistration();
-        this.setContentPane(cmWrkArea);
-        this.invalidate();
-        this.validate();
+//        PatientRegistration cmWrkArea = new PatientRegistration();
+//        this.setContentPane(cmWrkArea);
+//        this.invalidate();
+//        this.validate();
+        PatientRegistration rf = new PatientRegistration();
+        rf.setVisible(true);
+        dispose();
 //        }
 //        else{
 //            JOptionPane.showMessageDialog(this, "Please Contact Admin for Sign Up!");
@@ -238,10 +253,9 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
             } else {
                 JOptionPane.showMessageDialog(this, "Login Sucessful!");
-                PatientRegistration cmWrkArea = new PatientRegistration();
-                this.setContentPane(cmWrkArea);
-                this.invalidate();
-                this.validate();
+                PatientRegistration rf = new PatientRegistration();
+                rf.setVisible(true);
+                dispose();
             }
         }
 //        else if(userRole.getSelectedItem().toString().equals("System Admin")){
@@ -295,6 +309,14 @@ public class Login extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_loginBtnActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        SysAdminWorkArea mf = new SysAdminWorkArea();
+        mf.setVisible(true);
+
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +353,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
