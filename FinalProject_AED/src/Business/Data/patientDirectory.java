@@ -4,6 +4,7 @@
  */
 package Business.Data;
 
+import Business.Ecosystem.Ecosystem;
 import Business.Role.Patient;
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class patientDirectory {
 
     private ArrayList<Patient> patientdirectory;
+    Ecosystem ecosystem = Ecosystem.getInstance();
 
     public patientDirectory() {
         this.patientdirectory = new ArrayList<>();
@@ -29,6 +31,10 @@ public class patientDirectory {
     
     public void addPatient(Patient pObj){
         this.patientdirectory.add(pObj);
+    }
+    
+    public boolean isUsernameAvailable(String username,String Role){
+        return !ecosystem.passwordManager.getPasswordManager().get(Role).containsKey(username);
     }
 
 }
