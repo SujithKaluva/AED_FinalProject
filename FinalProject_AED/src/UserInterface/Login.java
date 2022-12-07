@@ -6,10 +6,14 @@ package UserInterface;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
+import PasswordEncryption.PasswordEncryption;
+import java.util.*;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author sreej
+ * @author sujith
  */
 public class Login extends javax.swing.JFrame {
 
@@ -18,6 +22,7 @@ public class Login extends javax.swing.JFrame {
      */
     private Ecosystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+
     public Login() {
         initComponents();
         system = dB4OUtil.retrieveSystem();
@@ -34,7 +39,7 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         leftPanel = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
         userNameTxt = new javax.swing.JTextField();
         passwordTxt = new javax.swing.JPasswordField();
@@ -43,33 +48,40 @@ public class Login extends javax.swing.JFrame {
         signUpBtn = new javax.swing.JButton();
         loginBtn = new javax.swing.JButton();
         userRole = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 700));
+        setResizable(false);
+        setSize(new java.awt.Dimension(1200, 700));
 
-        leftPanel.setBackground(new java.awt.Color(230, 238, 242));
+        leftPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/hospital.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/Vaccine1.jpg"))); // NOI18N
+        jLabel4.setPreferredSize(new java.awt.Dimension(700, 700));
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
         leftPanelLayout.setHorizontalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
-                .addGap(159, 159, 159)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftPanelLayout.createSequentialGroup()
-                .addGap(252, 252, 252)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        rightPanel.setBackground(new java.awt.Color(21, 135, 181));
+        rightPanel.setBackground(new java.awt.Color(178, 198, 255));
 
-        userNameTxt.setBackground(new java.awt.Color(204, 255, 255));
+        userNameTxt.setBackground(new java.awt.Color(255, 255, 255));
+        userNameTxt.setForeground(new java.awt.Color(0, 0, 0));
         userNameTxt.setToolTipText("Username");
         userNameTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,7 +89,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        passwordTxt.setBackground(new java.awt.Color(204, 255, 255));
+        passwordTxt.setBackground(new java.awt.Color(255, 255, 255));
+        passwordTxt.setForeground(new java.awt.Color(0, 0, 0));
         passwordTxt.setToolTipText("Password");
         passwordTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,7 +102,8 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/user.png"))); // NOI18N
 
-        signUpBtn.setBackground(new java.awt.Color(255, 255, 204));
+        signUpBtn.setBackground(new java.awt.Color(0, 102, 153));
+        signUpBtn.setForeground(new java.awt.Color(255, 255, 255));
         signUpBtn.setText("Sign Up");
         signUpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,46 +111,65 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        loginBtn.setBackground(new java.awt.Color(255, 255, 204));
+        loginBtn.setBackground(new java.awt.Color(0, 153, 204));
+        loginBtn.setForeground(new java.awt.Color(255, 255, 255));
         loginBtn.setText("Login");
+        loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);
             }
         });
 
-        userRole.setBackground(new java.awt.Color(204, 255, 255));
+        userRole.setBackground(new java.awt.Color(255, 255, 255));
+        userRole.setForeground(new java.awt.Color(0, 0, 0));
         userRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patient", "Doctor", "Community Admin", "Hospital Admin", "System Admin" }));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/hospital.png"))); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Lao MN", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Vaccine Management System");
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(193, 193, 193))
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(userNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(190, 190, 190)
-                .addComponent(loginBtn)
-                .addGap(8, 8, 8)
-                .addComponent(signUpBtn))
+                .addGap(89, 89, 89)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(rightPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(userNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(rightPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(rightPanelLayout.createSequentialGroup()
+                                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(8, 8, 8)
+                                    .addComponent(signUpBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel5))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(163, 163, 163)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(33, 33, 33)
                 .addComponent(userRole, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
+                .addGap(18, 18, 18)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,7 +180,8 @@ public class Login extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loginBtn)
-                    .addComponent(signUpBtn)))
+                    .addComponent(signUpBtn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,8 +190,8 @@ public class Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,10 +213,10 @@ public class Login extends javax.swing.JFrame {
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
         // TODO add your handling code here:
 //        if(userRole.getSelectedItem().toString().equals("Patient")){
-//            CreatePatientPanel createPatientCmp = new CreatePatientPanel();
-//            this.setContentPane(createPatientCmp);
-//            this.invalidate();
-//            this.validate();
+        PatientRegistration cmWrkArea = new PatientRegistration();
+        this.setContentPane(cmWrkArea);
+        this.invalidate();
+        this.validate();
 //        }
 //        else{
 //            JOptionPane.showMessageDialog(this, "Please Contact Admin for Sign Up!");
@@ -192,29 +226,24 @@ public class Login extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
-        PatientRegistration cmWrkArea = new PatientRegistration();
+        HashMap<String, String> pManager;
+        if (userNameTxt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid username.");
+        } else if (!passwordTxt.isValid()) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid password.");
+        } else if (userRole.getSelectedItem().toString().equals("Patient")) {
+            pManager = system.passwordManager.getPasswordManager().get(userRole.getSelectedItem().toString());
+            if (!(pManager.containsKey(userNameTxt.getText())
+                    && PasswordEncryption.matchPassword(pManager.get(userNameTxt.getText()), passwordTxt.getText()))) {
+                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Login Sucessful!");
+                PatientRegistration cmWrkArea = new PatientRegistration();
                 this.setContentPane(cmWrkArea);
                 this.invalidate();
                 this.validate();
-//        HashMap<String,String> pManager;
-//        if(userNameTxt.getText().isEmpty()){
-//            JOptionPane.showMessageDialog(this, "Please enter valid username.");
-//        }
-//        else if(!passwordTxt.isValid()){
-//            JOptionPane.showMessageDialog(this, "Please enter valid password.");
-//        }
-//        else if(userRole.getSelectedItem().toString().equals("Patient")){
-//            pManager = ecoSys.getPatientDirectory().getPasswordManager();
-//            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
-//                JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
-//            }
-//            else{
-//                PatientWorkArea patWrkArea = new PatientWorkArea(ecoSys.getPatientDirectory().getPatientMap().get(userNameTxt.getText()));
-//                this.setContentPane(patWrkArea);
-//                this.invalidate();
-//                this.validate();
-//            }
-//        }
+            }
+        }
 //        else if(userRole.getSelectedItem().toString().equals("System Admin")){
 //            pManager = ecoSys.getSystemAdminDirectory().getPasswordManager();
 //            if(!(pManager.containsKey(userNameTxt.getText()) && pManager.get(userNameTxt.getText()).equals(passwordTxt.getText()))){
@@ -305,6 +334,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JButton loginBtn;
     private javax.swing.JPasswordField passwordTxt;

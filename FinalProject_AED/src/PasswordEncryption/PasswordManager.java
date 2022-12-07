@@ -15,8 +15,9 @@ public class PasswordManager {
 
     public PasswordManager() {
         this.passwordManager = new HashMap<>();
+        this.passwordManager.put("Patient",new HashMap<>());
     }
-
+    
     public HashMap<String, HashMap<String, String>> getPasswordManager() {
         return passwordManager;
     }
@@ -25,6 +26,10 @@ public class PasswordManager {
         this.passwordManager = passwordManager;
     }
     
-    
+    public void addPassword(String Role, String Email, String Password){
+        this.passwordManager.get(Role).put(Email,Password);
+        System.out.println(this.passwordManager.get(Role).keySet());
+        System.out.println(this.passwordManager.get(Role).values());
+    }
     
 }
