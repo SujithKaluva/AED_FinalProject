@@ -5,6 +5,7 @@
 package Business.Ecosystem;
 
 import Business.Role.Patient;
+import PasswordEncryption.PasswordEncryption;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ public class ConfigureSystem {
         Ecosystem system = Ecosystem.getInstance();
         Date d = new Date();
         Patient pObj = new Patient("Sujith","Sujith","Kaluva",d,"sujith@gmail.com","Male",8572458702l);
-        system.patientdirectory.addPatient(pObj);
+        //system.patientdirectory.addPatient(pObj);
         return system;
     }
 }

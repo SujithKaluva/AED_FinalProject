@@ -6,6 +6,7 @@ package Business.Role;
 import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
+import PasswordEncryption.PasswordEncryption;
 import com.db4o.ObjectContainer;
 import java.util.*;
 
@@ -25,10 +26,11 @@ public class Patient extends Person {
     public Patient(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
         super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
         this.PatientId = "patient_"+patientCounter;
-        this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
+        this.password = PasswordEncryption.getEncryptedPassword(password);
         patientCounter++;
         ecoSystem.patientdirectory.addPatient(this);
-        System.out.print(ecoSystem.patientdirectory.getPatientdirectory().size());
+        ecoSystem.passwordManager.addPassword("Patient", emailId, this.password);
+//        System.out.print(ecoSystem.patientdirectory.getPatientdirectory().size());
         
     }
 
@@ -37,7 +39,7 @@ public class Patient extends Person {
     }
 
     public void setPassword(String password) {
-        this.password = PasswordEncryption.PasswordEncryption.getEncryptedPassword(password);
+        this.password = PasswordEncryption.getEncryptedPassword(password);
     }
    
     public String getPatientId() {
