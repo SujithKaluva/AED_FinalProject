@@ -48,6 +48,10 @@ public class PasswordEncryption {
     
     public static boolean matchPassword(String savedPassword, String enteredPassword){
         try {
+            System.out.println(enteredPassword);
+            System.out.println(savedPassword);
+            System.out.println(toHexString(getSHA(enteredPassword)));
+            //Matches?
             return savedPassword.equals(toHexString(getSHA(enteredPassword)));
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("Exception thrown for incorrect algorithm: " + ex);

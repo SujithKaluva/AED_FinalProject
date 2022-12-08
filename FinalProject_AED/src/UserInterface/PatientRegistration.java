@@ -230,9 +230,9 @@ public class PatientRegistration extends javax.swing.JFrame {
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
 
             //back to login page
-            Login home = new Login();
-            ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
-            home.setVisible(true);
+            Login rf = new Login();
+            rf.setVisible(true);
+            dispose();
         }
         else{
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
@@ -268,7 +268,8 @@ public class PatientRegistration extends javax.swing.JFrame {
                     }
                     break;
                 case "patientEmailId":
-                    if (!ecoSystem.getPatientdirectory().isUsernameAvailable("Patient", name)) {
+                    System.out.print(email.getText());
+                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email.getText(),"Patient")) {
                         raiseError = true;
                         errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
                         break;
@@ -299,7 +300,6 @@ public class PatientRegistration extends javax.swing.JFrame {
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         // TODO add your handling code here:
         Login home = new Login();
-       // ((JFrame) SwingUtilities.getWindowAncestor(this)).dispose();
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
