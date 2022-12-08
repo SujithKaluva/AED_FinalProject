@@ -6,6 +6,7 @@ package Business.Role;
 import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Person.Person;
+import Mail.SMTPMail;
 import PasswordEncryption.PasswordEncryption;
 import com.db4o.ObjectContainer;
 import java.util.*;
@@ -30,6 +31,8 @@ public class Patient extends Person {
         patientCounter++;
         ecoSystem.patientdirectory.addPatient(this);
         ecoSystem.passwordManager.addPassword("Patient", emailId, this.password);
+        SMTPMail.sendEmailMessage(emailId, "Registration Successful!", "Hello!");
+        db4oUtil.storeSystem(ecoSystem);
 //        System.out.print(ecoSystem.patientdirectory.getPatientdirectory().size());
         
     }
