@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class patientDirectory {
 
     private ArrayList<Patient> patientdirectory;
-    Ecosystem ecosystem = Ecosystem.getInstance();
+//    Ecosystem ecosystem = Ecosystem.getInstance();
 
     public patientDirectory() {
         this.patientdirectory = new ArrayList<>();
@@ -33,8 +33,9 @@ public class patientDirectory {
         this.patientdirectory.add(pObj);
     }
     
-    public boolean isUsernameAvailable(String username,String Role){
-        return !ecosystem.passwordManager.getPasswordManager().get(Role).containsKey(username);
-    }
+//    public boolean isUsernameAvailable(String username,String Role){
+//        System.out.print(Role+"--"+username);
+//        return !ecosystem.getPasswordManager().getPasswordManager().get(Role).containsKey(username);
+//    }
 
 }

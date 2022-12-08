@@ -32,4 +32,8 @@ public class PasswordManager {
         System.out.println(this.passwordManager.get(Role).values());
     }
     
+    public boolean isUsernameAvailable(String username,String Role){
+        System.out.print(Role+"--"+username);
+        return !this.passwordManager.get(Role).containsKey(username);
+    }
 }
