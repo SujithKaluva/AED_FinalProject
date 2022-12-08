@@ -5,6 +5,7 @@
 package UserInterface;
 
 import Business.Ecosystem.Ecosystem;
+import Business.Location.GoogleMapsLocation;
 import Business.Role.Patient;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComponent;
@@ -56,7 +57,6 @@ public class PatientRegistration extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         phone = new javax.swing.JTextField();
-        dob = new com.toedter.calendar.JDateChooser();
         gender = new javax.swing.JComboBox<>();
         email = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
@@ -65,6 +65,7 @@ public class PatientRegistration extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         register = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        dob = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,7 +73,7 @@ public class PatientRegistration extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
         jPanel1.add(fname);
-        fname.setBounds(490, 100, 160, 22);
+        fname.setBounds(490, 100, 160, 23);
 
         jLabel2.setText("First Name");
         jPanel1.add(jLabel2);
@@ -80,21 +81,21 @@ public class PatientRegistration extends javax.swing.JFrame {
 
         jLabel3.setText("Last Name");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(390, 160, 70, 16);
+        jLabel3.setBounds(390, 160, 70, 17);
         jPanel1.add(lname);
-        lname.setBounds(490, 160, 160, 22);
+        lname.setBounds(490, 160, 160, 23);
 
         jLabel4.setText("Phone Number");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(370, 220, 81, 16);
+        jLabel4.setBounds(370, 220, 81, 17);
 
         jLabel5.setText("Date of Birth");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(380, 280, 70, 16);
+        jLabel5.setBounds(380, 280, 70, 17);
 
         jLabel6.setText("Gender");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(400, 340, 40, 16);
+        jLabel6.setBounds(400, 340, 40, 17);
 
         jLabel7.setText("Email ID");
         jPanel1.add(jLabel7);
@@ -102,21 +103,19 @@ public class PatientRegistration extends javax.swing.JFrame {
 
         jLabel8.setText("Password");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(390, 440, 50, 16);
+        jLabel8.setBounds(390, 440, 58, 17);
 
         jLabel9.setText("Location");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(390, 490, 50, 16);
+        jLabel9.setBounds(390, 490, 50, 17);
         jPanel1.add(phone);
-        phone.setBounds(490, 220, 160, 22);
-        jPanel1.add(dob);
-        dob.setBounds(490, 280, 160, 20);
+        phone.setBounds(490, 220, 160, 23);
 
         gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others" }));
         jPanel1.add(gender);
-        gender.setBounds(490, 330, 160, 22);
+        gender.setBounds(490, 330, 160, 23);
         jPanel1.add(email);
-        email.setBounds(490, 390, 160, 22);
+        email.setBounds(490, 390, 160, 23);
 
         password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,7 +123,7 @@ public class PatientRegistration extends javax.swing.JFrame {
             }
         });
         jPanel1.add(password);
-        password.setBounds(490, 440, 160, 22);
+        password.setBounds(490, 440, 160, 23);
 
         loc.setEditable(false);
         loc.addActionListener(new java.awt.event.ActionListener() {
@@ -133,11 +132,16 @@ public class PatientRegistration extends javax.swing.JFrame {
             }
         });
         jPanel1.add(loc);
-        loc.setBounds(490, 490, 160, 22);
+        loc.setBounds(490, 490, 160, 23);
 
         jButton1.setText("Set Location");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1);
-        jButton1.setBounds(710, 490, 100, 22);
+        jButton1.setBounds(710, 490, 100, 23);
 
         cancel.setText("Cancel");
         cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +150,7 @@ public class PatientRegistration extends javax.swing.JFrame {
             }
         });
         jPanel1.add(cancel);
-        cancel.setBounds(400, 560, 72, 22);
+        cancel.setBounds(400, 560, 72, 23);
 
         register.setBackground(new java.awt.Color(0, 102, 150));
         register.setForeground(new java.awt.Color(255, 255, 255));
@@ -157,7 +161,7 @@ public class PatientRegistration extends javax.swing.JFrame {
             }
         });
         jPanel1.add(register);
-        register.setBounds(550, 560, 80, 22);
+        register.setBounds(550, 560, 80, 23);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -167,6 +171,8 @@ public class PatientRegistration extends javax.swing.JFrame {
         });
         jPanel1.add(jLabel10);
         jLabel10.setBounds(60, 40, 32, 32);
+        jPanel1.add(dob);
+        dob.setBounds(490, 270, 160, 23);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/blur-hospital (1).jpg"))); // NOI18N
         jPanel1.add(jLabel1);
@@ -311,6 +317,20 @@ public class PatientRegistration extends javax.swing.JFrame {
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_cancelActionPerformed
+
+    public void populateLongituteLatitude(GoogleMapsLocation locationPoint) {
+//        uLocation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        uLocation.setForeground(Color.BLACK);
+//        this.locationPoint = locationPoint;
+        loc.setText(locationPoint.getLatitude() + "," + locationPoint.getLongitude());
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
