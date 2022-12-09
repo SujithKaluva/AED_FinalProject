@@ -26,7 +26,6 @@ public class Ecosystem {
     public PasswordManager passwordManager;
 
     public Ecosystem() {
-
         clinicAdminDirectory = new ClinicAdminDirectory();
         enterpriseDirectory = new EnterpriseDirectory();
         salesPersonDirectory = new SalesPersonDirectory();
@@ -37,7 +36,6 @@ public class Ecosystem {
         diseasedirectory = new diseaseDirectory();
         patientdirectory = new patientDirectory();
         passwordManager = new PasswordManager();
-    
     }
 
     public static Ecosystem getSystem() {
