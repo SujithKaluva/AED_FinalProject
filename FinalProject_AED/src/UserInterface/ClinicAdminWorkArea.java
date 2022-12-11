@@ -434,15 +434,16 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         ordertable.setForeground(new java.awt.Color(255, 255, 255));
         ordertable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Order Qty", "Order Price", "Ordered Date", "Delivered Date"
+                "Order ID", "Order Qty", "Order Price", "Ordered Date", "Delivered Date", "Status"
             }
         ));
+        ordertable.setPreferredSize(new java.awt.Dimension(1200, 700));
         jScrollPane3.setViewportView(ordertable);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -542,7 +543,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                         .addGap(409, 409, 409)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGap(326, 326, 326)
+                        .addGap(299, 299, 299)
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
@@ -558,7 +559,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                                 .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(odate, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(comments, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(522, Short.MAX_VALUE))
+                .addContainerGap(549, Short.MAX_VALUE))
         );
         workPanel1Layout.setVerticalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,7 +920,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
 
     private void quanInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_quanInputMethodTextChanged
         // TODO add your handling code here:
-        
+        System.out.println("test");
         int p;
         for (VaccineDetails vd : ecoSystem.vaccineDetailsDirectory.getVaccineDetailsDirectory()) {
             if (vd.getVaccine().getName().equalsIgnoreCase(Vaccine.getSelectedItem().toString())) {
@@ -1034,7 +1035,8 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                 row[1] = person.getQuantity();
                 row[2] = person.getPrice();
                 row[3] = dateFormat.format(person.getDate());
-                row[4] = dateFormat.format(person.getDelivereddate());
+                row[4] = person.getDelivereddate()!=null?dateFormat.format(person.getDelivereddate()):"";
+                row[5] = person.getStatus();
                 model.addRow(row);
             }
 

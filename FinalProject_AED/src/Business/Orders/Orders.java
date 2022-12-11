@@ -5,6 +5,7 @@
 package Business.Orders;
 
 import Business.Clinic.Clinic;
+import Business.Ecosystem.Ecosystem;
 import Business.Role.SalesPerson;
 import Business.vaccine.Vaccine;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class Orders {
     private String comments;
     private String orderid;
     private int count=1;
+    Ecosystem ecosystem = Ecosystem.getInstance();
 
     public Orders(Clinic clinic, Vaccine vaccine, int Quantity, int price, SalesPerson salesperson, String status, Date date, Date delivereddate, String comments) {
         this.clinic = clinic;
@@ -38,6 +40,8 @@ public class Orders {
         this.delivereddate = delivereddate;
         this.comments = comments;
         this.orderid="O_"+count++;
+        ecosystem.getOrdersdirectory().addOrders(this);
+        
     }
 
     public String getOrderid() {
