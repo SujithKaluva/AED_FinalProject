@@ -24,17 +24,15 @@ public class Patient extends Person {
     public static int patientCounter=1;
     private String password;
 
-    public Patient(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
-        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
+    public Patient(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, String location) {
+        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber, location);
         this.PatientId = "patient_"+patientCounter;
         this.password = PasswordEncryption.getEncryptedPassword(password);
         patientCounter++;
         ecoSystem.patientdirectory.addPatient(this);
         ecoSystem.passwordManager.addPassword("Patient", emailId, this.password);
-        SMTPMail.sendEmailMessage(emailId, "Registration Successful!", "Hello!");
-        db4oUtil.storeSystem(ecoSystem);
-//        System.out.print(ecoSystem.patientdirectory.getPatientdirectory().size());
-        
+        SMTPMail.sendEmailMessage(emailId, "Registration Successful!", getEmailBody());
+        //db4oUtil.storeSystem(ecoSystem);
     }
 
     public String getPassword() {
@@ -47,6 +45,14 @@ public class Patient extends Person {
    
     public String getPatientId() {
         return PatientId;
+    }
+    
+    public String getEmailBody(){
+    String body = "Hello "+ this.getFirstName()+" "+ this.getLastName()+",\n\n";
+    body += "Your Profile has been successfully created as a Patient in Vaccine Management System!\n\n";
+    body += "Please use your credentials to login into the system.\n\n";
+    body += "Thanks,\nVaccine Management System.";
+    return body;
     }
     
 }

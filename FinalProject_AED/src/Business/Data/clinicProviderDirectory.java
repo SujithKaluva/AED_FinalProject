@@ -5,7 +5,7 @@
 package Business.Data;
 
 import Business.Role.clinicProvider;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -14,9 +14,11 @@ import java.util.ArrayList;
 public class clinicProviderDirectory {
     
     private ArrayList<clinicProvider> clinicproviderdirectory;
+    private HashMap<String,clinicProvider> clinicprovidermap;
 
     public clinicProviderDirectory() {
         this.clinicproviderdirectory = new ArrayList<>();
+        this.clinicprovidermap = new HashMap<>();
     }
 
     public ArrayList<clinicProvider> getClinicproviderdirectory() {
@@ -26,7 +28,24 @@ public class clinicProviderDirectory {
     public void setClinicproviderdirectory(ArrayList<clinicProvider> clinicproviderdirectory) {
         this.clinicproviderdirectory = clinicproviderdirectory;
     }
+
+    public HashMap<String, clinicProvider> getClinicprovidermap() {
+        return clinicprovidermap;
+    }
+
+    public void setClinicprovidermap(HashMap<String, clinicProvider> clinicprovidermap) {
+        this.clinicprovidermap = clinicprovidermap;
+    }
     
+    public void addClinicProvider(clinicProvider cProvider){
+        this.clinicproviderdirectory.add(cProvider);
+        this.clinicprovidermap.put(cProvider.getEmailId(), cProvider);
+    }
+    
+    public void removeClinicProvider(clinicProvider cProvider){
+        this.clinicproviderdirectory.remove(cProvider);
+        this.clinicprovidermap.remove(cProvider.getEmailId());
+    }
     
     
 }

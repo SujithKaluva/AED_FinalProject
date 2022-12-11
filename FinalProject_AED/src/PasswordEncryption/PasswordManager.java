@@ -16,6 +16,9 @@ public class PasswordManager {
     public PasswordManager() {
         this.passwordManager = new HashMap<>();
         this.passwordManager.put("Patient",new HashMap<>());
+        this.passwordManager.put("Financeadmin",new HashMap<>());
+        this.passwordManager.put("Salesadmin",new HashMap<>());
+        this.passwordManager.put("ResearchScientist",new HashMap<>());
     }
     
     public HashMap<String, HashMap<String, String>> getPasswordManager() {
@@ -27,9 +30,16 @@ public class PasswordManager {
     }
     
     public void addPassword(String Role, String Email, String Password){
-        this.passwordManager.get(Role).put(Email,Password);
-        System.out.println(this.passwordManager.get(Role).keySet());
-        System.out.println(this.passwordManager.get(Role).values());
+        if(this.passwordManager.containsKey(Role)){
+            this.passwordManager.get(Role).put(Email,Password);
+        }
+        else{
+            this.passwordManager.put(Role, new HashMap<>());
+            this.passwordManager.get(Role).put(Email,Password);
+        }
+        
+//        System.out.println(this.passwordManager.get(Role).keySet());
+//        System.out.println(this.passwordManager.get(Role).values());
     }
     
     public boolean isUsernameAvailable(String username,String Role){

@@ -4,7 +4,13 @@
  */
 package Business.Ecosystem;
 
+import Business.Clinic.Clinic;
+import Business.Manufacturer.Manufacturer;
 import Business.Role.Patient;
+import Business.Role.Volunteer;
+import Business.disease.Disease;
+import Business.enterprise.Enterprise;
+import Business.vaccine.Vaccine;
 import PasswordEncryption.PasswordEncryption;
 import java.util.Date;
 
@@ -17,8 +23,14 @@ public class ConfigureSystem {
     public static Ecosystem configure(){
         Ecosystem system = Ecosystem.getInstance();
         Date d = new Date();
-        Patient pObj = new Patient("Sujith","Sujith","Kaluva",d,"sujith@gmail.com","Male",8572458702l);
-        //system.patientdirectory.addPatient(pObj);
+        Enterprise ent1 = new Enterprise("Glenmark", d, "New York");
+        Manufacturer man1 = new Manufacturer("Bharat Manufacturer", "sujithkaluva25@gmail.com", ent1, null, "password");
+        Disease disease1 = new Disease("dis1", "Corona", "Fever, Cold");
+        Vaccine vac1 = new Vaccine("vac1", "Covi Shield", 3, 100, 80, 90, disease1, man1);
+        Vaccine vac2 = new Vaccine("vac2", "Covi Shield", 2, 120, 80, 90, disease1, man1);
+        Clinic clinicObj = new Clinic("Clinic One","Boston",1234567890l);
+        Patient pObj = new Patient("Sujith","Sujith","Kaluva",d,"sujith@gmail.com","Male",8572458702l,"42.3398067,-71.0913604");
+        Volunteer vObj = new Volunteer("password", "Volunteer", "One", d, "sujithkaluva25@gmail.com", "Male", 8572458702l,clinicObj,"42.3398067,-71.0913604");
         return system;
     }
 }

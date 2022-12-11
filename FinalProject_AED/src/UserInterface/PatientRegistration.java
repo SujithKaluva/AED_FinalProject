@@ -5,6 +5,7 @@
 package UserInterface;
 
 import Business.Ecosystem.Ecosystem;
+import Business.Location.GoogleMapsLocation;
 import Business.Role.Patient;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComponent;
@@ -62,6 +63,7 @@ public class PatientRegistration extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
         loc = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
         register = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -145,8 +147,23 @@ public class PatientRegistration extends javax.swing.JFrame {
 
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Set Location");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1);
-        jButton1.setBounds(720, 460, 120, 30);
+        jButton1.setBounds(700, 460, 120, 30);
+
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2);
+        jButton2.setBounds(840, 460, 120, 30);
 
         cancel.setForeground(new java.awt.Color(255, 255, 255));
         cancel.setText("Cancel");
@@ -236,7 +253,7 @@ public class PatientRegistration extends javax.swing.JFrame {
         if (validated && validatedOtherFields) {
             
             //String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber
-            Patient patient = new Patient(password.getText(),fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
+            Patient patient = new Patient(password.getText(),fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), loc.getText());
             //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
 
@@ -315,6 +332,12 @@ public class PatientRegistration extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 
+    public void populateLongituteLatitude(GoogleMapsLocation locationPoint) {
+//        uLocation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        uLocation.setForeground(Color.BLACK);
+//        this.locationPoint = locationPoint;
+        loc.setText(locationPoint.getLatitude() + "," + locationPoint.getLongitude());
+    }
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         Login home = new Login();
@@ -322,6 +345,17 @@ public class PatientRegistration extends javax.swing.JFrame {
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_cancelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        populateLongituteLatitude(ecoSystem.getgMapsLocation());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,6 +400,7 @@ public class PatientRegistration extends javax.swing.JFrame {
     private javax.swing.JTextField fname;
     private javax.swing.JComboBox<String> gender;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
