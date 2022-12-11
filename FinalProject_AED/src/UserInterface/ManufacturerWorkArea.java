@@ -5,7 +5,9 @@
 package UserInterface;
 
 import Business.Clinic.Clinic;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
+import Business.Manufacturer.Manufacturer;
 import Business.Role.FinanceAdmin;
 import Business.Role.Patient;
 import Business.Role.ResearchScientist;
@@ -32,11 +34,16 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
      * Creates new form ClinicProviderWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    Manufacturer man;
 
-    public ManufacturerWorkArea() {
+    public ManufacturerWorkArea(Manufacturer man) {
         initComponents();
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
+        ecoSystem = dB40Util.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
+        this.man=man;
         fname.setName("patientFirstName");
         lname.setName("patientLastName");
         email.setName("patientEmailId");
@@ -616,7 +623,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jPanel8.add(jLabel22);
 
         jPanel2.add(jPanel8);
-        jPanel8.setBounds(0, 0, 1500, 1000);
+        jPanel8.setBounds(0, 0, 1042, 700);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -1055,7 +1062,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
                 c.setFirstName(fname.getText());
                 c.setLastName(lname.getText());
                 c.setDateOfBirth(dob.getDate());
@@ -1176,7 +1183,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0).toString())) {
 
                 ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory().remove(c);
             }
@@ -1188,7 +1195,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
 
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
@@ -1592,7 +1599,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (FinanceAdmin person : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-
+            if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getFinanceAdminId();
             row[1] = person.getFirstName();
@@ -1604,6 +1612,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             row[7] = person.getPassword();
 
             model.addRow(row);
+            }
 
         }
 
@@ -1616,7 +1625,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (SalesAdmin person : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
-
+          if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getSalesAdminId();
             row[1] = person.getFirstName();
@@ -1630,6 +1640,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             model.addRow(row);
 
         }
+        }
 
     }
 
@@ -1640,7 +1651,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (ResearchScientist person : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
-
+         if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getReaserchScientistId();
             row[1] = person.getFirstName();
@@ -1653,6 +1665,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
             model.addRow(row);
 
+        }
         }
 
     }
