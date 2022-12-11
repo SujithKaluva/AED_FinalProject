@@ -4,8 +4,16 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.Ecosystem.Ecosystem;
+import Business.Orders.Orders;
 import Business.Role.SalesAdmin;
+import Business.Role.SalesPerson;
+import Business.Role.clinicOfficer;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,8 +25,14 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
      * Creates new form SalesAdminWorkArea1
      */
     SalesAdmin salesAdmin;
+    Orders selectedOrder;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    Ecosystem ecoSystem=Ecosystem.getInstance();
+    SalesPerson selectedSalesPerson;
     public SalesAdminWorkArea(SalesAdmin sa) {
         initComponents();
+        ecoSystem = dB40Util.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel2.setBackground(new Color(255, 255, 255, 90));
@@ -28,6 +42,9 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel11.setBackground(new Color(255, 255, 255, 90));
         workPanel2.setBackground(new Color(255, 255, 255, 100));
         this.salesAdmin=sa;
+        populateOrder();
+        populatesales();
+        populateSalesDirectory();
     }
 
     /**
@@ -317,7 +334,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 1500, 1000);
+        jPanel4.setBounds(0, 0, 1120, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -572,7 +589,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel6.add(workPanel2);
         workPanel2.setBounds(0, 0, 1200, 670);
 
-        jPanel11.setAlignmentX(0.5F);
         jPanel11.setPreferredSize(new java.awt.Dimension(1200, 700));
         jPanel11.setLayout(new javax.swing.OverlayLayout(jPanel11));
 
@@ -608,13 +624,13 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         sales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Sales Person Name"
+                "ID", "Sales Person Name"
             }
         ));
         jScrollPane3.setViewportView(sales);
@@ -688,7 +704,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel14.add(jLabel9);
 
         jPanel13.add(jPanel14);
-        jPanel14.setBounds(0, 0, 1500, 1000);
+        jPanel14.setBounds(0, 0, 1174, 700);
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new javax.swing.OverlayLayout(jPanel15));
@@ -701,11 +717,11 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
         );
 
         pack();
@@ -931,30 +947,40 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = sales.getSelectedRow();
         int o = order.getSelectedRow();
+         
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this, "Please select a Sales Person");
+        } 
+        else if(o==-1)
+        {
+            JOptionPane.showMessageDialog(this, "Please select an order");
+        } 
+        else{
+        
+        for (Orders d : ecoSystem.orderDirectory.getOrderdirectory()) {
+            if (d.getOrderid().equals(order.getValueAt(o,0))) {
+                selectedOrder = d;
+                break;
+            }
+        }
 
-//        for (Orders d : ecoSystem.orderDirectory.getOrderdirectory()) {
-//            if (d.getOrderid() == order.getValueAt(o,1)) {
-//                selectedOrder = d;
-//            }
-//        }
-//
-//        for(SalesPerson spObj: ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()){
-//            String fullName = spObj.getFirstName()+" "+spObj.getLastName();
-//            if(fullName.equals(sales.getValueAt(s, 1))){
-//                selectedSalesPerson = spObj;
-//            }
-//        }
-//
-//        if(selectedOrder == null){
-//            JOptionPane.showMessageDialog(this, "Please select an Order");
-//        }
-//        else if(selectedSalesPerson == null){
-//            JOptionPane.showMessageDialog(this, "Please select a Sales Person");
-//        }
-//        else{
-//            selectedOrder.setSalesperson(selectedSalesPerson);
-//
-//        }
+        for(SalesPerson spObj: ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()){
+            //String fullName = spObj.getFirstName()+" "+spObj.getLastName();
+            if(spObj.getSalesId().equals(sales.getValueAt(s, 0))){
+                selectedSalesPerson = spObj;
+                break;
+            }
+        }
+            selectedOrder.setSalesperson(selectedSalesPerson);
+            selectedOrder.setStatus("Sales Person assigned");
+              populateOrder();
+            JOptionPane.showMessageDialog(this, "Sales Person Assigned");
+            
+            
+
+        
+        }
     }//GEN-LAST:event_assignActionPerformed
 
     /**
@@ -1067,4 +1093,71 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JPanel workPanel2;
     private javax.swing.JPanel workPanel3;
     // End of variables declaration//GEN-END:variables
+
+    private void populateOrder() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) order.getModel();
+        model.setRowCount(0);
+
+        for (Orders person : ecoSystem.getOrderDirectory().getOrderdirectory()) {
+            Object[] row = new Object[12];
+            row[0] = person.getOrderid();
+            row[1] = person.getClinic().getClinicId();
+            row[2] = person.getVaccine().getVcode();
+            row[3] = person.getQuantity();
+            row[4] =person.getPrice();
+            row[5]=person.getSalesperson().getFirstName()+" "+person.getSalesperson().getLastName();
+            row[6]=person.getStatus();
+            row[7]=dateFormat.format(person.getDate());
+            row[8]=dateFormat.format(person.getDelivereddate());
+            row[9]=person.getComments();
+            
+      
+            model.addRow(row);
+            
+
+        }
+    }
+
+    private void populatesales() {
+       DefaultTableModel model = (DefaultTableModel) sales.getModel();
+        model.setRowCount(0);
+
+        for (SalesPerson person : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            Object[] row = new Object[12];
+            row[0] = person.getSalesId();
+            row[1] = person.getFirstName()+" "+person.getLastName();
+           
+            
+      
+            model.addRow(row);
+            
+
+        }
+    }
+
+    private void populateSalesDirectory() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) salesPersonTable.getModel();
+        model.setRowCount(0);
+
+        for (Orders person : ecoSystem.getOrderDirectory().getOrderdirectory()) {
+            Object[] row = new Object[12];
+            row[0] = person.getOrderid();
+            row[1] = person.getClinic().getClinicId();
+            row[2] = person.getVaccine().getVcode();
+            row[3] = person.getQuantity();
+            row[4] =person.getPrice();
+            row[5]=person.getSalesperson().getFirstName()+" "+person.getSalesperson().getLastName();
+            row[6]=person.getStatus();
+            row[7]=dateFormat.format(person.getDate());
+            row[8]=dateFormat.format(person.getDelivereddate());
+            row[9]=person.getComments();
+            
+      
+            model.addRow(row);
+            
+
+        }
+    }
 }
