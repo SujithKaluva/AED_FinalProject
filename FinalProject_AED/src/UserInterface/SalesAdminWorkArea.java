@@ -10,9 +10,12 @@ import Business.Orders.Orders;
 import Business.Role.SalesAdmin;
 import Business.Role.SalesPerson;
 import Business.Role.clinicOfficer;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +32,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     DB4OUtil dB40Util = DB4OUtil.getInstance();
     Ecosystem ecoSystem=Ecosystem.getInstance();
     SalesPerson selectedSalesPerson;
+      SalesPerson selectedSalesPerson1;
     public SalesAdminWorkArea(SalesAdmin sa) {
         initComponents();
         ecoSystem = dB40Util.retrieveSystem();
@@ -42,6 +46,13 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel11.setBackground(new Color(255, 255, 255, 90));
         workPanel2.setBackground(new Color(255, 255, 255, 100));
         this.salesAdmin=sa;
+        fname.setName("FirstName");        
+        lname.setName("LastName");
+        email.setName("EmailId");
+        dob.setName("DOB");
+        gender.setName("Gender");
+        phone.setName("Phone");
+        passWord.setName("password");
         populateOrder();
         populatesales();
         populateSalesDirectory();
@@ -94,7 +105,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         workPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         lname = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         fname = new javax.swing.JTextField();
         pnum = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -110,8 +120,10 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         dob = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        password = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -226,6 +238,11 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
         jLabel24.setText("jLabel24");
+        jLabel24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel24MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
@@ -421,9 +438,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         lname.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jLabel8.setText("Address");
-
         fname.setForeground(new java.awt.Color(255, 255, 255));
 
         pnum.setForeground(new java.awt.Color(255, 255, 255));
@@ -492,13 +506,34 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
 
+        jButton1.setText("Update Password");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        password.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel25.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        jLabel25.setText("Password");
+
         javax.swing.GroupLayout workPanel2Layout = new javax.swing.GroupLayout(workPanel2);
         workPanel2.setLayout(workPanel2Layout);
         workPanel2Layout.setHorizontalGroup(
             workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel2Layout.createSequentialGroup()
                 .addGap(207, 207, 207)
-                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(workPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addGap(48, 48, 48)
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(view)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(workPanel2Layout.createSequentialGroup()
                         .addGap(267, 267, 267)
                         .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,31 +548,26 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                                 .addGap(27, 27, 27))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
                                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel25)
                                     .addComponent(jLabel7))
                                 .addGap(18, 18, 18)))
                         .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(workPanel2Layout.createSequentialGroup()
-                                .addComponent(update)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(delete))
                             .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pnum, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74))
-                    .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11)
-                        .addGap(48, 48, 48)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(58, 58, 58)
-                .addComponent(view)
-                .addContainerGap(200, Short.MAX_VALUE))
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                                .addComponent(update)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(delete)))
+                        .addGap(405, 405, 405))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(439, 439, 439))
         );
         workPanel2Layout.setVerticalGroup(
             workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,15 +605,17 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(pnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(31, 31, 31)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addGap(101, 101, 101)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(delete)
                     .addComponent(update))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
 
         jPanel6.add(workPanel2);
@@ -739,65 +771,92 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean validated = false;
         boolean validatedOtherFields = false;
-        String selectedGender = gender1.getSelectedItem().toString();
-        //        String selectedCity = city1.getSelectedItem().toString();
-        //        String selectedCommunity = community1.getSelectedItem().toString();
-       // JDateChooser strtDt = dateOfBirth;
-        //        if(!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt!=null){
-            //            validatedOtherFields = true;
-            //        }
-        //        else{
-            //            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-            //        }
-        //        JTextField[] VARIABLE_CONSTANTS = {firstName, lastName, eMailId, phone, addressLine1, addressLine2,state1,zipCode,passWord};
-        //        for (JTextField field : VARIABLE_CONSTANTS) {
-            //            if (!validateData(field)) {
-                //                validated = false;
-                //                break;
-                //            } else {
-                //                validated = true;
-                //                System.out.println("Validated");
-                //            }
-            //        }
-        //
-        //        if (validated && validatedOtherFields) {
-            //            String cityName = city1.getSelectedItem().toString();
-            //            City city = new City(cityName);
-            //
-            //            Community community = new Community();
-            //            community.setCommunity(this.community1.getSelectedItem().toString());
-            //            community.setCity(city);
-            //
-            //            House house = new House();
-            //            house.setAddressLine1(addressLine1.getText());
-            //            house.setAddressLine2(addressLine2.getText());
-            //            house.setState(state1.getText());
-            //            house.setZipCode(Integer.valueOf(zipCode.getText()));
-            //            house.setCommunity(community);
-            //            house.setCity(city);
-            //
-            //            Patient patient = new Patient(firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender1.getSelectedItem().toString(), Long.parseLong(phone.getText()), house, passWord.getText());
-            //            System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-            //            System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-            //            JOptionPane.showMessageDialog(this, "Patient Created");
-            //            firstName.setText("");
-            //            lastName.setText("");
-            //            dateOfBirth.setDate(null);
-            //            gender1.setSelectedItem("");
-            //            eMailId.setText("");
-            //            phone.setText("");
-            //            addressLine1.setText("");
-            //            addressLine2.setText("");
-            //            state1.setText("");
-            //            city1.setSelectedItem(null);
-            //            community1.setSelectedItem(null);
-            //            zipCode.setText("");
-            //            passWord.setText("");
-            //            populatePatientsTable();
-            //            //ecoSystem.getPatientDirectory().addPatient(patient);
-            //            //back to login page
-            //
-            //        }
+        String selectedGender = gender.getSelectedItem().toString();
+
+        JDateChooser strtDt = dob;
+        if (strtDt != null) {
+            validatedOtherFields = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        JTextField[] VARIABLE_CONSTANTS = {fname, lname, email, phone, passWord};
+        for (JTextField field : VARIABLE_CONSTANTS) {
+            if (!validateData(field)) {
+                validated = false;
+                break;
+            } else {
+                validated = true;
+                System.out.println("Validated");
+            }
+        }
+
+        if (validated && validatedOtherFields) {
+            //String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, Clinic clinic, String location
+
+            SalesPerson patient = new SalesPerson(passWord.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),salesAdmin.getManufacturer(),location.getText());
+            populatesales();
+            populateSalesDirectory();
+
+            //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
+            //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
+            //back to login page
+        } else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        }
+
+        public boolean validateData(JComponent input) {
+            String name = input.getName();
+            String errorMsg = "";
+            boolean raiseError = false;
+            String text = ((JTextField) input).getText().trim();
+            if (text == null || text.isEmpty()) {
+                raiseError = true;
+                errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
+            } else {
+                switch (name) {
+                    case "FirstName":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                    case "LastName":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                    case "Phone":
+                    if (!text.matches("^[0-9]{10}")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+                    case "EmailId":
+                    System.out.print(email.getText());
+                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email.getText(), "FinanceAdmin")) {
+                        raiseError = true;
+                        errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
+                        break;
+                    }
+                    if (!text.matches("^(.+)@(.+)$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+                   
+
+                    default:
+                    break;
+                }
+            }
+            if (raiseError) {
+                JOptionPane.showMessageDialog(this, errorMsg);
+                return false;
+            }
+            return true; 
+          
     }//GEN-LAST:event_createPatientActionPerformed
 
     private void firstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameActionPerformed
@@ -817,96 +876,49 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
-        String emailsearch = search.getText();
-
-        boolean validated = false;
-        boolean validatedOtherFields = false;
-        String selectedGender = gender.getSelectedItem().toString();
-        //String selectedCity = city.getSelectedItem().toString();
-        //String selectedCommunity = community.getSelectedItem().toString();
-       // JDateChooser strtDt = dob;
-        //        if(!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt!=null){
-            //            validatedOtherFields = true;
-            //        }
-        //        else{
-            //            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-            //        }
-        //        JTextField[] VARIABLE_CONSTANTS = {fname, lname, pnum, add1, add2,state,zipcode};
-        //        for (JTextField field : VARIABLE_CONSTANTS) {
-            //            if (!validateData(field)) {
-                //                validated = false;
-                //                break;
-                //            } else {
-                //                validated = true;
-                //                System.out.println("Validated");
-                //            }
-            //        }
-
-        //        if (validated && validatedOtherFields) {
-            //            for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-            //            {
-                //                if (patient.getEmailId().equals(emailsearch))
-                //                {
-                    //
-                    //                    patient.setFirstName(fname.getText());
-                    //                    patient.setLastName(lname.getText());
-                    //                    patient.setDateOfBirth(dob.getDate());
-                    //                    patient.setGender(gender.getSelectedItem().toString());
-                    //                    patient.getHouse().setAddressLine1(add1.getText());
-                    //                    patient.getHouse().setAddressLine2(add2.getText());
-                    //                    patient.getHouse().getCity().setCity(city.getSelectedItem().toString());
-                    //                    patient.getHouse().getCommunity().setCommunity(community.getSelectedItem().toString());
-                    //                    patient.getHouse().setState(state.getText());
-                    //                    patient.getHouse().setZipCode(Integer.valueOf(zipcode.getText()));
-                    //                    patient.setPhoneNumber(Long.parseLong(pnum.getText()));
-                    //                    JOptionPane.showMessageDialog(this, "Patient Details Updated");
-                    //                    fname.setText("");
-                    //                    lname.setText("");
-                    //                    dob.setDate(null);
-                    //                    gender.setSelectedItem("");
-                    //                    email.setText("");
-                    //                    pnum.setText("");
-                    //                    add1.setText("");
-                    //                    add2.setText("");
-                    //                    state.setText("");
-                    //                    //city.setSelectedItem(null);
-                    //                    //community.setSelectedItem(null);
-                    //                    zipcode.setText("");
-                    //                    search.setText("");
-                    //                    populatePatientsTable();
-                    //                    break;
-                    //                }}
-            //
-            //            }
+       String emailsearch = search.getText();
+        boolean found =false;
+                for(SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory())
+                {
+                        if (patient.getEmailId().equals(emailsearch))
+                        {
+                               patient.setFirstName(fname.getText());
+                               patient.setLastName(lname.getText());
+                               patient.setDateOfBirth(dob.getDate());
+                               patient.setEmailId(email.getText());
+                               patient.setGender(gender.getSelectedItem().toString());
+                               patient.setPhoneNumber(Long.valueOf(phone.getText()));
+                                found = true;
+                                 populatesales();
+                                 populateSalesDirectory();
+                                JOptionPane.showMessageDialog(this, "Sales Person Updated");
+                                break;
+                            }
+            
+                    }
+                if(!found)
+                JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_updateActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         String emailsearch = search.getText();
-        //        for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-        //        {
-            //            if (patient.getEmailId().equals(emailsearch))
-            //            {
-                //
-                //                ecoSystem.getPatientDirectory().removePatient(patient);
-                //                JOptionPane.showMessageDialog(this, "Patient Deleted");
-                //                fname.setText("");
-                //                lname.setText("");
-                //                dob.setDate(null);
-                //                gender.setSelectedItem("");
-                //                email.setText("");
-                //                pnum.setText("");
-                //                add1.setText("");
-                //                add2.setText("");
-                //                state.setText("");
-                //                //city.setSelectedItem(null);
-                //                //community.setSelectedItem(null);
-                //                zipcode.setText("");
-                //                search.setText("");
-                //
-                //                populatePatientsTable();
-                //                break;
-                //            }}
+        boolean found =false;
+                for(SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory())
+                {
+                        if (patient.getEmailId().equals(emailsearch))
+                        {
+                                ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory().remove(patient);
+                                found = true;
+                                 populatesales();
+                                 populateSalesDirectory();
+                                JOptionPane.showMessageDialog(this, "Sales Person Deleted");
+                                break;
+                            }
+            
+                    }
+                if(!found)
+                JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_deleteActionPerformed
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
@@ -914,29 +926,25 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         String emailsearch = search.getText();
         boolean found =false;
-        //        for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-        //        {
-            //            if (patient.getEmailId().equals(emailsearch))
-            //            {
-                //                fname.setText(patient.getFirstName());
-                //                lname.setText(patient.getLastName());
-                //                dob.setDate(patient.getDateOfBirth());
-                //                gender.setSelectedItem(patient.getGender());
-                //                email.setText(patient.getEmailId());
-                //                pnum.setText(String.valueOf(patient.getPhoneNumber()));
-                //                add1.setText(patient.getHouse().getAddressLine1());
-                //                add2.setText(patient.getHouse().getAddressLine2());
-                //                state.setText(patient.getHouse().getState());
-                //                city.setSelectedItem(patient.getHouse().getCity().getCity());
-                //                community.setSelectedItem(patient.getHouse().getCommunity().getCommunity());
-                //                zipcode.setText(String.valueOf(patient.getHouse().getZipCode()));
-                //                found = true;
-                //                break;
-                //            }
-            //
-            //        }
-        //        if(!found)
-        //        JOptionPane.showMessageDialog(this, "Patient not Found");
+                for(SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory())
+                {
+                        if (patient.getEmailId().equals(emailsearch))
+                        {
+                            selectedSalesPerson=patient;
+                               fname.setText(patient.getFirstName());
+                                lname.setText(patient.getLastName());
+                                dob.setDate(patient.getDateOfBirth());
+                                gender.setSelectedItem(patient.getGender());
+                                email.setText(patient.getEmailId());
+                                pnum.setText(String.valueOf(patient.getPhoneNumber()));
+                   
+                                found = true;
+                                break;
+                            }
+            
+                    }
+                if(!found)
+                JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_viewActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -982,6 +990,31 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         
         }
     }//GEN-LAST:event_assignActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (SalesPerson pObj : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+                if (pObj.getEmailId().equals(selectedSalesPerson1.getEmailId())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Patient Password Updated");
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MouseClicked
+        // TODO add your handling code here:
+        
+         dB40Util.storeSystem(ecoSystem);
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+        
+    }//GEN-LAST:event_jLabel24MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1031,6 +1064,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField fname;
     private javax.swing.JComboBox<String> gender;
     private javax.swing.JComboBox<String> gender1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1048,6 +1082,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel33;
@@ -1056,7 +1091,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
@@ -1074,13 +1108,13 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField loc;
     private javax.swing.JButton location;
     private javax.swing.JTable order;
     private javax.swing.JTextField passWord;
+    private javax.swing.JTextField password;
     private javax.swing.JTextField phone;
     private javax.swing.JTextField pnum;
     private javax.swing.JTable sales;
@@ -1141,18 +1175,15 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) salesPersonTable.getModel();
         model.setRowCount(0);
 
-        for (Orders person : ecoSystem.getOrderDirectory().getOrderdirectory()) {
+        for (SalesPerson person : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
             Object[] row = new Object[12];
-            row[0] = person.getOrderid();
-            row[1] = person.getClinic().getClinicId();
-            row[2] = person.getVaccine().getVcode();
-            row[3] = person.getQuantity();
-            row[4] =person.getPrice();
-            row[5]=person.getSalesperson().getFirstName()+" "+person.getSalesperson().getLastName();
-            row[6]=person.getStatus();
-            row[7]=dateFormat.format(person.getDate());
-            row[8]=dateFormat.format(person.getDelivereddate());
-            row[9]=person.getComments();
+            row[0] = person.getFirstName();
+            row[1] = person.getLastName();
+            row[2] = person.getEmailId();
+            row[3] = person.getGender();
+            row[4] =person.getPhoneNumber();
+            row[5]=person.getSalesId();
+           
             
       
             model.addRow(row);
