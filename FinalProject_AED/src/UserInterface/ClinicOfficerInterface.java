@@ -108,6 +108,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 700));
         setSize(new java.awt.Dimension(1200, 700));
 
         jPanel1.setLayout(null);
@@ -372,7 +373,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 2337, 716);
+        jPanel4.setBounds(0, 0, 1131, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -476,7 +477,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jPanel14.add(jLabel23);
 
         jPanel2.add(jPanel14);
-        jPanel14.setBounds(0, 0, 1500, 1000);
+        jPanel14.setBounds(0, 0, 1050, 700);
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new javax.swing.OverlayLayout(jPanel15));
@@ -489,7 +490,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1110, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -713,7 +714,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         
                 for(Appointment spObj: ecoSystem.getAppointmenthistory().getAppointmenthistory()){
                         //String fullName = spObj.getFirstName()+" "+spObj.getLastName();
-                        if(spObj.getAppid().equals(sales.getValueAt(p, 0))){
+                        if(spObj.getAppid().equals(pTable.getValueAt(p, 0))){
                                 sp = spObj;
                             }
                     }
@@ -794,9 +795,6 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton assign;
-    private javax.swing.JButton assign1;
-    private javax.swing.JButton assign2;
     private javax.swing.JButton assign3;
     private com.toedter.calendar.JDateChooser dob;
     private javax.swing.JTextField email;
@@ -814,10 +812,6 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -825,48 +819,25 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lname;
     private javax.swing.JButton loc;
     private javax.swing.JTextField loct;
-    private javax.swing.JTable order;
-    private javax.swing.JTable order1;
-    private javax.swing.JTable order2;
     private javax.swing.JTable pTable;
     private javax.swing.JTextField password;
     private javax.swing.JTextField phone;
-    private javax.swing.JTable sales;
-    private javax.swing.JTable sales1;
-    private javax.swing.JTable sales2;
     private javax.swing.JTable vTable;
     private javax.swing.JTable vou;
     private javax.swing.JPanel workPanel;
-    private javax.swing.JPanel workPanel1;
-    private javax.swing.JPanel workPanel2;
-    private javax.swing.JPanel workPanel3;
     private javax.swing.JPanel workPanel4;
     // End of variables declaration//GEN-END:variables
 
