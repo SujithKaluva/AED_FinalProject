@@ -4,6 +4,7 @@
  */
 package Business.Ecosystem;
 
+import Business.Appointment.Appointment;
 import Business.Clinic.Clinic;
 import Business.Manufacturer.Manufacturer;
 import Business.Role.Patient;
@@ -31,6 +32,7 @@ public class ConfigureSystem {
         Clinic clinicObj = new Clinic("Clinic One","Boston",1234567890l);
         Patient pObj = new Patient("Sujith","Sujith","Kaluva",d,"sujith@gmail.com","Male",8572458702l,"42.3398067,-71.0913604");
         Volunteer vObj = new Volunteer("password", "Volunteer", "One", d, "sujithkaluva25@gmail.com", "Male", 8572458702l,clinicObj,"42.3398067,-71.0913604");
+        Appointment app1 = new Appointment(disease1, vac2, clinicObj, d, pObj, "Booked", "Test", vObj, 0);
         return system;
     }
 }

@@ -10,6 +10,7 @@ import Business.Ecosystem.Ecosystem;
 import Business.Orders.Orders;
 import Business.Role.SalesPerson;
 import Business.Role.Volunteer;
+import Business.vaccine.Vaccine;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -23,20 +24,23 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
 
     /**
      * Creates new form VolunteerWorkArea
-     * 
+     *
      */
     Appointment ad;
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    Volunteer loggedInVolunteer;
-    //DB4OUtil db4oUtil = DB4OUtil.getInstance();
-    
-    public VolunteerWorkArea(Volunteer volObj) {
+    Volunteer vou;
+    DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+
+    public VolunteerWorkArea(Volunteer v) {
         initComponents();
-         PopulateVolunteerWorkAreaTable();
-         loggedInVolunteer = volObj;
-         jPanel4.setBackground(new Color(255, 255, 255, 90));
-    workPanel.setBackground(new Color(255, 255, 255, 100));
-        
+        ecoSystem = dB4OUtil.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
+        this.vou = v;
+        welcome.setText("Hello "+v.getFirstName()+" "+v.getLastName());
+        PopulateVolunteerWorkAreaTable();
+        jPanel4.setBackground(new Color(255, 255, 255, 90));
+        workPanel.setBackground(new Color(255, 255, 255, 100));
+
     }
 
     /**
@@ -52,13 +56,14 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
         workPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         update1 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        welcome = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        volunteerworkarea1 = new javax.swing.JTable();
+        vTable = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         comments1 = new javax.swing.JTextField();
         status1 = new javax.swing.JComboBox<>();
         backbutton1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         opacityPanel = new javax.swing.JPanel();
@@ -80,10 +85,10 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jLabel6.setText("Volunteer Work Area");
+        welcome.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        welcome.setText("Volunteer Work Area");
 
-        volunteerworkarea1.setModel(new javax.swing.table.DefaultTableModel(
+        vTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -94,7 +99,7 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
                 "App ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number", "AppointmentDate", "AppStatus", "Price", "Comments"
             }
         ));
-        jScrollPane3.setViewportView(volunteerworkarea1);
+        jScrollPane3.setViewportView(vTable);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Comments");
@@ -108,60 +113,75 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Select Appointment");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
         workPanelLayout.setHorizontalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanelLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(backbutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(595, 595, 595))
-            .addGroup(workPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(status1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comments1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(backbutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(274, 274, 274)
+                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(update1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(status1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comments1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(update1))
+                                .addGap(33, 33, 33))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(23, 23, 23)
                         .addComponent(backbutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(101, 101, 101)
+                        .addGap(38, 38, 38)
+                        .addComponent(jButton1)
+                        .addGap(41, 41, 41)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(status1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(comments1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
+                            .addComponent(comments1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
                         .addComponent(update1)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -212,44 +232,83 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
 
     private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
         // TODO add your handling code here:
+        int s = vTable.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an Appointment");
+        } else {
+            for (Appointment c : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
+                if (ad == c) {
+                    c.setAppointmentstatus(status1.getSelectedItem().toString());
+                    c.setComments(comments1.getText());
+                    JOptionPane.showMessageDialog(this, "Appointment Updation Successful");
+                    PopulateVolunteerWorkAreaTable();
+                    break;
+                }
+            }
+        }
+
+
     }//GEN-LAST:event_update1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int s = vTable.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select Appointment");
+        } else {
+            for (Appointment c : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
+                if (c.getAppid().equals(vTable.getValueAt(s, 0).toString())) {
+                    ad = c;
+                    status1.setSelectedItem(c.getAppointmentstatus());
+                    comments1.setText(c.getComments());
+                    JOptionPane.showMessageDialog(this, "Selected Appointment");
+                    break;
+                }
+
+            }
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void backbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbutton1MouseClicked
         // TODO add your handling code here:
-        //DB4OUtil.storeSystem(ecoSystem);
-        Login mf = new Login();
-        mf.setVisible(true);
+        
+        dB4OUtil.storeSystem(ecoSystem);
+        Login login = new Login();
+        login.setVisible(true);
         dispose();
     }//GEN-LAST:event_backbutton1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public void PopulateVolunteerWorkAreaTable(){
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-        DefaultTableModel model = (DefaultTableModel) volunteerworkarea1.getModel();
+    public void PopulateVolunteerWorkAreaTable() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) vTable.getModel();
         model.setRowCount(0);
-        for(Appointment vObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()){
-            
-            
-            Object[] row = new Object[10];
-            row[0] =vObj.getPatient().getFirstName();
-            row[1] =vObj.getPatient().getLastName();
-            row[2] =dateFormat.format(vObj.getPatient().getDateOfBirth());
-            row[3] = vObj.getPatient().getGender();
-            row[4] = vObj.getPatient().getEmailId();
-           
-            row[5] = vObj.getPatient().getPhoneNumber();
-            row[6] = vObj.getDate();
-            row[7] = vObj.getAppointmentstatus();
-            row[8] = vObj.getPrice();
-            row[9] = vObj.getComments();
-            
-            model.addRow(row);
-        
-        
+        for (Appointment vObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
+
+            if (vObj.getVolunteer().getVolunteerId().equals(vou.getVolunteerId())) {
+                Object[] row = new Object[11];
+                row[0] = vObj.getAppid();
+                row[1] = vObj.getPatient().getFirstName();
+                row[2] = vObj.getPatient().getLastName();
+                row[3] = dateFormat.format(vObj.getPatient().getDateOfBirth());
+                row[4] = vObj.getPatient().getGender();
+                row[5] = vObj.getPatient().getEmailId();
+
+                row[6] = vObj.getPatient().getPhoneNumber();
+                row[7] = vObj.getDate();
+                row[8] = vObj.getAppointmentstatus();
+                row[9] = vObj.getPrice();
+                row[10] = vObj.getComments();
+
+                model.addRow(row);
+            }
+
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -286,9 +345,9 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backbutton1;
     private javax.swing.JTextField comments1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
@@ -296,7 +355,8 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
     private javax.swing.JPanel opacityPanel;
     private javax.swing.JComboBox<String> status1;
     private javax.swing.JButton update1;
-    private javax.swing.JTable volunteerworkarea1;
+    private javax.swing.JTable vTable;
+    private javax.swing.JLabel welcome;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
 }

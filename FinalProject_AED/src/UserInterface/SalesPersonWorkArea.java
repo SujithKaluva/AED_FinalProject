@@ -6,6 +6,7 @@ package UserInterface;
 
 import Business.Ecosystem.Ecosystem;
 import Business.Orders.Orders;
+import Business.Role.SalesPerson;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -24,9 +25,13 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
      * Creates new form SalesPersonWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    public SalesPersonWorkArea() {
+    Orders sec;
+    SalesPerson sp;
+    public SalesPersonWorkArea(SalesPerson h) {
         initComponents();
+        this.sp=h;
         TableFilling();
+        
         jPanel4.setBackground(new Color(255,255,255,90));
         workPanel.setBackground(new Color(255,255,255,100));
         
@@ -38,7 +43,9 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
-
+             
+            if(odd.getSalesperson().getSalesId().equals(sp.getSalesId()))
+            {
             Object[] row = new Object[5];
             row[0] = odd.getSalesperson().getSalesId();
             row[1] = odd.getPrice();
@@ -48,6 +55,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
             
 
             model.addRow(row);
+            }
 
         }
 
@@ -69,7 +77,6 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         salespersontable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -107,20 +114,10 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "SalesPersonId", "Price", "OrderStatus", "OrderDate", "DeliveryDate"
+                "Order ID", "Price", "OrderStatus", "OrderDate", "DeliveryDate"
             }
         ));
         jScrollPane2.setViewportView(salespersontable);
-
-        jButton1.setBackground(new java.awt.Color(0, 102, 150));
-        jButton1.setFont(new java.awt.Font("Helvetica Neue", 0, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Create");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 102));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -152,7 +149,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
-        jLabel2.setText("SalesPerson Work Area");
+        jLabel2.setText("Sales Person Work Area");
 
         ordstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Booked", "Volunteer Assigned", "On hold", "Vaccine Not available", "Vaccinated", "Payment pending", "Rejected" }));
 
@@ -171,33 +168,27 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
                     .addGap(53, 53, 53)
                     .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(workPanelLayout.createSequentialGroup()
+                            .addGap(78, 78, 78)
                             .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1)
-                                    .addGap(145, 145, 145))
                                 .addGroup(workPanelLayout.createSequentialGroup()
-                                    .addGap(78, 78, 78)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(orddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(29, 29, 29))
+                                .addGroup(workPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(deldate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(32, 32, 32))
+                                .addGroup(workPanelLayout.createSequentialGroup()
                                     .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(workPanelLayout.createSequentialGroup()
-                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(orddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGap(29, 29, 29))
-                                        .addGroup(workPanelLayout.createSequentialGroup()
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(deldate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGap(32, 32, 32))
-                                        .addGroup(workPanelLayout.createSequentialGroup()
-                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(18, 18, 18)
-                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(ordstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(ordprice))
-                                            .addGap(32, 32, 32)))))
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(ordstatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ordprice))
+                                    .addGap(32, 32, 32)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(workPanelLayout.createSequentialGroup()
                             .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,9 +234,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
                             .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel11)
                                 .addComponent(deldate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(72, 72, 72)
-                            .addComponent(jButton1)
-                            .addGap(143, 143, 143)))
+                            .addGap(237, 237, 237)))
                     .addGap(18, 18, 18)
                     .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton3)
@@ -300,121 +289,42 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        boolean validated = false;
-        boolean validatedOtherFields = false;
-
-        JDateChooser strtDt = deldate;
-        if (strtDt != null) {
-            validatedOtherFields = true;
-        } else {
-            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-        }
-        JTextField[] VARIABLE_CONSTANTS = {};
-        for (JTextField field : VARIABLE_CONSTANTS) {
-            if (!validateData(field)) {
-                validated = false;
-                break;
-            } else {
-                validated = true;
-                System.out.println("Validated");
-            }
-        }
-
-        if (validated && validatedOtherFields) {
-
-            //Volunteer volunteer = new Volunteer(password.getText(), entname.getText(), entaddress.getText(), estdate.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
-            //Enterprise ent=new Enterprise(entname.getText(),entaddress.getText(),estdate.getDate());
-
-            //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-            //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-            //back to login page
-        } else {
-            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-        }
-        }
-
-        public boolean validateData(JComponent input) {
-            //            String name = input.getName();
-            //            String errorMsg = "";
-            //            boolean raiseError = false;
-            //            String text = ((JTextField) input).getText().trim();
-            //            if (text == null || text.isEmpty()) {
-                //                raiseError = true;
-                //                errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
-                //            } else {
-                //                switch (name) {
-                    //                    case "patientFirstName":
-                    //                    if (!text.matches("^[a-zA-z ]*$")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Please enter valid values for %s", name);
-                        //                    }
-                    //                    break;
-                    //                    case "patientLastName":
-                    //                    if (!text.matches("^[a-zA-z ]*$")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Please enter valid values for %s", name);
-                        //                    }
-                    //                    break;
-                    //                    case "patientPhone":
-                    //                    if (!text.matches("^[0-9]{10}")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Please enter a valid %s", name);
-                        //                    }
-                    //                    break;
-                    //                    case "patientEmailId":
-                    //                    //System.out.print(email.getText());
-                    //                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email.getText(), "FinanceAdmin")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
-                        //                        break;
-                        //                    }
-                    //                    if (!text.matches("^(.+)@(.+)$")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Please enter a valid %s", name);
-                        //                    }
-                    //                    break;
-                    //                    case "patientZipCode":
-                    //                    if (!text.matches("^[0-9]{5}")) {
-                        //                        raiseError = true;
-                        //                        errorMsg = String.format("Please enter a valid %s", name);
-                        //                    }
-                    //                    break;
-                    //
-                    //                    default:
-                    //                    break;
-                    //                }
-                //            }
-            //            if (raiseError) {
-                //                JOptionPane.showMessageDialog(this, errorMsg);
-                //                return false;
-                //            }
-            return true;
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if(sec!=null)
+        {    
         int s = salespersontable.getSelectedRow();
         for (Orders od : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
-            if (od.getSalesperson().getSalesId() == salespersontable.getValueAt(s, 1)) {
+            if (od.getSalesperson().getSalesId().equals(salespersontable.getValueAt(s, 0).toString())) {
 
                 ecoSystem.getOrdersdirectory().getOrderdirectory().remove(od);
             }
 
         }
+        JOptionPane.showMessageDialog(this, "Deleted Order");
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Select Order to be deleted");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s = salespersontable.getSelectedRow();
+        if(s==-1)
+        {
+         JOptionPane.showMessageDialog(this, "Select a row");   
+        }
+        else
+        {
         for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
-            if (odd.getSalesperson().getSalesId() == salespersontable.getValueAt(s, 1)) {
+            if (odd.getOrderid().equals(salespersontable.getValueAt(s, 0).toString())) {
 
                 odd.setPrice(Integer.valueOf(ordprice.getText()));
                 odd.setStatus(ordstatus.getSelectedItem().toString());
                 odd.setDate(orddate.getDate());
                 odd.setDelivereddate(deldate.getDate());
+                 JOptionPane.showMessageDialog(this, "Update Order");
+                break;
 
                 //sp.setCompanyName(entname.getText());
                 //sp.setCompanyAddress(entaddress.getText());
@@ -423,22 +333,35 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
             }
 
         }
+        
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int s = salespersontable.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this, "Select an order");
+        }
+        else{
 
         for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
-            if (odd.getSalesperson().getSalesId() == salespersontable.getValueAt(s, 1)) {
-
+            if (odd.getOrderid().equalsIgnoreCase(salespersontable.getValueAt(s, 0).toString())) {
+                
+                sec=odd;
                 ordprice.setText(odd.getPrice()+"");
-                //ordstatus.setSelectedItem().toString(odd.getStatus());
+                ordstatus.setName(odd.getStatus());
                 orddate.setDate(odd.getDate());
                 deldate.setDate(odd.getDelivereddate());
 
             }
 
+        }
+        }
+        if(sec==null)
+        {
+            JOptionPane.showMessageDialog(this, "Select an order");
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -473,7 +396,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SalesPersonWorkArea().setVisible(true);
+                //new SalesPersonWorkArea().setVisible(true);
             }
         });
     }
@@ -481,7 +404,6 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backbutton;
     private com.toedter.calendar.JDateChooser deldate;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
