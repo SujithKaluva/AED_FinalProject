@@ -19,7 +19,8 @@ public class Disease {
         this.diseaseName = diseaseName;
         this.diseaseSymptoms = diseaseSymptoms;
     }
-
+   
+    
     public String getDiseaseCode() {
         return diseaseCode;
     }

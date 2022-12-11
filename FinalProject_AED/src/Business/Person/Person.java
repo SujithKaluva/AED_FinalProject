@@ -20,8 +20,9 @@ public class Person {
     private String emailId;
     private String gender;
     private long phoneNumber;
+    private String location;
 
-    public Person(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
+    public Person(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, String location) {
         this.personId = "person_"+Person.personCounter;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,7 +30,16 @@ public class Person {
         this.emailId = emailId;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
+        this.location = location;
         this.personCounter++;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public static int getPersonCounter() {

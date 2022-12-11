@@ -4,6 +4,10 @@
  */
 package Business.vaccine;
 
+import Business.Ecosystem.Ecosystem;
+import Business.Manufacturer.Manufacturer;
+import Business.disease.Disease;
+
 /**
  *
  * @author sreej
@@ -16,14 +20,38 @@ public class Vaccine {
     int maxprice;
     int minprice;
     int targetprice;
+    Disease d;
+    Manufacturer manufacturer;
+    Ecosystem ecoSystem=Ecosystem.getInstance();
 
-    public Vaccine(String vcode, String name, int doses, int maxprice, int minprice, int targetprice) {
+    public Vaccine(String vcode, String name, int doses, int maxprice, int minprice, int targetprice,Disease d,Manufacturer manufacturer) {
         this.vcode = vcode;
         this.name = name;
         this.doses = doses;
         this.maxprice = maxprice;
         this.minprice = minprice;
         this.targetprice = targetprice;
+        this.d=d;
+        this.manufacturer=manufacturer;
+        ecoSystem.getVaccineDirectory().getVaccineDirectory().add(this);
+        
+        
+    }
+
+    public Disease getD() {
+        return d;
+    }
+
+    public void setD(Disease d) {
+        this.d = d;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public String getVcode() {

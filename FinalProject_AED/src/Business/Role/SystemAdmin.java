@@ -16,8 +16,8 @@ public class SystemAdmin extends Person {
     public static int sysAdminCounter = 1;
     private String sysAdminId;
     
-    public SystemAdmin(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
-        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
+    public SystemAdmin(String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, String location) {
+        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber, location);
         sysAdminId = "sysAdmin_"+sysAdminCounter;
         sysAdminCounter++;
     }
