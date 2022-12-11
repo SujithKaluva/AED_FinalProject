@@ -44,6 +44,7 @@ public class PasswordManager {
     
     public boolean isUsernameAvailable(String username,String Role){
         System.out.print(Role+"--"+username);
+        if(!this.passwordManager.containsKey(Role)) return true;
         return !this.passwordManager.get(Role).containsKey(username);
     }
 }

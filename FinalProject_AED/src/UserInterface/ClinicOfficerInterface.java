@@ -4,15 +4,20 @@
  */
 package UserInterface;
 
+import Business.Appointment.Appointment;
+import Business.DB4OUtil.DB4OUtil;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import Business.Ecosystem.*;
 import Business.Location.GoogleMapsLocation;
+import Business.Role.Patient;
 import Business.Role.Volunteer;
 import Business.Role.clinicOfficer;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,15 +29,31 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
      * Creates new form ClinicOfficerInterface
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    clinicOfficer loggedInUser;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    clinicOfficer co;
+    Volunteer h;
+    Volunteer sv;
+    Appointment sp;
 
-    public ClinicOfficerInterface(clinicOfficer cObj) {
+    public ClinicOfficerInterface(clinicOfficer co) {
         initComponents();
-        loggedInUser = cObj;
-         jPanel4.setBackground(new Color(255, 255, 255, 90));
+        ecoSystem = dB40Util.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
+        this.co = co;
+        jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel14.setBackground(new Color(255, 255, 255, 90));
         workPanel4.setBackground(new Color(255, 255, 255, 100));
+        fname.setName("volunteerFirstName");
+        lname.setName("volunteerLastName");
+        email.setName("volunteerEmailId");
+        dob.setName("volunteerDOB");
+        gender.setName("volunteerGender");
+        phone.setName("volunteerPhone");
+        password.setName("volunteerpassword");
+        populatevolunteer();
+        populateassign();
+        populateappoinment();
     }
 
     /**
@@ -59,7 +80,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         gender = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        vou = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         password = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -68,9 +89,11 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         loc = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        loct = new javax.swing.JTextField();
         dob = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        loc1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -78,17 +101,17 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         workPanel4 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        order3 = new javax.swing.JTable();
+        pTable = new javax.swing.JTable();
         jScrollPane9 = new javax.swing.JScrollPane();
-        sales3 = new javax.swing.JTable();
+        vTable = new javax.swing.JTable();
         assign3 = new javax.swing.JButton();
-        jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 700));
         setSize(new java.awt.Dimension(1200, 700));
 
         jPanel1.setLayout(null);
@@ -130,18 +153,20 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        vou.setBackground(new java.awt.Color(255, 255, 255));
+        vou.setForeground(new java.awt.Color(0, 0, 0));
+        vou.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number", "Password", "Location"
+                "ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number", "Location"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(vou);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Password");
@@ -200,73 +225,96 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
         jLabel3.setText("jLabel3");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
+        jButton2.setText("Update Password");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        loc1.setText("Update");
+        loc1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loc1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
         workPanelLayout.setHorizontalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(workPanelLayout.createSequentialGroup()
-                .addGap(358, 358, 358)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 794, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lname))
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(gender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addGap(100, 100, 100))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(workPanelLayout.createSequentialGroup()
-                                    .addComponent(loc)
-                                    .addGap(50, 50, 50)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(167, 167, 167)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(84, 84, 84)
                 .addComponent(jButton4)
                 .addGap(64, 64, 64)
                 .addComponent(jButton5)
                 .addGap(263, 263, 263))
+            .addGroup(workPanelLayout.createSequentialGroup()
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(266, 266, 266)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(workPanelLayout.createSequentialGroup()
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(119, 119, 119))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(workPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lname))
+                                .addGroup(workPanelLayout.createSequentialGroup()
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(gender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(workPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(workPanelLayout.createSequentialGroup()
+                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(loc)
+                                            .addComponent(loc1))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(loct, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 794, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,9 +324,9 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel2))
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(35, 35, 35)
                         .addComponent(jLabel3)))
-                .addGap(36, 36, 36)
+                .addGap(24, 24, 24)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,23 +352,31 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
-                        .addGap(32, 32, 32)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(21, 21, 21)
+                        .addGap(37, 37, 37)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(loc)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
-                        .addComponent(jButton1))
+                            .addComponent(loct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loc))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(loc1)
+                        .addGap(3, 3, 3)
+                        .addComponent(jButton1)
+                        .addGap(48, 48, 48))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton2)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -332,7 +388,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 2337, 716);
+        jPanel4.setBounds(0, 0, 1131, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -343,31 +399,31 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
 
         jPanel2.setLayout(null);
 
-        order3.setModel(new javax.swing.table.DefaultTableModel(
+        pTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Patient ID", "Patient Name", "Vaccine Name", "Disease", "Status", "Phone number", "Email", "Date"
+                "Appointment ID", "Patient Name", "Vaccine Name", "Disease", "Status", "Phone number", "Email", "Date", "Volunteer"
             }
         ));
-        jScrollPane8.setViewportView(order3);
+        jScrollPane8.setViewportView(pTable);
 
-        sales3.setModel(new javax.swing.table.DefaultTableModel(
+        vTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Volunteer Name"
+                "ID", "Volunteer Name"
             }
         ));
-        jScrollPane9.setViewportView(sales3);
+        jScrollPane9.setViewportView(vTable);
 
         assign3.setBackground(new java.awt.Color(0, 102, 150));
         assign3.setForeground(new java.awt.Color(255, 255, 255));
@@ -378,8 +434,6 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
             }
         });
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel22.setText("Volunteer Assignment");
 
@@ -388,14 +442,6 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         workPanel4Layout.setHorizontalGroup(
             workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel4Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(assign3)
-                .addGap(492, 492, 492))
-            .addGroup(workPanel4Layout.createSequentialGroup()
                 .addGroup(workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanel4Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -403,28 +449,33 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanel4Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(289, 289, 289)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(369, 369, 369)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(67, Short.MAX_VALUE))
+            .addGroup(workPanel4Layout.createSequentialGroup()
+                .addGroup(workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanel4Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(workPanel4Layout.createSequentialGroup()
+                        .addGap(462, 462, 462)
+                        .addComponent(assign3)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         workPanel4Layout.setVerticalGroup(
             workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel4Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel22))
+                .addGap(21, 21, 21)
+                .addComponent(jLabel22)
                 .addGap(34, 34, 34)
                 .addGroup(workPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel20)
-                .addGap(57, 57, 57)
+                .addGap(39, 39, 39)
                 .addComponent(assign3)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         jPanel2.add(workPanel4);
@@ -436,7 +487,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         jPanel14.add(jLabel23);
 
         jPanel2.add(jPanel14);
-        jPanel14.setBounds(0, 0, 1500, 1000);
+        jPanel14.setBounds(0, 0, 1050, 700);
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new javax.swing.OverlayLayout(jPanel15));
@@ -449,7 +500,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1110, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,45 +553,42 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 
-           // Volunteer volunteer = new Volunteer(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
-
-            //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-            //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-            //back to login page
+            Volunteer volunteer = new Volunteer(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), co.getClinic(), loct.getText());
+            populatevolunteer();
         } else {
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
         }
-        }
+    }
 
-        public boolean validateData(JComponent input) {
-            String name = input.getName();
-            String errorMsg = "";
-            boolean raiseError = false;
-            String text = ((JTextField) input).getText().trim();
-            if (text == null || text.isEmpty()) {
-                raiseError = true;
-                errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
-            } else {
-                switch (name) {
-                    case "patientFirstName":
+    public boolean validateData(JComponent input) {
+        String name = input.getName();
+        String errorMsg = "";
+        boolean raiseError = false;
+        String text = ((JTextField) input).getText().trim();
+        if (text == null || text.isEmpty()) {
+            raiseError = true;
+            errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
+        } else {
+            switch (name) {
+                case "volunteerFirstName":
                     if (!text.matches("^[a-zA-z ]*$")) {
                         raiseError = true;
                         errorMsg = String.format("Please enter valid values for %s", name);
                     }
                     break;
-                    case "patientLastName":
+                case "volunteerLastName":
                     if (!text.matches("^[a-zA-z ]*$")) {
                         raiseError = true;
                         errorMsg = String.format("Please enter valid values for %s", name);
                     }
                     break;
-                    case "patientPhone":
+                case "volunteerPhone":
                     if (!text.matches("^[0-9]{10}")) {
                         raiseError = true;
                         errorMsg = String.format("Please enter a valid %s", name);
                     }
                     break;
-                    case "patientEmailId":
+                case "volunteerEmailId":
                     System.out.print(email.getText());
                     if (!ecoSystem.getPasswordManager().isUsernameAvailable(email.getText(), "FinanceAdmin")) {
                         raiseError = true;
@@ -552,121 +600,163 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
                         errorMsg = String.format("Please enter a valid %s", name);
                     }
                     break;
-                    case "patientZipCode":
-                    if (!text.matches("^[0-9]{5}")) {
-                        raiseError = true;
-                        errorMsg = String.format("Please enter a valid %s", name);
-                    }
-                    break;
 
-                    default:
+                default:
                     break;
-                }
             }
-            if (raiseError) {
-                JOptionPane.showMessageDialog(this, errorMsg);
-                return false;
-            }
-            return true;
+        }
+        if (raiseError) {
+            JOptionPane.showMessageDialog(this, errorMsg);
+            return false;
+        }
+        return true;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int s = jTable2.getSelectedRow();
-        for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
-            if (vi.getVolunteerId() == jTable2.getValueAt(s, 1)) {
+        int s = vou.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Select Volunteer");
+        } else {
+            for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+                if (vi.getVolunteerId().equals(vou.getValueAt(s, 0).toString())) {
 
-              ecoSystem.getVolunteerDirectory().getVolunteerDirectory().remove(vi);
-           }
+                    ecoSystem.getVolunteerDirectory().getVolunteerDirectory().remove(vi);
+                    populatevolunteer();
+                    break;
+                }
 
-       }
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        int s = jTable2.getSelectedRow();
-        for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
-            if (vi.getVolunteerId() == jTable2.getValueAt(s, 1)) {
+        int s = vou.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Select Volunteer");
+        } else {
+            for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+                if (vi.getVolunteerId().equals(vou.getValueAt(s, 0).toString())) {
 
-                  vi.setFirstName(fname.getText());
-                  vi.setLastName(lname.getText());
-                  vi.setDateOfBirth(dob.getDate());
-                  vi.setEmailId(email.getText());
-                  vi.setPassword(password.getText());
-                  vi.setPhoneNumber(Long.valueOf(phone.getText()));
-                  vi.setGender(gender.getSelectedItem().toString());
-                  
- 
-           }
+                    vi.setFirstName(fname.getText());
+                    vi.setLastName(lname.getText());
+                    vi.setDateOfBirth(dob.getDate());
+                    vi.setEmailId(email.getText());
+                    vi.setPhoneNumber(Long.valueOf(phone.getText()));
+                    vi.setGender(gender.getSelectedItem().toString());
+                    vi.setLocation(loct.getText());
+                    populatevolunteer();
+                    break;
 
-      }
+                }
+            }
+
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int s = jTable2.getSelectedRow();
-          for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
-             if (vi.getVolunteerId() == jTable2.getValueAt(s, 1)) {
- 
-                  fname.setText(vi.getFirstName());
-                  lname.setText(vi.getLastName());
-                  dob.setDate(vi.getDateOfBirth());
-                  gender.setSelectedItem(vi.getGender());
-                  email.setText(vi.getEmailId());
-                  phone.setText(vi.getPhoneNumber() + ""); 
-                  password.setText(vi.getPassword());
+        int s = vou.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Please select volunteer");
+        } else {
+            for (Volunteer vi : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+                if (vi.getVolunteerId().equals(vou.getValueAt(s, 0))) {
+                    h = vi;
 
-          }
+                    fname.setText(vi.getFirstName());
+                    lname.setText(vi.getLastName());
+                    dob.setDate(vi.getDateOfBirth());
+                    gender.setSelectedItem(vi.getGender());
+                    email.setText(vi.getEmailId());
+                    phone.setText(vi.getPhoneNumber() + "");
+                    password.setText("");
+                    loct.setText(vi.getLocation());
+                }
 
-       }
+            }
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
-    
-    
+
     public void populateLongituteLatitude(GoogleMapsLocation locationPoint) {
 //        uLocation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 //        uLocation.setForeground(Color.BLACK);
 //        this.locationPoint = locationPoint;
         loc.setText(locationPoint.getLatitude() + "," + locationPoint.getLongitude());
     }
-             
-             
+
+
     private void locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locActionPerformed
         // TODO add your handling code here:
-        
-       // Location locobj = new Location();
-        //locobj.setVisible(true);
-        
+
+        Location locobj = new Location();
+        locobj.setVisible(true);
+
     }//GEN-LAST:event_locActionPerformed
 
     private void assign3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assign3ActionPerformed
         // TODO add your handling code here:
-        int s = sales.getSelectedRow();
-        int o = order.getSelectedRow();
+        int v = vTable.getSelectedRow();
+        int p = pTable.getSelectedRow();
 
-        //        for (Orders d : ecoSystem.orderDirectory.getOrderdirectory()) {
-            //            if (d.getOrderid() == order.getValueAt(o,1)) {
-                //                selectedOrder = d;
-                //            }
-            //        }
-        //
-        //        for(SalesPerson spObj: ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()){
-            //            String fullName = spObj.getFirstName()+" "+spObj.getLastName();
-            //            if(fullName.equals(sales.getValueAt(s, 1))){
-                //                selectedSalesPerson = spObj;
-                //            }
-            //        }
-        //
-        //        if(selectedOrder == null){
-            //            JOptionPane.showMessageDialog(this, "Please select an Order");
-            //        }
-        //        else if(selectedSalesPerson == null){
-            //            JOptionPane.showMessageDialog(this, "Please select a Sales Person");
-            //        }
-        //        else{
-            //            selectedOrder.setSalesperson(selectedSalesPerson);
-            //
-            //        }
+        for (Volunteer d : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+            if (d.getVolunteerId().equals(vTable.getValueAt(v, 0))) {
+                sv = d;
+                break;
+            }
+        }
+
+        for (Appointment spObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
+            //String fullName = spObj.getFirstName()+" "+spObj.getLastName();
+            if (spObj.getAppid().equals(pTable.getValueAt(p, 0))) {
+                sp = spObj;
+                spObj.setVolunteer(sv);
+                JOptionPane.showMessageDialog(this, "Assigned Volunteer");
+            }
+        }
+
+        if (sv == null) {
+            JOptionPane.showMessageDialog(this, "Please select an Volunteer");
+        } else if (sp == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Appointment");
+        } else {
+            sp.setVolunteer(sv);
+            populateappoinment();
+
+        }
     }//GEN-LAST:event_assign3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+        if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (Volunteer pObj : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+                if (pObj.getVolunteerId().equals(h.getVolunteerId())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Volunteer Password Updated");
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+
+        dB40Util.storeSystem(ecoSystem);
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void loc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loc1ActionPerformed
+        // TODO add your handling code here:
+        loct.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_loc1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -699,21 +789,19 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new ClinicOfficerInterface().setVisible(true);
+                // new ClinicOfficerInterface().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton assign;
-    private javax.swing.JButton assign1;
-    private javax.swing.JButton assign2;
     private javax.swing.JButton assign3;
     private com.toedter.calendar.JDateChooser dob;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
     private javax.swing.JComboBox<String> gender;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -724,59 +812,101 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField lname;
     private javax.swing.JButton loc;
-    private javax.swing.JTable order;
-    private javax.swing.JTable order1;
-    private javax.swing.JTable order2;
-    private javax.swing.JTable order3;
+    private javax.swing.JButton loc1;
+    private javax.swing.JTextField loct;
+    private javax.swing.JTable pTable;
     private javax.swing.JTextField password;
     private javax.swing.JTextField phone;
-    private javax.swing.JTable sales;
-    private javax.swing.JTable sales1;
-    private javax.swing.JTable sales2;
-    private javax.swing.JTable sales3;
+    private javax.swing.JTable vTable;
+    private javax.swing.JTable vou;
     private javax.swing.JPanel workPanel;
-    private javax.swing.JPanel workPanel1;
-    private javax.swing.JPanel workPanel2;
-    private javax.swing.JPanel workPanel3;
     private javax.swing.JPanel workPanel4;
     // End of variables declaration//GEN-END:variables
+
+    private void populatevolunteer() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) vou.getModel();
+        model.setRowCount(0);
+        System.out.print(ecoSystem.getVolunteerDirectory().getVolunteerDirectory().size());
+        for (Volunteer vObj : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+                System.out.print(vObj.getClinic().getClinicId()+"--"+co.getClinic().getClinicId());
+            if (vObj.getClinic().getClinicId().equals(co.getClinic().getClinicId())) {
+                Object[] row = new Object[11];
+                row[0] = vObj.getVolunteerId();
+                row[1] = vObj.getFirstName();
+                row[2] = vObj.getLastName();
+                row[3] = dateFormat.format(vObj.getDateOfBirth());
+                row[4] = vObj.getGender();
+                row[5] = vObj.getEmailId();
+
+                row[6] = vObj.getPhoneNumber();
+                row[7] = vObj.getLocation();
+                System.out.print("Yes");
+                model.addRow(row);
+            }
+
+        }
+    }
+
+    private void populateassign() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) vTable.getModel();
+        model.setRowCount(0);
+        for (Volunteer vObj : ecoSystem.getVolunteerDirectory().getVolunteerDirectory()) {
+
+            if (vObj.getClinic().getClinicId().equals(co.getClinic().getClinicId())) {
+                Object[] row = new Object[3];
+                row[0] = vObj.getVolunteerId();
+                row[1] = vObj.getFirstName();
+
+                model.addRow(row);
+            }
+
+        }
+    }
+
+    private void populateappoinment() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) pTable.getModel();
+        model.setRowCount(0);
+        for (Appointment vObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
+
+            if (vObj.getClinic().getClinicId().equals(co.getClinic().getClinicId())) {
+                if (vObj.getAppointmentstatus().equalsIgnoreCase("Booked")) {
+                    Object[] row = new Object[10];
+                    row[0] = vObj.getAppid();
+                    row[1] = vObj.getPatient().getFirstName() + " " + vObj.getPatient().getLastName();
+                    row[2] = vObj.getVaccine().getName();
+                    row[3] = vObj.getDisease().getDiseaseName();
+                    row[4] = vObj.getAppointmentstatus();
+                    row[5] = vObj.getPatient().getPhoneNumber();
+                    row[6] = vObj.getPatient().getEmailId();
+                    row[7] = vObj.getDate();
+                    row[8] = vObj.getVolunteer().getFirstName()+" "+vObj.getVolunteer().getLastName();
+                    model.addRow(row);
+                }
+            }
+
+        }
+    }
 }
