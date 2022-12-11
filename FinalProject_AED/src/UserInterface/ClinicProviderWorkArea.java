@@ -627,14 +627,12 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
                     .addGroup(workPanel1Layout.createSequentialGroup()
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
                                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(workPanel1Layout.createSequentialGroup()
-                                        .addGap(61, 61, 61)
-                                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(64, 64, 64)))
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(dob1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -648,26 +646,27 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(28, 28, 28))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel1Layout.createSequentialGroup()
-                                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(screate)
+                                            .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(30, 30, 30)))
                                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(password1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                                    .addComponent(location))))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
-                        .addComponent(sdelete)
-                        .addGap(42, 42, 42)
-                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(screate)
-                            .addComponent(supdate))
-                        .addGap(51, 51, 51)
-                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(updatePassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sselect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(location)
+                                    .addComponent(updatePassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(supdate)
+                                .addGap(28, 28, 28)
+                                .addComponent(sdelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sselect, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         workPanel1Layout.setVerticalGroup(
@@ -719,16 +718,14 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))))
-                .addGap(77, 77, 77)
+                .addGap(40, 40, 40)
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(screate)
-                    .addComponent(updatePassword))
-                .addGap(32, 32, 32)
-                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updatePassword)
                     .addComponent(sdelete)
                     .addComponent(supdate)
                     .addComponent(sselect))
-                .addGap(70, 70, 70))
+                .addGap(162, 162, 162))
         );
 
         jPanel6.add(workPanel1);
@@ -928,7 +925,7 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
                     break;
                 case "patientEmailId":
                     System.out.print(email1.getText());
-                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email1.getText(), "Finance Admin")) {
+                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email1.getText(), "Clinic Admin")) {
                         raiseError = true;
                         errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
                         break;
@@ -964,9 +961,19 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select clinic Admin");
         } else {
             for (ClinicAdmin c : ecoSystem.getClinicAdminDirectory().getClinicAdminDirectory()) {
-                if (c.getClinicId() == jTable3.getValueAt(s, 1)) {
+                if (c.getClinicId() == jTable3.getValueAt(s, 0)) {
                     ecoSystem.getClinicAdminDirectory().removeClinicAdmin(c);
                     adminFilling();
+                    password1.setText("");
+                    location.setText("");
+                    gender2.setSelectedItem(null);
+                    fname1.setText("");
+                    lname1.setText("");
+                    email1.setText("");
+                    phone1.setText("");
+                    dob1.setDate(null);
+            JOptionPane.showMessageDialog(this, "Clinic Admin Deleted!");
+            break;
                 }
 
             }
@@ -981,7 +988,7 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select clinic Admin");
         } else {
             for (ClinicAdmin c : ecoSystem.getClinicAdminDirectory().getClinicAdminDirectory()) {
-                if (c.getClinicId() == jTable3.getValueAt(s, 1)) {
+                if (c.getClinicId() == jTable3.getValueAt(s, 0)) {
 
                     c.setFirstName(fname1.getText());
                     c.setLastName(lname1.getText());
@@ -992,6 +999,16 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
                     c.setGender(clinic.getSelectedItem().toString());
                     c.setLocation(location.getText());
                     adminFilling();
+                    
+                    password1.setText("");
+                    location.setText("");
+                    gender2.setSelectedItem(null);
+                    fname1.setText("");
+                    lname1.setText("");
+                    email1.setText("");
+                    phone1.setText("");
+                    dob1.setDate(null);
+            JOptionPane.showMessageDialog(this, "Clinic Admin Updated!");
                     break;
 
                 }
@@ -1004,17 +1021,18 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = jTable3.getSelectedRow();
         if (s == -1) {
-            JOptionPane.showMessageDialog(this, "Select clinic Admin");
+            JOptionPane.showMessageDialog(this, "Select Clinic Admin");
         } else {
             for (ClinicAdmin c : ecoSystem.getClinicAdminDirectory().getClinicAdminDirectory()) {
-                if (c.getClinicId() == jTable3.getValueAt(s, 1)) {
+                if (c.getClinicId() == jTable3.getValueAt(s, 0)) {
                     fname1.setText(c.getFirstName());
                     lname1.setText(c.getLastName());
                     dob1.setDate(c.getDateOfBirth());
-                    clinic.setSelectedItem(c.getGender());
+                    clinic.setSelectedItem(c.getClinic().getClinicName());
                     email1.setText(c.getEmailId());
                     phone1.setText(c.getPhoneNumber() + "");
-//                    password1.setText(c.getPassword());
+                    location.setText(c.getLocation());
+                    gender2.setSelectedItem(c.getGender());
                 }
 
             }
@@ -1094,7 +1112,7 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select clinic Admin");
         } else if(!password1.getText().isBlank()){
             for (ClinicAdmin c : ecoSystem.getClinicAdminDirectory().getClinicAdminDirectory()) {
-                if (c.getClinicId() == jTable3.getValueAt(s, 1)) {
+                if (c.getClinicId() == jTable3.getValueAt(s, 0)) {
                     c.setPassword(password1.getText());
                     JOptionPane.showMessageDialog(this, "Password Updated Successfully!");
                     password1.setText("");
