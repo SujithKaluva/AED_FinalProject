@@ -351,7 +351,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
             
         
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
 
                 ecoSystem.getVaccineDirectory().getVaccineDirectory().remove(c);
                 populateVaccine();
@@ -381,7 +381,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
           Boolean g=false;
           Disease d=new Disease(dcode.getText(),dname.getText(),dsym.getText());
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
                 
                 vac=c;
                 c.setD(d);
@@ -420,7 +420,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         else
         {   
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 0)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
                  
                 vac=c;
                 vcode.setText(c.getVcode());
