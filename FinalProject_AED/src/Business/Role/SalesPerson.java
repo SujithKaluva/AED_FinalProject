@@ -4,65 +4,52 @@
  */
 package Business.Role;
 
+import Business.Ecosystem.Ecosystem;
+import Business.Manufacturer.Manufacturer;
 import Business.Person.Person;
+import PasswordEncryption.PasswordEncryption;
 import java.util.Date;
 
 /**
  *
  * @author sreej
  */
-public class SalesPerson extends Person{
-    
-    String status;
-    Date date;
-    Date deliveredDate;
-    String comments;
+public class SalesPerson extends Person {
+
+    Manufacturer manufacturer;
     private String salesId;
     private static int vidCounter = 1;
+    private String password;
+    Ecosystem ecosystem = Ecosystem.getInstance();
 
-    public SalesPerson(String status, Date date, Date deliveredDate, String comments, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber) {
-        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber);
-        this.status = status;
-        this.date = date;
-        this.deliveredDate = deliveredDate;
-        this.comments = comments;
-         this.salesId = "s_"+this.vidCounter+1;
+    public SalesPerson(String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, Manufacturer manufacturer, String location) {
+        super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber, location);
+        this.manufacturer = manufacturer;
+        this.password = PasswordEncryption.getEncryptedPassword(password);
+        this.salesId = "s_" + this.vidCounter + 1;
         this.vidCounter++;
-    }
-    
-    
-    public String getStatus() {
-        return status;
+        ecosystem.getSalesPersonDirectory().addSalesPerson(this);
+        ecosystem.passwordManager.addPassword("Sales Person", emailId, this.password);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 
-    public Date getDate() {
-        return date;
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public String getSalesId() {
+        return salesId;
     }
 
-    public Date getDeliveredDate() {
-        return deliveredDate;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDeliveredDate(Date deliveredDate) {
-        this.deliveredDate = deliveredDate;
+    public void setPassword(String password) {
+        this.password = PasswordEncryption.getEncryptedPassword(password);
     }
 
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-    
-    
-    
 }

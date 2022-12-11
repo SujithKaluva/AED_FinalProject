@@ -6,6 +6,7 @@ package Business.Data;
 
 import Business.Role.Volunteer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -13,9 +14,11 @@ import java.util.ArrayList;
  */
 public class VolunteerDirectory {
     private ArrayList<Volunteer> volunteerDirectory;
+    private HashMap<String,Volunteer> volunteerMap;
 
     public VolunteerDirectory() {
         this.volunteerDirectory = new ArrayList<>();
+        this.volunteerMap = new HashMap<>();
     }
 
     public ArrayList<Volunteer> getVolunteerDirectory() {
@@ -25,6 +28,23 @@ public class VolunteerDirectory {
     public void setVolunteerDirectory(ArrayList<Volunteer> volunteerDirectory) {
         this.volunteerDirectory = volunteerDirectory;
     }
+
+    public HashMap<String, Volunteer> getVolunteerMap() {
+        return volunteerMap;
+    }
+
+    public void setVolunteerMap(HashMap<String, Volunteer> volunteerMap) {
+        this.volunteerMap = volunteerMap;
+    }
     
+    public void addVolunteer(Volunteer vObj){
+        this.volunteerDirectory.add(vObj);
+        this.volunteerMap.put(vObj.getEmailId(), vObj);
+    }
+    
+    public void removeVolunteer(Volunteer vObj){
+        this.volunteerDirectory.remove(vObj);
+        this.volunteerMap.remove(vObj.getEmailId());
+    }
     
 }

@@ -22,7 +22,6 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
         workArea.setBackground(new Color(255,255,255,100));
         leftPanel.setBackground(new Color(255,255,255,100));
         rightPanel.setBackground(new Color(255,255,255,100));
-
     }
 
     /**

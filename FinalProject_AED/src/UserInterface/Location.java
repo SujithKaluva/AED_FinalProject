@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package UserInterface;
+
+import Business.Ecosystem.Ecosystem;
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
@@ -22,7 +24,7 @@ public class Location extends javax.swing.JFrame {
      */
     Browser browser;
     GoogleMapsLocation googlemapslocation;
-    
+    Ecosystem ecosystem = Ecosystem.getInstance();
     public Location() {
         initComponents();
         googlemapslocation = new GoogleMapsLocation();
@@ -134,6 +136,7 @@ public class Location extends javax.swing.JFrame {
         if (browser.url() != null) {
 
             String[] a = browser.url().split("!3d", 0);
+            System.out.println(browser.url().toString().split("/place/")[1].split("/")[0].replace("+", " "));
             String[] b = a[1].split("!4d");
 //            System.out.println("Lat" + b[0] + "  " + "Lon" + b[1]);
             double lat = Double.parseDouble(b[0]);
@@ -141,16 +144,18 @@ public class Location extends javax.swing.JFrame {
             googlemapslocation.setLatitude(lat);
             googlemapslocation.setLongitude(lon);
             System.out.println("Lat" + googlemapslocation.getLatitude() + googlemapslocation.getLongitude());
-            PatientRegistration home = new PatientRegistration();
-            home.populateLongituteLatitude(googlemapslocation);
-            home.setVisible(true);
-            dispose();
+//            PatientRegistration home = new PatientRegistration();
+//            home.populateLongituteLatitude(googlemapslocation);
+//            home.setVisible(true);
+        ecosystem.setgMapsLocation(googlemapslocation);
+        this.setVisible(false);
+//            dispose();
 
         } //System.out.println("Lat" + locationPoint.getLatitude() + locationPoint.getLongitude());
         else {
 
             JOptionPane.showMessageDialog(null, "Set Position first");
-                }
+        }
     }//GEN-LAST:event_setLocationBtnActionPerformed
 
     /**

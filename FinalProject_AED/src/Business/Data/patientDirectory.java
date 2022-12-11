@@ -7,6 +7,7 @@ package Business.Data;
 import Business.Ecosystem.Ecosystem;
 import Business.Role.Patient;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,10 +16,19 @@ import java.util.ArrayList;
 public class patientDirectory {
 
     private ArrayList<Patient> patientdirectory;
-//    Ecosystem ecosystem = Ecosystem.getInstance();
+    private HashMap<String, Patient> patientMap;
 
     public patientDirectory() {
         this.patientdirectory = new ArrayList<>();
+        this.patientMap = new HashMap<>();
+    }
+
+    public HashMap<String, Patient> getPatientMap() {
+        return patientMap;
+    }
+
+    public void setPatientMap(HashMap<String, Patient> patientMap) {
+        this.patientMap = patientMap;
     }
 
     public ArrayList<Patient> getPatientdirectory() {
@@ -31,11 +41,12 @@ public class patientDirectory {
     
     public void addPatient(Patient pObj){
         this.patientdirectory.add(pObj);
+        this.patientMap.put(pObj.getEmailId(),pObj);
     }
     
-//    public boolean isUsernameAvailable(String username,String Role){
-//        System.out.print(Role+"--"+username);
-//        return !ecosystem.getPasswordManager().getPasswordManager().get(Role).containsKey(username);
-//    }
+    public void deletePatient(Patient pObj){
+        this.patientdirectory.remove(pObj);
+        this.patientMap.remove(pObj.getEmailId());
+    }
 
 }
