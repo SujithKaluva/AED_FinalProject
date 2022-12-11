@@ -334,7 +334,7 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Login Failed, please enter valid credentials.");
             } else {
                 JOptionPane.showMessageDialog(this, "Login Sucessful!");
-                SalesPersonInterface wrkArea = new SalesPersonInterface(system.getSalesPersonDirectory().getSalesPersonMap().get(userNameTxt.getText()));
+                SalesPersonWorkArea wrkArea = new SalesPersonWorkArea(system.getSalesPersonDirectory().getSalesPersonMap().get(userNameTxt.getText()));
                 wrkArea.setVisible(true);
                 dispose();
             }

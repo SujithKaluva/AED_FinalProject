@@ -16,9 +16,9 @@ public class PasswordManager {
     public PasswordManager() {
         this.passwordManager = new HashMap<>();
         this.passwordManager.put("Patient",new HashMap<>());
-        this.passwordManager.put("Financeadmin",new HashMap<>());
-        this.passwordManager.put("Salesadmin",new HashMap<>());
-        this.passwordManager.put("ResearchScientist",new HashMap<>());
+        this.passwordManager.put("Finance Admin",new HashMap<>());
+        this.passwordManager.put("Sales Admin",new HashMap<>());
+        this.passwordManager.put("Research Scientist",new HashMap<>());
     }
     
     public HashMap<String, HashMap<String, String>> getPasswordManager() {

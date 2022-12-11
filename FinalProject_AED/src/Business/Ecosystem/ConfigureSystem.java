@@ -8,6 +8,7 @@ import Business.Appointment.Appointment;
 import Business.Clinic.Clinic;
 import Business.Manufacturer.Manufacturer;
 import Business.Role.Patient;
+import Business.Role.SalesPerson;
 import Business.Role.Volunteer;
 import Business.disease.Disease;
 import Business.enterprise.Enterprise;
@@ -33,6 +34,7 @@ public class ConfigureSystem {
         Patient pObj = new Patient("Sujith","Sujith","Kaluva",d,"sujith@gmail.com","Male",8572458702l,"42.3398067,-71.0913604");
         Volunteer vObj = new Volunteer("password", "Volunteer", "One", d, "sujithkaluva25@gmail.com", "Male", 8572458702l,clinicObj,"42.3398067,-71.0913604");
         Appointment app1 = new Appointment(disease1, vac2, clinicObj, d, pObj, "Booked", "Test", vObj, 0);
+        SalesPerson salesperson1 = new SalesPerson("password", "Sales", "Person", d, "sujithkaluva25@gmail.com", "Male", 9876543210l, man1, "Boston");
         return system;
     }
 }
