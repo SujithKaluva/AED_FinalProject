@@ -5,6 +5,7 @@
 package UserInterface;
 
 import Business.Appointment.Appointment;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Role.ResearchScientist;
 import Business.disease.Disease;
@@ -29,9 +30,12 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     Ecosystem ecoSystem = Ecosystem.getInstance();
     Vaccine vac;
     ResearchScientist loggedInUser;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
    
     public ResearchScientistWorkArea(ResearchScientist e) {
         initComponents();
+        ecoSystem = dB40Util.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
         this.loggedInUser=e;
        // DefaultComboBoxModel diseases = new DefaultComboBoxModel(ecoSystem.getDiseaseComboList().toArray());
         //diseaseBox.setModel(diseases);
@@ -70,6 +74,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         dname = new javax.swing.JTextField();
         dcode = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -153,6 +158,14 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setText("Disease Code");
 
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jLabel13.setText("jLabel11");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
         workPanelLayout.setHorizontalGroup(
@@ -201,6 +214,10 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(78, 78, 78))
+            .addGroup(workPanelLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +227,9 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel13)
+                        .addGap(47, 47, 47)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16))
@@ -255,7 +274,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 1500, 1000);
+        jPanel4.setBounds(0, 0, 1050, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -310,6 +329,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
           
                    Disease d=new Disease(dcode.getText(),dname.getText(),dsym.getText());
                     Vaccine vacc = new Vaccine(vcode.getText(), name.getText(), Integer.valueOf(doses.getText()), 0, 0, 0, d,loggedInUser.getManufacturer());
+                    populateVaccine();
                     JOptionPane.showMessageDialog(this, "Vaccine added Successful!"); 
                 
         }
@@ -323,13 +343,22 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         Boolean g=false;
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }   
+        else{
+            
+        
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
             if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
 
                 ecoSystem.getVaccineDirectory().getVaccineDirectory().remove(c);
+                populateVaccine();
                 g=true;
             }
 
+        }
         }
         if(g){
         JOptionPane.showMessageDialog(this, "Vaccine Deleted Successful!"); 
@@ -343,6 +372,12 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }   
+        else
+        {    
           Boolean g=false;
           Disease d=new Disease(dcode.getText(),dname.getText(),dsym.getText());
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
@@ -354,12 +389,16 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                 c.setVcode(vcode.getText());
                 c.setName(name.getText());
                 g=true;
+                dname.setText("");
+                dcode.setText("");
+                dsym.setText("");
+                vcode.setText("");
+                name.setText("");
+                doses.setText("");
+                populateVaccine();
 
             }
 
-        }
-        if(vac==null){
-        JOptionPane.showMessageDialog(this, "Select Vaccine"); 
         }
         if(g)
         {
@@ -368,14 +407,20 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(this, "Updation Failed"); 
             
-
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }  
+        else
+        {   
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode() == vaccineT.getValueAt(s, 0)) {
                  
                 vac=c;
                 vcode.setText(c.getVcode());
@@ -389,12 +434,20 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
             }
 
         }
-        if(vac==null)
-        {
-            JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        
         }
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+
+        dB40Util.storeSystem(ecoSystem);
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
 
     /**
      * @param args the command line arguments
@@ -443,6 +496,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
