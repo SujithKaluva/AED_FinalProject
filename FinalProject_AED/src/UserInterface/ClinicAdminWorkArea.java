@@ -6,11 +6,13 @@
 package UserInterface;
 
 import Business.Clinic.Clinic;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Orders.Orders;
 import Business.Role.ClinicAdmin;
 import Business.Role.FinanceAdmin;
 import Business.Role.SalesPerson;
+import Business.Role.Volunteer;
 import Business.Role.clinicOfficer;
 import Business.vaccine.Vaccine;
 import Business.vaccine.VaccineDetails;
@@ -35,12 +37,15 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     clinicOfficer selectedClinicOfficer;
     Orders od;
     int p;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
     public ClinicAdminWorkArea(ClinicAdmin ad) {
         initComponents();
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel8.setBackground(new Color(255, 255, 255, 90));
         workPanel1.setBackground(new Color(255, 255, 255, 100));
+        ecoSystem = dB40Util.retrieveSystem();
+        Ecosystem.setInstance(ecoSystem);
         this.clinicAdmin=ad;
         fname.setName("FirstName");
         lname.setName("LastName");
@@ -50,6 +55,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         phone.setName("Phone");
         password.setName("password");
         orderHistorytable();
+        clinicOfficerTable();
         
        
     }
@@ -88,6 +94,9 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        loc = new javax.swing.JButton();
+        location = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -105,7 +114,6 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         Vaccine = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         odate = new com.toedter.calendar.JDateChooser();
-        jLabel9 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         comments = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -115,7 +123,6 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 700));
         setSize(new java.awt.Dimension(1200, 700));
 
         jTabbedPane1.setBackground(new java.awt.Color(86, 137, 187));
@@ -167,13 +174,13 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
 
         clinicOfficer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number", "Password"
+                "ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number"
             }
         ));
         jScrollPane2.setViewportView(clinicOfficer);
@@ -224,9 +231,28 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setText("Clinic Officer");
+
+        jButton6.setText("Update Password");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        loc.setText("Location");
+        loc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
@@ -235,8 +261,24 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
             .addGroup(workPanelLayout.createSequentialGroup()
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel3))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jButton6)
+                        .addGap(30, 30, 30))
+                    .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(143, 143, 143)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(loc)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(workPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -259,19 +301,10 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(phone)
-                                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(100, 100, 100))))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel3))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jButton1)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(phone)
+                                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
@@ -334,13 +367,18 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1))
-                                .addGap(65, 65, 65)
-                                .addComponent(jButton1)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton6)
+                                .addGap(31, 31, 31)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(loc))))))
                 .addGap(44, 44, 44)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton1))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
 
@@ -451,8 +489,6 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Order Date");
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setText("Comments");
 
@@ -472,18 +508,13 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
             .addGroup(workPanel1Layout.createSequentialGroup()
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanel1Layout.createSequentialGroup()
+                        .addGap(326, 326, 326)
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(workPanel1Layout.createSequentialGroup()
-                                .addGap(326, 326, 326)
-                                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel16)))
-                            .addGroup(workPanel1Layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel16))
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(workPanel1Layout.createSequentialGroup()
                                 .addGap(74, 74, 74)
@@ -504,15 +535,9 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         workPanel1Layout.setVerticalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel9)
-                        .addGap(69, 69, 69))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6)
-                        .addGap(50, 50, 50)))
+                .addGap(60, 60, 60)
+                .addComponent(jLabel6)
+                .addGap(50, 50, 50)
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Vaccine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
@@ -568,11 +593,11 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
@@ -618,8 +643,10 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         }
 
         if (validated && validatedOtherFields) {
+            //String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, Clinic clinic, String location
 
-            //clinicOfficer patient = new clinicOfficer(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
+            clinicOfficer patient = new clinicOfficer(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),clinicAdmin.getClinic(),location.getText());
+            
 
             //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
@@ -684,15 +711,25 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        //int s = clinicOfficer.getSelectedRow();
+        int s = clinicOfficer.getSelectedRow();
+         if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"select officer to update");
+        }    
+        else
+        {
+        for (clinicOfficer c : ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory()) {
+            if (c.getClinicId() == clinicOfficer.getValueAt(s, 0)) {
        
-                ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory().remove(selectedClinicOfficer);
-               if(selectedClinicOfficer==null)
-               {
-                   JOptionPane.showMessageDialog(this,"select a officer to delete");
-               }    
-               else
+                ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory();
+                   clinicOfficerTable();
                    JOptionPane.showMessageDialog(this,"Deleted Successfully");
+                   
+                   break;
+            }
+        }
+        }
+         
                    
         
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -700,17 +737,29 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s = clinicOfficer.getSelectedRow();
-        for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == clinicOfficer.getValueAt(s, 1)) {
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"select officer to update");
+        }    
+        else
+        {
+        for (clinicOfficer c : ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory()) {
+            if (c.getClinicId() == clinicOfficer.getValueAt(s, 0)) {
                 c.setFirstName(fname.getText());
                 c.setLastName(lname.getText());
                 c.setDateOfBirth(dob.getDate());
                 c.setEmailId(email.getText());
-                c.setPassword(password.getText());
+               // c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
+                clinicOfficerTable();
+                JOptionPane.showMessageDialog(this,"clinic Officer Updated");
+                break;
+                
+                
 
             }
+        }
 
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -718,6 +767,12 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int s = clinicOfficer.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this,"select a officer");
+        }   
+        else
+        {    
         for (clinicOfficer c : ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory()) {
             if (c.getClinicId() == clinicOfficer.getValueAt(s, 1)) {
                 selectedClinicOfficer=c;
@@ -730,6 +785,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
                 password.setText(c.getPassword());
 
             }
+        }
 
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -766,9 +822,14 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         {    
          //Clinic clinic, Vaccine vaccine, int Quantity, int price, SalesPerson salesperson, String status, Date date, Date delivereddate, String comments
         Orders od=new Orders(clinicAdmin.getClinic(),h,Integer.valueOf(quan.getText()),p,sp,"Ordered",odate.getDate(),dd,comments.getText());  
+         orderHistorytable();
+         quan.setText("");
+         price.setText("");
+         odate.setDate(null);
+         comments.setText("");
          
      
-        JOptionPane.showMessageDialog(this, "Order placedUpdated");
+        JOptionPane.showMessageDialog(this, "Order placed");
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -792,6 +853,37 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         }   
         
     }//GEN-LAST:event_quanKeyTyped
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (clinicOfficer pObj : ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory()) {
+                if (pObj.getClinicId().equals(clinicAdmin.getClinicId())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Password Updated");
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void locActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locActionPerformed
+        // TODO add your handling code here:
+
+        // Location locobj = new Location();
+        //locobj.setVisible(true);
+
+    }//GEN-LAST:event_locActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        dB40Util.storeSystem(ecoSystem);
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -823,7 +915,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClinicAdminWorkArea(null).setVisible(true);
+                //new ClinicAdminWorkArea(null).setVisible(true);
             }
         });
     }
@@ -841,6 +933,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -858,7 +951,6 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -871,6 +963,8 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lname;
+    private javax.swing.JButton loc;
+    private javax.swing.JTextField location;
     private com.toedter.calendar.JDateChooser odate;
     private javax.swing.JTable ordertable;
     private javax.swing.JTextField password;
@@ -887,13 +981,35 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (Orders person : ecoSystem.orderDirectory.getOrderdirectory()) {
-            if(person.getClinic().equals(clinicAdmin.getClinic())){
+            if(person.getClinic().getClinicId().equals(clinicAdmin.getClinic().getClinicId())){
             Object[] row = new Object[12];
             row[0] = person.getOrderid();
             row[1] = person.getQuantity();
             row[2] = person.getPrice();
             row[3] = dateFormat.format(person.getDate());
             row[4] =dateFormat.format(person.getDelivereddate());
+            model.addRow(row);
+            }
+
+        }
+    }
+
+    private void clinicOfficerTable() {
+         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) clinicOfficer.getModel();
+        model.setRowCount(0);
+
+        for (clinicOfficer person : ecoSystem.getClinicofficerdirectory().getClinicofficerdirectory()) {
+            if(person.getClinic().getClinicId().equals(clinicAdmin.getClinic().getClinicId())){
+            Object[] row = new Object[12];
+            row[0] = person.getClinicId();
+            row[1] = person.getFirstName();
+            row[2] = person.getLastName();
+            row[3] = dateFormat.format(person.getDateOfBirth());
+            row[4] =person.getGender();
+            row[5]=person.getEmailId();
+            row[6]=person.getPhoneNumber();
+      
             model.addRow(row);
             }
 

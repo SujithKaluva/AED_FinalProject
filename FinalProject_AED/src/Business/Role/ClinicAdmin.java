@@ -28,7 +28,7 @@ public class ClinicAdmin extends Person {
         super(firstName, lastName, dateOfBirth, emailId, gender, phoneNumber,location);
         this.clinicId = "ca_" + this.vidCounter + 1;
         this.vidCounter++;
-        this.password = PasswordEncryption.getEncryptedPassword(password);
+        this.password = PasswordEncryption.getEncryptedPassword(Password);
         this.clinic = clinic;
 
         ecoSystem.clinicAdminDirectory.addClinicAdmin(this);
