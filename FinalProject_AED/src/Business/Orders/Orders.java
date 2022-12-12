@@ -40,7 +40,7 @@ public class Orders {
         this.delivereddate = delivereddate;
         this.comments = comments;
         this.orderid="O_"+count++;
-        ecosystem.getOrdersdirectory().addOrders(this);
+        ecosystem.getOrderDirectory().addOrders(this);
         
     }
 

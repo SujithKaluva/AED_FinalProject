@@ -746,7 +746,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
 
-        dB40Util.storeSystem(ecoSystem);
+        dB40Util.storeSystem(Ecosystem.getInstance());
         Login mf = new Login();
         mf.setVisible(true);
         dispose();
@@ -902,7 +902,7 @@ public class ClinicOfficerInterface extends javax.swing.JFrame {
                     row[5] = vObj.getPatient().getPhoneNumber();
                     row[6] = vObj.getPatient().getEmailId();
                     row[7] = vObj.getDate();
-                    row[8] = vObj.getVolunteer().getFirstName()+" "+vObj.getVolunteer().getLastName();
+                    row[8] = vObj.getVolunteer()==null?"":vObj.getVolunteer().getFirstName()+" "+vObj.getVolunteer()==null?"":vObj.getVolunteer().getLastName();
                     model.addRow(row);
                 }
             }

@@ -39,8 +39,8 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
     public ClinicProviderWorkArea(clinicProvider cp) {
         initComponents();
         this.clinicProvider = cp;
-        ecoSystem = dB40Util.retrieveSystem();
-        Ecosystem.setInstance(ecoSystem);
+//        ecoSystem = dB40Util.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel9.setBackground(new Color(255, 255, 255, 90));
@@ -1070,7 +1070,7 @@ public class ClinicProviderWorkArea extends javax.swing.JFrame {
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 
-        dB40Util.storeSystem(ecoSystem);
+        dB40Util.storeSystem(Ecosystem.getInstance());
         Login mf = new Login();
         mf.setVisible(true);
         dispose();

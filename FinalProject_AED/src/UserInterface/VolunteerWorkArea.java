@@ -33,8 +33,8 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
 
     public VolunteerWorkArea(Volunteer v) {
         initComponents();
-        ecoSystem = dB4OUtil.retrieveSystem();
-        Ecosystem.setInstance(ecoSystem);
+//        ecoSystem = dB4OUtil.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         this.vou = v;
         welcome.setText("Hello "+v.getFirstName()+" "+v.getLastName());
         PopulateVolunteerWorkAreaTable();
@@ -273,9 +273,9 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
     private void backbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbutton1MouseClicked
         // TODO add your handling code here:
         
-        dB4OUtil.storeSystem(ecoSystem);
-        Login login = new Login();
-        login.setVisible(true);
+        dB4OUtil.storeSystem(Ecosystem.getInstance());
+        Login frame = new Login();
+        frame.setVisible(true);
         dispose();
     }//GEN-LAST:event_backbutton1MouseClicked
 
@@ -288,7 +288,7 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
         for (Appointment vObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
 
-            if (vObj.getVolunteer().getVolunteerId().equals(vou.getVolunteerId())) {
+            if (vObj.getVolunteer()!=null && vObj.getVolunteer().getVolunteerId().equals(vou.getVolunteerId())) {
                 Object[] row = new Object[11];
                 row[0] = vObj.getAppid();
                 row[1] = vObj.getPatient().getFirstName();

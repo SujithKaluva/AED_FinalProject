@@ -48,8 +48,8 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel8.setBackground(new Color(255, 255, 255, 90));
         workPanel1.setBackground(new Color(255, 255, 255, 100));
-        ecoSystem = dB40Util.retrieveSystem();
-        Ecosystem.setInstance(ecoSystem);
+//        ecoSystem = dB40Util.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         this.clinicAdmin = ad;
         fname.setName("FirstName");
         lname.setName("LastName");
@@ -434,16 +434,15 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         ordertable.setForeground(new java.awt.Color(255, 255, 255));
         ordertable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Order Qty", "Order Price", "Ordered Date", "Delivered Date", "Status"
+                "Order ID", "Order Qty", "Order Price", "Ordered Date", "Delivered Date"
             }
         ));
-        ordertable.setPreferredSize(new java.awt.Dimension(1200, 700));
         jScrollPane3.setViewportView(ordertable);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -907,8 +906,8 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-        dB40Util.storeSystem(ecoSystem);
-        Login mf = new Login();
+        dB40Util.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login(ecoSystem);
         mf.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel3MouseClicked

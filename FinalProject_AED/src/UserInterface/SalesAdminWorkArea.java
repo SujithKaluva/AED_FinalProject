@@ -4,8 +4,19 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.Ecosystem.Ecosystem;
+import Business.Orders.Orders;
 import Business.Role.SalesAdmin;
+import Business.Role.SalesPerson;
+import Business.Role.clinicOfficer;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,8 +28,16 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
      * Creates new form SalesAdminWorkArea1
      */
     SalesAdmin salesAdmin;
+    Orders selectedOrder;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    Ecosystem ecoSystem = Ecosystem.getInstance();
+    SalesPerson selectedSalesPerson;
+    SalesPerson selectedSalesPerson1;
+
     public SalesAdminWorkArea(SalesAdmin sa) {
         initComponents();
+//        ecoSystem = dB40Util.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel2.setBackground(new Color(255, 255, 255, 90));
@@ -27,7 +46,17 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         workPanel3.setBackground(new Color(255, 255, 255, 100));
         jPanel11.setBackground(new Color(255, 255, 255, 90));
         workPanel2.setBackground(new Color(255, 255, 255, 100));
-        this.salesAdmin=sa;
+        this.salesAdmin = sa;
+        firstName.setName("FirstName");
+        lastName.setName("LastName");
+        eMailId.setName("EmailId");
+        dateOfBirth.setName("DOB");
+        gender1.setName("Gender");
+        phone.setName("Phone");
+        passWord.setName("password");
+        populateOrder();
+        populatesales();
+        populateSalesDirectory();
     }
 
     /**
@@ -62,6 +91,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         loc = new javax.swing.JTextField();
         location = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
+        location1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -69,7 +99,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         workPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         salesPersonTable = new javax.swing.JTable();
-        jLabel23 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -77,7 +106,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         workPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         lname = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         fname = new javax.swing.JTextField();
         pnum = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -93,8 +121,9 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         dob = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        password = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -106,7 +135,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         sales = new javax.swing.JTable();
         assign = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -116,20 +144,25 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1200, 700));
         setSize(new java.awt.Dimension(1200, 700));
 
+        jTabbedPane1.setBackground(java.awt.Color.white);
+        jTabbedPane1.setForeground(java.awt.Color.black);
+
         jPanel1.setLayout(null);
 
         jLabel19.setBackground(new java.awt.Color(0, 0, 0));
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel19.setText("Gender");
 
-        gender1.setForeground(new java.awt.Color(255, 255, 255));
+        gender1.setBackground(java.awt.Color.white);
+        gender1.setForeground(java.awt.Color.black);
         gender1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
 
         jLabel17.setBackground(new java.awt.Color(0, 0, 0));
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setText("E-mail Id ");
 
-        eMailId.setForeground(new java.awt.Color(255, 255, 255));
+        eMailId.setBackground(java.awt.Color.white);
+        eMailId.setForeground(java.awt.Color.black);
         eMailId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eMailIdActionPerformed(evt);
@@ -144,14 +177,16 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel20.setText("Phone Number ");
 
-        phone.setForeground(new java.awt.Color(255, 255, 255));
+        phone.setBackground(java.awt.Color.white);
+        phone.setForeground(java.awt.Color.black);
         phone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneActionPerformed(evt);
             }
         });
 
-        passWord.setForeground(new java.awt.Color(255, 255, 255));
+        passWord.setBackground(java.awt.Color.white);
+        passWord.setForeground(java.awt.Color.black);
 
         createPatient.setBackground(new java.awt.Color(0, 102, 153));
         createPatient.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
@@ -175,14 +210,16 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("First Name ");
 
-        firstName.setForeground(new java.awt.Color(255, 255, 255));
+        firstName.setBackground(java.awt.Color.white);
+        firstName.setForeground(java.awt.Color.black);
         firstName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNameActionPerformed(evt);
             }
         });
 
-        lastName.setForeground(new java.awt.Color(255, 255, 255));
+        lastName.setBackground(java.awt.Color.white);
+        lastName.setForeground(java.awt.Color.black);
         lastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameActionPerformed(evt);
@@ -193,12 +230,15 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel33.setText("Last Name ");
 
-        dateOfBirth.setBackground(new java.awt.Color(51, 51, 51));
-        dateOfBirth.setForeground(new java.awt.Color(255, 255, 255));
+        dateOfBirth.setBackground(java.awt.Color.white);
+        dateOfBirth.setForeground(java.awt.Color.black);
 
         jLabel34.setBackground(new java.awt.Color(0, 0, 0));
         jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel34.setText("Address  ");
+
+        loc.setBackground(java.awt.Color.white);
+        loc.setForeground(java.awt.Color.black);
 
         location.setText("Set Location");
         location.addActionListener(new java.awt.event.ActionListener() {
@@ -209,6 +249,18 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
         jLabel24.setText("jLabel24");
+        jLabel24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel24MouseClicked(evt);
+            }
+        });
+
+        location1.setText("Populate");
+        location1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                location1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
@@ -220,43 +272,41 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(270, 270, 270)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel18)
-                                            .addComponent(jLabel19)
-                                            .addComponent(jLabel20)
-                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(eMailId, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(dateOfBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(gender1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel21)
-                                            .addComponent(jLabel34))
-                                        .addGap(62, 62, 62)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(passWord, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(loc, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(44, 44, 44)
-                                .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(34, 34, 34)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(eMailId, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateOfBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gender1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(193, 193, 193)
-                                .addComponent(createPatient))))
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel34))
+                                .addGap(62, 62, 62)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(passWord, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(loc, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(createPatient))))
+                        .addGap(44, 44, 44)
+                        .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(location1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(366, 366, 366)
                         .addComponent(jLabel16)))
-                .addContainerGap(374, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,10 +350,11 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel34)
                             .addComponent(loc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(location))
-                        .addGap(63, 63, 63)
-                        .addComponent(createPatient)))
-                .addContainerGap(116, Short.MAX_VALUE))
+                            .addComponent(location)
+                            .addComponent(location1))))
+                .addGap(33, 33, 33)
+                .addComponent(createPatient)
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -317,7 +368,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 1500, 1000);
+        jPanel4.setBounds(0, 0, 1120, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -352,30 +403,20 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(salesPersonTable);
 
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-        jLabel23.setText("jLabel23");
-
         javax.swing.GroupLayout workPanel1Layout = new javax.swing.GroupLayout(workPanel1);
         workPanel1.setLayout(workPanel1Layout);
         workPanel1Layout.setHorizontalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(59, 59, 59)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1087, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         workPanel1Layout.setVerticalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jLabel23))
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(124, Short.MAX_VALUE))
         );
 
@@ -402,21 +443,21 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel7.setText("Phone Number");
 
-        lname.setForeground(new java.awt.Color(255, 255, 255));
+        lname.setBackground(java.awt.Color.white);
+        lname.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jLabel8.setText("Address");
+        fname.setBackground(java.awt.Color.white);
+        fname.setForeground(new java.awt.Color(0, 0, 0));
 
-        fname.setForeground(new java.awt.Color(255, 255, 255));
-
-        pnum.setForeground(new java.awt.Color(255, 255, 255));
+        pnum.setBackground(java.awt.Color.white);
+        pnum.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel6.setText("Gender");
 
         email.setEditable(false);
         email.setBackground(new java.awt.Color(255, 255, 255));
-        email.setForeground(new java.awt.Color(255, 255, 255));
+        email.setForeground(new java.awt.Color(0, 0, 0));
         email.setEnabled(false);
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -427,7 +468,8 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel11.setText("Email");
 
-        search.setForeground(new java.awt.Color(255, 255, 255));
+        search.setBackground(java.awt.Color.white);
+        search.setForeground(new java.awt.Color(0, 0, 0));
 
         update.setBackground(new java.awt.Color(0, 102, 153));
         update.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
@@ -459,6 +501,8 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        gender.setBackground(java.awt.Color.white);
+        gender.setForeground(new java.awt.Color(0, 0, 0));
         gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
@@ -470,71 +514,84 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel2.setText("First Name");
 
+        dob.setBackground(java.awt.Color.white);
+        dob.setForeground(new java.awt.Color(0, 0, 0));
+
         jLabel14.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel14.setText("Email");
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jButton1.setText("Update Password");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        password.setBackground(java.awt.Color.white);
+        password.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel25.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        jLabel25.setText("Password");
 
         javax.swing.GroupLayout workPanel2Layout = new javax.swing.GroupLayout(workPanel2);
         workPanel2.setLayout(workPanel2Layout);
         workPanel2Layout.setHorizontalGroup(
             workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel2Layout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addGap(267, 267, 267)
-                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
-                                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel2))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(27, 27, 27))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
-                                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7))
-                                .addGap(18, 18, 18)))
-                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(workPanel2Layout.createSequentialGroup()
-                                .addComponent(update)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(delete))
-                            .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnum, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74))
-                    .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(207, 207, 207)
                         .addComponent(jLabel11)
                         .addGap(48, 48, 48)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(58, 58, 58)
-                .addComponent(view)
-                .addContainerGap(200, Short.MAX_VALUE))
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(view))
+                    .addGroup(workPanel2Layout.createSequentialGroup()
+                        .addGap(369, 369, 369)
+                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanel2Layout.createSequentialGroup()
+                                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3)
+                                                .addComponent(jLabel2))
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addGap(27, 27, 27))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel25)
+                                            .addComponent(jLabel7))
+                                        .addGap(18, 18, 18)))
+                                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pnum, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                                        .addComponent(update)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(delete))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1)
+                                .addGap(34, 34, 34)))))
+                .addContainerGap(308, Short.MAX_VALUE))
         );
         workPanel2Layout.setVerticalGroup(
             workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11)
-                            .addComponent(view)))
-                    .addComponent(jLabel13))
-                .addGap(107, 107, 107)
+                .addGap(46, 46, 46)
+                .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(view))
+                .addGap(90, 90, 90)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -558,21 +615,22 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(pnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(31, 31, 31)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addGap(101, 101, 101)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(delete)
                     .addComponent(update))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(62, 62, 62))
         );
 
         jPanel6.add(workPanel2);
         workPanel2.setBounds(0, 0, 1200, 670);
 
-        jPanel11.setAlignmentX(0.5F);
         jPanel11.setPreferredSize(new java.awt.Dimension(1200, 700));
         jPanel11.setLayout(new javax.swing.OverlayLayout(jPanel11));
 
@@ -608,13 +666,13 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
 
         sales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Sales Person Name"
+                "ID", "Sales Person Name"
             }
         ));
         jScrollPane3.setViewportView(sales);
@@ -628,8 +686,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel10.setText("Sales Person Assignment");
 
@@ -641,40 +697,34 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
                 .addGap(69, 69, 69)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel3Layout.createSequentialGroup()
-                .addContainerGap(636, Short.MAX_VALUE)
-                .addComponent(assign)
-                .addGap(492, 492, 492))
             .addGroup(workPanel3Layout.createSequentialGroup()
                 .addGroup(workPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanel3Layout.createSequentialGroup()
+                        .addGap(369, 369, 369)
+                        .addComponent(jLabel10))
                     .addGroup(workPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanel3Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(289, 289, 289)
-                        .addComponent(jLabel10)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(workPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(assign)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         workPanel3Layout.setVerticalGroup(
             workPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(workPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel10))
+                .addComponent(jLabel10)
                 .addGap(34, 34, 34)
                 .addGroup(workPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
-                .addGap(57, 57, 57)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(assign)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         jPanel13.add(workPanel3);
@@ -688,7 +738,7 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         jPanel14.add(jLabel9);
 
         jPanel13.add(jPanel14);
-        jPanel14.setBounds(0, 0, 1500, 1000);
+        jPanel14.setBounds(0, 0, 1174, 700);
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new javax.swing.OverlayLayout(jPanel15));
@@ -701,11 +751,11 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
         );
 
         pack();
@@ -724,64 +774,95 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         boolean validated = false;
         boolean validatedOtherFields = false;
         String selectedGender = gender1.getSelectedItem().toString();
-        //        String selectedCity = city1.getSelectedItem().toString();
-        //        String selectedCommunity = community1.getSelectedItem().toString();
-       // JDateChooser strtDt = dateOfBirth;
-        //        if(!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt!=null){
-            //            validatedOtherFields = true;
-            //        }
-        //        else{
-            //            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-            //        }
-        //        JTextField[] VARIABLE_CONSTANTS = {firstName, lastName, eMailId, phone, addressLine1, addressLine2,state1,zipCode,passWord};
-        //        for (JTextField field : VARIABLE_CONSTANTS) {
-            //            if (!validateData(field)) {
-                //                validated = false;
-                //                break;
-                //            } else {
-                //                validated = true;
-                //                System.out.println("Validated");
-                //            }
-            //        }
-        //
-        //        if (validated && validatedOtherFields) {
-            //            String cityName = city1.getSelectedItem().toString();
-            //            City city = new City(cityName);
-            //
-            //            Community community = new Community();
-            //            community.setCommunity(this.community1.getSelectedItem().toString());
-            //            community.setCity(city);
-            //
-            //            House house = new House();
-            //            house.setAddressLine1(addressLine1.getText());
-            //            house.setAddressLine2(addressLine2.getText());
-            //            house.setState(state1.getText());
-            //            house.setZipCode(Integer.valueOf(zipCode.getText()));
-            //            house.setCommunity(community);
-            //            house.setCity(city);
-            //
-            //            Patient patient = new Patient(firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender1.getSelectedItem().toString(), Long.parseLong(phone.getText()), house, passWord.getText());
-            //            System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-            //            System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-            //            JOptionPane.showMessageDialog(this, "Patient Created");
-            //            firstName.setText("");
-            //            lastName.setText("");
-            //            dateOfBirth.setDate(null);
-            //            gender1.setSelectedItem("");
-            //            eMailId.setText("");
-            //            phone.setText("");
-            //            addressLine1.setText("");
-            //            addressLine2.setText("");
-            //            state1.setText("");
-            //            city1.setSelectedItem(null);
-            //            community1.setSelectedItem(null);
-            //            zipCode.setText("");
-            //            passWord.setText("");
-            //            populatePatientsTable();
-            //            //ecoSystem.getPatientDirectory().addPatient(patient);
-            //            //back to login page
-            //
-            //        }
+
+        JDateChooser strtDt = dob;
+        if (strtDt != null) {
+            validatedOtherFields = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        JTextField[] VARIABLE_CONSTANTS = {firstName, lastName, eMailId, phone, passWord};
+        for (JTextField field : VARIABLE_CONSTANTS) {
+            if (!validateData(field)) {
+                validated = false;
+                break;
+            } else {
+                validated = true;
+                System.out.println("Validated");
+            }
+        }
+
+        if (validated && validatedOtherFields) {
+
+            SalesPerson patient = new SalesPerson(passWord.getText(), firstName.getText(), lastName.getText(), dateOfBirth.getDate(), eMailId.getText(), gender1.getSelectedItem().toString(), Long.parseLong(phone.getText()), salesAdmin.getManufacturer(), loc.getText());
+            populatesales();
+            populateSalesDirectory();
+            JOptionPane.showMessageDialog(this, "Created Sales Person Succesfully!");
+            firstName.setText("");
+            lastName.setText("");
+            dateOfBirth.setDate(null);
+            eMailId.setText("");
+            phone.setText("");
+            loc.setText("");
+            passWord.setText("");
+            gender1.setSelectedItem(null);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+    }
+
+    public boolean validateData(JComponent input) {
+        String name = input.getName();
+        String errorMsg = "";
+        boolean raiseError = false;
+        String text = ((JTextField) input).getText().trim();
+        if (text == null || text.isEmpty()) {
+            raiseError = true;
+            errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
+        } else {
+            switch (name) {
+                case "FirstName":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                case "LastName":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                case "Phone":
+                    if (!text.matches("^[0-9]{10}")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+                case "EmailId":
+                    System.out.print(email.getText());
+                    if (!ecoSystem.getPasswordManager().isUsernameAvailable(email.getText(), "Sales Person")) {
+                        raiseError = true;
+                        errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
+                        break;
+                    }
+                    if (!text.matches("^(.+)@(.+)$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        if (raiseError) {
+            JOptionPane.showMessageDialog(this, errorMsg);
+            return false;
+        }
+        return true;
+
     }//GEN-LAST:event_createPatientActionPerformed
 
     private void firstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameActionPerformed
@@ -795,132 +876,89 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private void locationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locationActionPerformed
         // TODO add your handling code here:
 
-       // Location lobj = new Location();
-        //lobj.setVisible(true);
+        Location lobj = new Location();
+        lobj.setVisible(true);
     }//GEN-LAST:event_locationActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
         String emailsearch = search.getText();
+        boolean found = false;
+        for (SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            if (patient.getEmailId().equals(emailsearch)) {
+                patient.setFirstName(fname.getText());
+                patient.setLastName(lname.getText());
+                patient.setDateOfBirth(dob.getDate());
+                patient.setEmailId(email.getText());
+                patient.setGender(gender.getSelectedItem().toString());
+                patient.setPhoneNumber(Long.valueOf(pnum.getText()));
+                found = true;
+                populatesales();
+                populateSalesDirectory();
+                JOptionPane.showMessageDialog(this, "Sales Person Updated");
+                fname.setText("");
+                lname.setText("");
+                dob.setDate(null);
+                email.setText("");
+                pnum.setText("");
+                    password.setText("");
+                    search.setText("");
+                break;
+            }
 
-        boolean validated = false;
-        boolean validatedOtherFields = false;
-        String selectedGender = gender.getSelectedItem().toString();
-        //String selectedCity = city.getSelectedItem().toString();
-        //String selectedCommunity = community.getSelectedItem().toString();
-       // JDateChooser strtDt = dob;
-        //        if(!selectedCity.isEmpty() && !selectedCommunity.isEmpty() && !selectedGender.isEmpty() && strtDt!=null){
-            //            validatedOtherFields = true;
-            //        }
-        //        else{
-            //            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-            //        }
-        //        JTextField[] VARIABLE_CONSTANTS = {fname, lname, pnum, add1, add2,state,zipcode};
-        //        for (JTextField field : VARIABLE_CONSTANTS) {
-            //            if (!validateData(field)) {
-                //                validated = false;
-                //                break;
-                //            } else {
-                //                validated = true;
-                //                System.out.println("Validated");
-                //            }
-            //        }
-
-        //        if (validated && validatedOtherFields) {
-            //            for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-            //            {
-                //                if (patient.getEmailId().equals(emailsearch))
-                //                {
-                    //
-                    //                    patient.setFirstName(fname.getText());
-                    //                    patient.setLastName(lname.getText());
-                    //                    patient.setDateOfBirth(dob.getDate());
-                    //                    patient.setGender(gender.getSelectedItem().toString());
-                    //                    patient.getHouse().setAddressLine1(add1.getText());
-                    //                    patient.getHouse().setAddressLine2(add2.getText());
-                    //                    patient.getHouse().getCity().setCity(city.getSelectedItem().toString());
-                    //                    patient.getHouse().getCommunity().setCommunity(community.getSelectedItem().toString());
-                    //                    patient.getHouse().setState(state.getText());
-                    //                    patient.getHouse().setZipCode(Integer.valueOf(zipcode.getText()));
-                    //                    patient.setPhoneNumber(Long.parseLong(pnum.getText()));
-                    //                    JOptionPane.showMessageDialog(this, "Patient Details Updated");
-                    //                    fname.setText("");
-                    //                    lname.setText("");
-                    //                    dob.setDate(null);
-                    //                    gender.setSelectedItem("");
-                    //                    email.setText("");
-                    //                    pnum.setText("");
-                    //                    add1.setText("");
-                    //                    add2.setText("");
-                    //                    state.setText("");
-                    //                    //city.setSelectedItem(null);
-                    //                    //community.setSelectedItem(null);
-                    //                    zipcode.setText("");
-                    //                    search.setText("");
-                    //                    populatePatientsTable();
-                    //                    break;
-                    //                }}
-            //
-            //            }
+        }
+        if (!found)
+            JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_updateActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         String emailsearch = search.getText();
-        //        for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-        //        {
-            //            if (patient.getEmailId().equals(emailsearch))
-            //            {
-                //
-                //                ecoSystem.getPatientDirectory().removePatient(patient);
-                //                JOptionPane.showMessageDialog(this, "Patient Deleted");
-                //                fname.setText("");
-                //                lname.setText("");
-                //                dob.setDate(null);
-                //                gender.setSelectedItem("");
-                //                email.setText("");
-                //                pnum.setText("");
-                //                add1.setText("");
-                //                add2.setText("");
-                //                state.setText("");
-                //                //city.setSelectedItem(null);
-                //                //community.setSelectedItem(null);
-                //                zipcode.setText("");
-                //                search.setText("");
-                //
-                //                populatePatientsTable();
-                //                break;
-                //            }}
+        boolean found = false;
+        for (SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            if (patient.getEmailId().equals(emailsearch)) {
+                ecoSystem.getSalesPersonDirectory().removeSalesPerson(patient);
+                found = true;
+                populatesales();
+                populateSalesDirectory();
+                JOptionPane.showMessageDialog(this, "Sales Person Deleted");
+                fname.setText("");
+                lname.setText("");
+                dob.setDate(null);
+                email.setText("");
+                pnum.setText("");
+                    password.setText("");
+                    search.setText("");
+                break;
+            }
+
+        }
+        if (!found)
+            JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_deleteActionPerformed
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
         // TODO add your handling code here:
 
         String emailsearch = search.getText();
-        boolean found =false;
-        //        for(Patient patient : ecoSystem.getPatientDirectory().getPatientList())
-        //        {
-            //            if (patient.getEmailId().equals(emailsearch))
-            //            {
-                //                fname.setText(patient.getFirstName());
-                //                lname.setText(patient.getLastName());
-                //                dob.setDate(patient.getDateOfBirth());
-                //                gender.setSelectedItem(patient.getGender());
-                //                email.setText(patient.getEmailId());
-                //                pnum.setText(String.valueOf(patient.getPhoneNumber()));
-                //                add1.setText(patient.getHouse().getAddressLine1());
-                //                add2.setText(patient.getHouse().getAddressLine2());
-                //                state.setText(patient.getHouse().getState());
-                //                city.setSelectedItem(patient.getHouse().getCity().getCity());
-                //                community.setSelectedItem(patient.getHouse().getCommunity().getCommunity());
-                //                zipcode.setText(String.valueOf(patient.getHouse().getZipCode()));
-                //                found = true;
-                //                break;
-                //            }
-            //
-            //        }
-        //        if(!found)
-        //        JOptionPane.showMessageDialog(this, "Patient not Found");
+        boolean found = false;
+        for (SalesPerson patient : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            if (patient.getEmailId().equalsIgnoreCase(emailsearch)) {
+                selectedSalesPerson = patient;
+                fname.setText(patient.getFirstName());
+                lname.setText(patient.getLastName());
+                dob.setDate(patient.getDateOfBirth());
+                gender.setSelectedItem(patient.getGender());
+                email.setText(patient.getEmailId());
+                pnum.setText(String.valueOf(patient.getPhoneNumber()));
+
+                found = true;
+                break;
+            }
+
+        }
+        if (!found)
+            JOptionPane.showMessageDialog(this, "Sales Person not Found");
     }//GEN-LAST:event_viewActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -932,30 +970,68 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
         int s = sales.getSelectedRow();
         int o = order.getSelectedRow();
 
-//        for (Orders d : ecoSystem.orderDirectory.getOrderdirectory()) {
-//            if (d.getOrderid() == order.getValueAt(o,1)) {
-//                selectedOrder = d;
-//            }
-//        }
-//
-//        for(SalesPerson spObj: ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()){
-//            String fullName = spObj.getFirstName()+" "+spObj.getLastName();
-//            if(fullName.equals(sales.getValueAt(s, 1))){
-//                selectedSalesPerson = spObj;
-//            }
-//        }
-//
-//        if(selectedOrder == null){
-//            JOptionPane.showMessageDialog(this, "Please select an Order");
-//        }
-//        else if(selectedSalesPerson == null){
-//            JOptionPane.showMessageDialog(this, "Please select a Sales Person");
-//        }
-//        else{
-//            selectedOrder.setSalesperson(selectedSalesPerson);
-//
-//        }
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a Sales Person");
+        } else if (o == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an order");
+        } else {
+
+
+            for (SalesPerson spObj : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+                //String fullName = spObj.getFirstName()+" "+spObj.getLastName();
+                if (spObj.getSalesId().equals(sales.getValueAt(s, 0))) {
+                    selectedSalesPerson = spObj;
+                    break;
+                }
+            }
+            for (Orders d : ecoSystem.orderDirectory.getOrderdirectory()) {
+                if (d.getOrderid().equals(order.getValueAt(o, 0))) {
+                    selectedOrder = d;
+                    d.setSalesperson(selectedSalesPerson);
+                    d.setStatus("Sales Person Assigned");
+                    break;
+                }
+            }
+            selectedOrder.setSalesperson(selectedSalesPerson);
+            selectedOrder.setStatus("Sales Person Assigned");
+            populateOrder();
+            JOptionPane.showMessageDialog(this, "Sales Person Assigned");
+
+        }
     }//GEN-LAST:event_assignActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (SalesPerson pObj : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+                if (pObj.getEmailId().equals(search.getText())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Patient Password Updated");
+                    password.setText("");
+                    search.setText("");
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MouseClicked
+        // TODO add your handling code here:
+
+        dB40Util.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+
+    }//GEN-LAST:event_jLabel24MouseClicked
+
+    private void location1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_location1ActionPerformed
+        // TODO add your handling code here:
+
+        loc.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_location1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1005,11 +1081,10 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField fname;
     private javax.swing.JComboBox<String> gender;
     private javax.swing.JComboBox<String> gender1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1020,8 +1095,8 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel33;
@@ -1030,7 +1105,6 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
@@ -1048,13 +1122,14 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField loc;
     private javax.swing.JButton location;
+    private javax.swing.JButton location1;
     private javax.swing.JTable order;
     private javax.swing.JTextField passWord;
+    private javax.swing.JTextField password;
     private javax.swing.JTextField phone;
     private javax.swing.JTextField pnum;
     private javax.swing.JTable sales;
@@ -1067,4 +1142,63 @@ public class SalesAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JPanel workPanel2;
     private javax.swing.JPanel workPanel3;
     // End of variables declaration//GEN-END:variables
+
+    private void populateOrder() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) order.getModel();
+        model.setRowCount(0);
+
+        for (Orders person : ecoSystem.getOrderDirectory().getOrderdirectory()) {
+            if(salesAdmin.getManufacturer().getManufacturerId().equalsIgnoreCase(person.getVaccine().getManufacturer().getManufacturerId())){
+            Object[] row = new Object[12];
+            row[0] = person.getOrderid();
+            row[1] = person.getClinic().getClinicId();
+            row[2] = person.getVaccine().getVcode();
+            row[3] = person.getQuantity();
+            row[4] = person.getPrice();
+            row[5] = person.getSalesperson().getFirstName() + " " + person.getSalesperson().getLastName();
+            row[6] = person.getStatus();
+            row[7] = dateFormat.format(person.getDate());
+            row[8] = person.getDelivereddate()!=null?dateFormat.format(person.getDelivereddate()):"";
+            row[9] = person.getComments();
+
+            model.addRow(row);
+            }
+        }
+    }
+
+    private void populatesales() {
+        DefaultTableModel model = (DefaultTableModel) sales.getModel();
+        model.setRowCount(0);
+
+        for (SalesPerson person : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            if(salesAdmin.getManufacturer().getManufacturerId().equalsIgnoreCase(person.getManufacturer().getManufacturerId())){
+            Object[] row = new Object[12];
+            row[0] = person.getSalesId();
+            row[1] = person.getFirstName() + " " + person.getLastName();
+
+            model.addRow(row);
+            }
+        }
+    }
+
+    private void populateSalesDirectory() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) salesPersonTable.getModel();
+        model.setRowCount(0);
+
+        for (SalesPerson person : ecoSystem.getSalesPersonDirectory().getSalesPersonDirectory()) {
+            if (salesAdmin.getManufacturer().getManufacturerId().equalsIgnoreCase(person.getManufacturer().getManufacturerId())) {
+                Object[] row = new Object[12];
+                row[0] = person.getFirstName();
+                row[1] = person.getLastName();
+                row[2] = person.getEmailId();
+                row[3] = person.getGender();
+                row[4] = person.getPhoneNumber();
+                row[5] = person.getSalesId();
+                model.addRow(row);
+            }
+
+        }
+    }
 }

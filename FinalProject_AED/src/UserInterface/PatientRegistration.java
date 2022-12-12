@@ -4,6 +4,7 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Location.GoogleMapsLocation;
 import Business.Role.Patient;
@@ -24,6 +25,7 @@ public class PatientRegistration extends javax.swing.JFrame {
      * Creates new form PatientReg
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
+    DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     public PatientRegistration() {
         initComponents();
        
@@ -258,6 +260,7 @@ public class PatientRegistration extends javax.swing.JFrame {
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
 
             //back to login page
+            dB4OUtil.storeSystem(Ecosystem.getInstance());
             Login rf = new Login();
             rf.setVisible(true);
             dispose();

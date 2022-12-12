@@ -34,14 +34,14 @@ public class PatientWorkArea extends javax.swing.JFrame {
      * Creates new form PatientWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     Patient patient;
 
     //Patient selectedPatient;
     public PatientWorkArea(Patient p) {
         initComponents();
-        ecoSystem = dB4OUtil.retrieveSystem();
-        Ecosystem.setInstance(ecoSystem);
+//        ecoSystem = dB4OUtil.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         this.patient = p;
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
@@ -174,11 +174,6 @@ public class PatientWorkArea extends javax.swing.JFrame {
             .addGroup(workPanelLayout.createSequentialGroup()
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(backbutton)
-                        .addGap(18, 18, 18)
-                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel13)
@@ -189,7 +184,12 @@ public class PatientWorkArea extends javax.swing.JFrame {
                             .addComponent(apod, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(236, 236, 236)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(backbutton)
+                        .addGap(18, 18, 18)
+                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(82, 82, 82)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -609,7 +609,6 @@ public class PatientWorkArea extends javax.swing.JFrame {
                     v = c;
                     break;
                 }
-
             }
 
             if (selectClinic == null) {
@@ -620,6 +619,7 @@ public class PatientWorkArea extends javax.swing.JFrame {
                 Appointment app = new Appointment(v.getD(), v, selectClinic, apod.getDate(), patient, "Booked", "", null, v.getMaxprice());
                 appointmentPopulate();
                 JOptionPane.showMessageDialog(this, "Appointment Booked");
+                //dB4OUtil.storeSystem(ecoSystem);
             }
         }
 
@@ -641,7 +641,7 @@ public class PatientWorkArea extends javax.swing.JFrame {
     private void backbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbuttonMouseClicked
         // TODO add your handling code here:
 
-        dB4OUtil.storeSystem(ecoSystem);
+        dB4OUtil.storeSystem(Ecosystem.getInstance());
         Login mf = new Login();
         mf.setVisible(true);
         dispose();
@@ -649,8 +649,8 @@ public class PatientWorkArea extends javax.swing.JFrame {
 
     private void backbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbutton1MouseClicked
         // TODO add your handling code here:
-        dB4OUtil.storeSystem(ecoSystem);
-        Login mf = new Login();
+        //dB4OUtil.storeSystem(ecoSystem);
+        Login mf = new Login(ecoSystem);
         mf.setVisible(true);
         dispose();
     }//GEN-LAST:event_backbutton1MouseClicked

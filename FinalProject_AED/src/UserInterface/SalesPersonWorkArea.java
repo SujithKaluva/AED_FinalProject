@@ -33,8 +33,8 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
     public SalesPersonWorkArea(SalesPerson h) {
         initComponents();
         this.setVisible(true);
-        ecoSystem = dB4OUtil.retrieveSystem();
-        Ecosystem.setInstance(ecoSystem);
+//        ecoSystem = dB4OUtil.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
         this.sp = h;
         TableFilling();
         welcome.setText("Hello "+h.getFirstName()+" "+h.getLastName());
@@ -49,7 +49,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) salespersontable.getModel();
         model.setRowCount(0);
 
-        for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
+        for (Orders odd : ecoSystem.getOrderDirectory().getOrderdirectory()) {
 
             if (odd.getSalesperson().getSalesId().equals(sp.getSalesId())) {
                 Object[] row = new Object[5];
@@ -305,9 +305,9 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (sec != null) {
             int s = salespersontable.getSelectedRow();
-            for (Orders od : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
+            for (Orders od : ecoSystem.getOrderDirectory().getOrderdirectory()) {
                 if (od.getSalesperson().getSalesId().equals(salespersontable.getValueAt(s, 0).toString())) {
-                    ecoSystem.getOrdersdirectory().getOrderdirectory().remove(od);
+                    ecoSystem.getOrderDirectory().getOrderdirectory().remove(od);
                     JOptionPane.showMessageDialog(this, "Deleted Order");
                     TableFilling();
                     break;
@@ -324,7 +324,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
         if (s == -1) {
             JOptionPane.showMessageDialog(this, "Select a row");
         } else {
-            for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
+            for (Orders odd : ecoSystem.getOrderDirectory().getOrderdirectory()) {
                 if (odd.getOrderid().equals(salespersontable.getValueAt(s, 0).toString())) {
 
                     odd.setPrice(Integer.valueOf(ordprice.getText()));
@@ -348,7 +348,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select an order");
         } else {
 
-            for (Orders odd : ecoSystem.getOrdersdirectory().getOrderdirectory()) {
+            for (Orders odd : ecoSystem.getOrderDirectory().getOrderdirectory()) {
                 if (odd.getOrderid().equalsIgnoreCase(salespersontable.getValueAt(s, 0).toString())) {
 
                     sec = odd;
@@ -368,7 +368,7 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
 
     private void backbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbuttonMouseClicked
         // TODO add your handling code here:
-        dB4OUtil.storeSystem(ecoSystem);
+        dB4OUtil.storeSystem(Ecosystem.getInstance());
         Login mf = new Login();
         mf.setVisible(true);
         dispose();

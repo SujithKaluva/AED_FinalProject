@@ -106,14 +106,6 @@ public class Ecosystem {
         this.appointmenthistory = appointmenthistory;
     }
 
-    public OrdersDirectory getOrdersdirectory() {
-        return orderDirectory;
-    }
-
-    public void setOrdersdirectory(OrdersDirectory ordersdirectory) {
-        this.orderDirectory = ordersdirectory;
-    }
-
     public GoogleMapsLocation getgMapsLocation() {
         return gMapsLocation;
     }

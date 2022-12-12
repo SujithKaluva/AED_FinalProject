@@ -7,8 +7,10 @@ package Business.Ecosystem;
 import Business.Appointment.Appointment;
 import Business.Clinic.Clinic;
 import Business.Manufacturer.Manufacturer;
+import Business.Orders.Orders;
 import Business.Role.ClinicAdmin;
 import Business.Role.Patient;
+import Business.Role.SalesAdmin;
 import Business.Role.SalesPerson;
 import Business.Role.Volunteer;
 import Business.Role.clinicOfficer;
@@ -41,6 +43,8 @@ public class ConfigureSystem {
         clinicOfficer clinicofficer1 = new clinicOfficer("password", "Clinic", "Officer", d, "sujith@gmail.com", "Male", 8572458702l, clinicObj, "NEU");
         clinicProvider clinicProvider1 = new clinicProvider("password", "Clinic", "Provider", d, "sujith@gmail.com", "Male", 8572458702l, "NEU");
         ClinicAdmin clinicAdmin = new ClinicAdmin("Password", "Clinic", "Admin", d, "sujith@gmail.com", "Male", 8919123821l, clinicObj, "JP");
+        SalesAdmin salesAdmin = new SalesAdmin("password", "Sales", "Admin", d, "sujith@gmail.com", "Male", 8919123821l, man1, "Roxbury");
+        Orders ord = new Orders(clinicObj, vac2, 1, 100, salesperson1, "Booked", d, d, "test");
         return system;
     }
 } 
