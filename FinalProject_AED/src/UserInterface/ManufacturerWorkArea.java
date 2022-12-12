@@ -134,7 +134,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         sdelete = new javax.swing.JButton();
         supdate = new javax.swing.JButton();
         sselect = new javax.swing.JButton();
-        jLabel34 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
         location1 = new javax.swing.JTextField();
         jButton13 = new javax.swing.JButton();
@@ -158,7 +157,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         tarp = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         qua = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         workPanel2 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -181,7 +179,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
-        jLabel36 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
         location3 = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
@@ -295,10 +292,20 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         });
 
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jLabel33.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel33MouseClicked(evt);
+            }
+        });
 
         jButton6.setText("Set Location");
 
         jButton14.setText("Update Password");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
@@ -548,8 +555,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         jButton10.setText("Set Location");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,17 +627,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addComponent(sselect)
                 .addGap(138, 138, 138))
-            .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel34)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         workPanel1Layout.setVerticalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel34)
-                .addGap(21, 21, 21)
+                .addGap(73, 73, 73)
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(workPanel1Layout.createSequentialGroup()
@@ -761,8 +760,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -798,9 +795,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                         .addGap(526, 526, 526)
                         .addComponent(jButton2))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel35))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(430, 430, 430)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(500, Short.MAX_VALUE))
@@ -808,9 +802,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel35)
-                .addGap(35, 35, 35)
+                .addGap(99, 99, 99)
                 .addComponent(jLabel6)
                 .addGap(69, 69, 69)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -947,9 +939,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable5);
 
-        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-        jLabel36.setText("jLabel36");
-
         jButton11.setText("Set Location");
 
         jButton12.setText("Update Password");
@@ -960,9 +949,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel2Layout.createSequentialGroup()
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanel2Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jButton11))
@@ -1021,8 +1007,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
+                        .addGap(77, 77, 77)
                         .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel23)
                             .addComponent(fname2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1600,7 +1585,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 
-           // ResearchScientist patient = new ResearchScientist(password2.getText(), fname2.getText(), lname2.getText(), dob2.getDate(), email2.getText(), gender2.getSelectedItem().toString(), Long.parseLong(phone2.getText()));
+           ResearchScientist patient = new ResearchScientist(password2.getText(), fname2.getText(), lname2.getText(), dob2.getDate(), email2.getText(), gender2.getSelectedItem().toString(), Long.parseLong(phone2.getText()),man,location3.getText());
 
             //back to login page
             JOptionPane.showMessageDialog(this, "Added Successfully!");
@@ -1611,6 +1596,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             gender2.setSelectedItem(null);
             dob2.setDate(null);
             phone2.setText("");
+            location3.setText("");
         } else {
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
         }
@@ -1679,10 +1665,20 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         int s = jTable5.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this,"Select Research Scientist");
+        }   
+        else
+        {
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
-            if (c.getReaserchScientistId() == jTable5.getValueAt(s, 1)) {
+            if (c.getReaserchScientistId().equals(jTable5.getValueAt(s, 1))) {
                 ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory().remove(c);
+                TableFilling2();
+                JOptionPane.showMessageDialog(this," Research Scientist Deleted");
+                break;
             }
+        }
 
         }
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1707,7 +1703,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
                 JOptionPane.showMessageDialog(this,"research scientist Updated");
-                fname2.setText("");
+                TableFilling2();
+               fname2.setText("");
                 lname2.setText("");
                 dob2.setDate(null);
                 email2.setText("");
@@ -1767,6 +1764,19 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jLabel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MouseClicked
+        // TODO add your handling code here:
+        
+         dB40Util.storeSystem(ecoSystem);
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel33MouseClicked
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton14ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1941,9 +1951,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
