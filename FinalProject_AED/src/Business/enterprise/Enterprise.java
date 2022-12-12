@@ -4,6 +4,9 @@
  */
 package Business.enterprise;
 
+import Business.Ecosystem.Ecosystem;
+import java.util.Date;
+
 /**
  *
  * @author tendusmac
@@ -11,11 +14,25 @@ package Business.enterprise;
 public class Enterprise {
     
     private String companyName;
-    private String companyEstDate;
+    private Date companyEstDate;
+    private String address;
+    Ecosystem ecoSystem=Ecosystem.getInstance();
 
-    public Enterprise(String companyName, String companyEstDate) {
+    public Enterprise(String companyName, Date companyEstDate, String address) {
         this.companyName = companyName;
         this.companyEstDate = companyEstDate;
+        this.address = address;
+        ecoSystem.getEnterpriseDirectory().getEnterprisedirectory().add(this);
+        
+        
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCompanyName() {
@@ -26,11 +43,11 @@ public class Enterprise {
         this.companyName = companyName;
     }
 
-    public String getCompanyEstDate() {
+    public Date getCompanyEstDate() {
         return companyEstDate;
     }
 
-    public void setCompanyEstDate(String companyEstDate) {
+    public void setCompanyEstDate(Date companyEstDate) {
         this.companyEstDate = companyEstDate;
     }
     
