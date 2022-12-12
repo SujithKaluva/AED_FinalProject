@@ -579,7 +579,7 @@ public class ClinicAdminWorkArea extends javax.swing.JFrame {
         jPanel8.add(jLabel22);
 
         jPanel5.add(jPanel8);
-        jPanel8.setBounds(1200, 700, 1200, 700);
+        jPanel8.setBounds(0, 0, 1200, 700);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setPreferredSize(new java.awt.Dimension(1200, 700));
