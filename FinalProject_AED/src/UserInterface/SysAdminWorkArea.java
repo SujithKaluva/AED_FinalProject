@@ -4,24 +4,17 @@
  */
 package UserInterface;
 
-import java.awt.*;
-import javax.swing.JPanel;
-
 /**
  *
- * @author sujithkaluva
+ * @author tendusmac
  */
 public class SysAdminWorkArea extends javax.swing.JFrame {
 
     /**
-     * Creates new form SysAdminWorkArea
+     * Creates new form SysAdminWorkAreaOne
      */
     public SysAdminWorkArea() {
         initComponents();
-        opacityPanel.setBackground(new Color(255,255,255,90));        
-        workArea.setBackground(new Color(255,255,255,100));
-        leftPanel.setBackground(new Color(255,255,255,100));
-        rightPanel.setBackground(new Color(255,255,255,100));
     }
 
     /**
@@ -33,89 +26,17 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sysAdminPanel = new javax.swing.JPanel();
-        workArea = new javax.swing.JPanel();
-        leftPanel = new javax.swing.JPanel();
-        rightPanel = new javax.swing.JPanel();
-        opacityPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        backPanel = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
-        setSize(new java.awt.Dimension(1200, 700));
-
-        sysAdminPanel.setBackground(new java.awt.Color(255, 255, 255));
-        sysAdminPanel.setForeground(new java.awt.Color(51, 51, 51));
-        sysAdminPanel.setLayout(null);
-
-        leftPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
-        leftPanel.setLayout(leftPanelLayout);
-        leftPanelLayout.setHorizontalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
-        );
-        leftPanelLayout.setVerticalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
-        );
-
-        rightPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
-        rightPanel.setLayout(rightPanelLayout);
-        rightPanelLayout.setHorizontalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 887, Short.MAX_VALUE)
-        );
-        rightPanelLayout.setVerticalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout workAreaLayout = new javax.swing.GroupLayout(workArea);
-        workArea.setLayout(workAreaLayout);
-        workAreaLayout.setHorizontalGroup(
-            workAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(workAreaLayout.createSequentialGroup()
-                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        workAreaLayout.setVerticalGroup(
-            workAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        sysAdminPanel.add(workArea);
-        workArea.setBounds(0, 0, 1215, 710);
-
-        opacityPanel.setLayout(new javax.swing.OverlayLayout(opacityPanel));
-        sysAdminPanel.add(opacityPanel);
-        opacityPanel.setBounds(0, 0, 1200, 710);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/sujithkaluva/INFO 5100/AED_FinalProject/FinalProject_AED/src/Images/Vaccine3.jpg")); // NOI18N
-        sysAdminPanel.add(jLabel1);
-        jLabel1.setBounds(0, 0, 1050, 750);
-
-        backPanel.setBackground(new java.awt.Color(255, 255, 255));
-        backPanel.setLayout(new javax.swing.OverlayLayout(backPanel));
-        sysAdminPanel.add(backPanel);
-        backPanel.setBounds(0, -10, 1200, 710);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sysAdminPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sysAdminPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -130,22 +51,22 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SysAdminWorkArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SysAdminWorkArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SysAdminWorkArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SysAdminWorkArea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SysAdminWorkAreaOne.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SysAdminWorkAreaOne.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SysAdminWorkAreaOne.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SysAdminWorkAreaOne.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
         //</editor-fold>
 
         /* Create and display the form */
@@ -157,12 +78,5 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel backPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel leftPanel;
-    private javax.swing.JPanel opacityPanel;
-    private javax.swing.JPanel rightPanel;
-    private javax.swing.JPanel sysAdminPanel;
-    private javax.swing.JPanel workArea;
     // End of variables declaration//GEN-END:variables
 }

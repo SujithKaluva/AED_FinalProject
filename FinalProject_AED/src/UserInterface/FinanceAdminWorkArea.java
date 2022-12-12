@@ -4,10 +4,17 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Role.FinanceAdmin;
+import Business.Role.ResearchScientist;
+import Business.disease.Disease;
 import Business.vaccine.Vaccine;
+import Business.vaccine.VaccineDetails;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,16 +25,17 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
     /**
      * Creates new form FinanceAdmin1WorkArea
      */
-    Ecosystem ecoSystem = Ecosystem.getInstance();
-    FinanceAdmin loggedInUser;
-    
-    public FinanceAdminWorkArea(FinanceAdmin fadmin) {
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    Ecosystem ecoSystem=Ecosystem.getInstance();
+    FinanceAdmin fa;
+    public FinanceAdminWorkArea(FinanceAdmin fa) {
         initComponents();
-        this.loggedInUser = fadmin;
+        this.fa=fa;
         //opacityPanel.setBackground(new Color(255,255,255,90));        
         //workPanel.setBackground(new Color(255,255,255,100));
         workPanel.setBackground(new Color(255,255,255,100));
         jPanel4.setBackground(new Color(255,255,255,80));
+        populateVacc();
         
     }
 
@@ -55,6 +63,7 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
         tgprice = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         backbutton1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         opacityPanel = new javax.swing.JPanel();
@@ -104,6 +113,20 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
         jLabel17.setText("TargetPrice");
 
         backbutton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        backbutton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backbutton1MouseClicked(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Select");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
@@ -138,6 +161,10 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(181, 181, 181))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(462, 462, 462))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +199,9 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addComponent(jButton1)
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -224,7 +253,76 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        
+         int s = financetable1.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }   
+        else
+        {    
+          Boolean g=false;
+         
+        for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
+            if (c.getVcode().equals(financetable1.getValueAt(s, 0))) {
+                
+                //vac=c;
+                 c.setName(vacname.getText());
+                 c.setMaxprice(Integer.valueOf(mxprice.getText()));
+                 c.setMinprice(Integer.valueOf(mnprice.getText()));
+                 c.setTargetprice(Integer.valueOf(tgprice.getText()));
+                g=true;
+                 vacname.setText("");
+                 mxprice.setText("");
+                 tgprice.setText("");
+                populateVacc();
+
+            }
+
+        }
+        if(g)
+        {
+            JOptionPane.showMessageDialog(this, "Vaccine Details Updated"); 
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Updation Failed"); 
+            
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         int s = financetable1.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }  
+        else
+        {   
+        for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
+            if (c.getVcode().equals(financetable1.getValueAt(s, 0))) {
+                 
+                vacname.setText(c.getName());
+                mxprice.setText(c.getMaxprice()+"");
+                mnprice.setText(c.getMinprice()+"");
+                tgprice.setText(c.getTargetprice()+"");
+                
+
+            }
+
+        }
+        
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void backbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbutton1MouseClicked
+        // TODO add your handling code here:
+        dB40Util.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_backbutton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -265,6 +363,7 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backbutton1;
     private javax.swing.JTable financetable1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -282,4 +381,30 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField vacname;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
+
+    private void populateVacc() {
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) financetable1.getModel();
+        model.setRowCount(0);
+        for(VaccineDetails vObj : ecoSystem.getVaccineDetailsDirectory().getVaccineDetailsDirectory()){
+            if(vObj.getVaccine().getManufacturer().getManufacturerId().equals(fa.getManufacturer().getManufacturerId()))
+            {   
+            
+            Object[] row = new Object[10];
+            row[0] =vObj.getVaccine().getVcode();
+            row[1] =vObj.getVaccine().getName();
+            row[2] =vObj.getVaccine().getMaxprice();
+            row[3] = vObj.getVaccine().getMinprice();
+            row[4] = vObj.getVaccine().getTargetprice();
+            
+            model.addRow(row);
+            }
+        
+        
+        } 
+        
+        
+        
+        
+    }
 }

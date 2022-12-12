@@ -4,12 +4,15 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Manufacturer.Manufacturer;
 import Business.Role.EnterpriseAdmin;
 import Business.enterprise.Enterprise;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -25,10 +28,14 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
      * Creates new form EnterpriseAdminWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
+    DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     EnterpriseAdmin loggedInUser;
     
     public EnterpriseAdminWorkArea(EnterpriseAdmin enterpriseAdmin) {
         initComponents();
+        TableFilling2();
+        TableFilling3();
+        fillenter();
         this.loggedInUser = enterpriseAdmin;
     }
 
@@ -58,6 +65,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        create1 = new javax.swing.JButton();
+        create2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         opacityPanel = new javax.swing.JPanel();
@@ -75,13 +84,14 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         manufacturertable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 700));
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 700));
         jPanel1.setLayout(null);
 
         workPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -102,19 +112,20 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
 
         enterpriseadmin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "CompanyId", "EnterpriseName", "EnterpriseAddress", "Estdate"
+                "EnterpriseName", "EnterpriseAddress", "Estdate"
             }
         ));
         jScrollPane2.setViewportView(enterpriseadmin);
 
         create.setBackground(new java.awt.Color(0, 102, 150));
-        create.setText("Create");
+        create.setForeground(new java.awt.Color(255, 255, 255));
+        create.setText("Create Enterprise Admin");
         create.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createActionPerformed(evt);
@@ -122,11 +133,17 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Enterprise Admin");
 
         backbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        backbutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backbuttonMouseClicked(evt);
+            }
+        });
 
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Delete");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +151,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(0, 102, 150));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Update");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,10 +160,30 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(153, 153, 153));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Select");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        create1.setBackground(new java.awt.Color(0, 102, 150));
+        create1.setForeground(new java.awt.Color(255, 255, 255));
+        create1.setText("Set Location");
+        create1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                create1ActionPerformed(evt);
+            }
+        });
+
+        create2.setBackground(new java.awt.Color(0, 102, 150));
+        create2.setForeground(new java.awt.Color(255, 255, 255));
+        create2.setText("Update");
+        create2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                create2ActionPerformed(evt);
             }
         });
 
@@ -155,31 +194,36 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             .addGroup(workPanelLayout.createSequentialGroup()
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(estdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(entname, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(entaddress))))
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanelLayout.createSequentialGroup()
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(backbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap()
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(workPanelLayout.createSequentialGroup()
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(28, 28, 28)
+                                            .addComponent(estdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(workPanelLayout.createSequentialGroup()
+                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(entname, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(entaddress))))
+                                    .addGroup(workPanelLayout.createSequentialGroup()
+                                        .addComponent(create1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(create2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(151, 151, 151)
-                                .addComponent(create)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(54, 54, 54)
+                                .addComponent(create, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(backbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(157, 157, 157)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(364, 364, 364)
@@ -188,7 +232,7 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addGap(80, 80, 80)
                         .addComponent(jButton3)))
-                .addGap(155, 553, Short.MAX_VALUE))
+                .addGap(489, 489, Short.MAX_VALUE))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,14 +248,18 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(entname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11)
+                            .addComponent(estdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(entaddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11)
-                            .addComponent(estdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(create2)
+                            .addComponent(create1))
+                        .addGap(27, 27, 27)
                         .addComponent(create))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -227,17 +275,18 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         jPanel1.add(workPanel);
         workPanel.setBounds(0, 0, 1490, 950);
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(1500, 700));
+        jPanel4.setAlignmentY(0.0F);
+        jPanel4.setPreferredSize(new java.awt.Dimension(1200, 700));
         jPanel4.setLayout(new javax.swing.OverlayLayout(jPanel4));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/10976.jpg"))); // NOI18N
+        jLabel4.setAlignmentY(0.0F);
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 1490, 950);
+        jPanel4.setBounds(0, 0, 1200, 700);
 
         opacityPanel.setBackground(new java.awt.Color(255, 255, 255));
-        opacityPanel.setForeground(new java.awt.Color(0, 0, 0));
         opacityPanel.setPreferredSize(new java.awt.Dimension(1200, 700));
         opacityPanel.setLayout(new javax.swing.OverlayLayout(opacityPanel));
         jPanel1.add(opacityPanel);
@@ -266,6 +315,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        Create1.setBackground(new java.awt.Color(0, 102, 150));
+        Create1.setForeground(new java.awt.Color(255, 255, 255));
         Create1.setText("Create");
         Create1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,12 +342,12 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(manufacturertable);
 
-        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 3, 36)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 102));
         jLabel6.setText(" New Manufacturer ");
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
+        jButton4.setBackground(new java.awt.Color(255, 102, 102));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Delete");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,6 +355,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(0, 102, 150));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Update");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,6 +364,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setBackground(new java.awt.Color(153, 153, 153));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Select");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -325,39 +380,7 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(manufacturername, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(emailid, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(Enterprise)
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Create1)
-                            .addComponent(enterpriselist, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)))
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(257, 257, 257)
+                        .addGap(312, 312, 312)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(387, 387, 387)
@@ -367,45 +390,68 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
                         .addGap(111, 111, 111)
                         .addComponent(jButton6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(manufacturername, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Enterprise)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(emailid, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(enterpriselist, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(Create1)
+                                .addGap(33, 33, 33)))))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(manufacturername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(enterpriselist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Enterprise))
+                        .addGap(49, 49, 49)
+                        .addComponent(Create1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6)
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(102, 102, 102)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(manufacturername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addGap(41, 41, 41)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(emailid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3))
-                                        .addGap(44, 44, 44)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5)))
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(47, 47, 47)
-                                .addComponent(enterpriselist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Enterprise))
-                        .addGap(53, 53, 53)
-                        .addComponent(Create1)))
-                .addGap(30, 30, 30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -426,7 +472,7 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1144, Short.MAX_VALUE)
                 .addGap(479, 479, 479))
         );
         layout.setVerticalGroup(
@@ -440,72 +486,25 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        // TODO add your handling code here:
-//        boolean validated = false;
-//        boolean validatedOtherFields = false;
-//
-//        JDateChooser strtDt = estdate;
-//        if (strtDt != null) {
-//            validatedOtherFields = true;
-//        } else {
-//            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-//        }
-//        JTextField[] VARIABLE_CONSTANTS = {entname,entaddress};
-//        for (JTextField field : VARIABLE_CONSTANTS) {
-//            if (!validateData(field)) {
-//                validated = false;
-//                break;
-//            } else {
-//                validated = true;
-//                System.out.println("Validated");
-//            }
-//        }
-//
-//        if (validated && validatedOtherFields) {
-//
-//            Enterprise ent=new Enterprise(entname.getText(),estdate.getDate(),entaddress.getText());
-//
-//            //Volunteer volunteer = new Volunteer(password.getText(), entname.getText(), entaddress.getText(), estdate.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
-//            //Enterprise ent=new Enterprise(entname.getText(),entaddress.getText(),estdate.getDate());
-//
-//            //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
-//            //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
-//            //back to login page
-//        } else {
-//            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
-//        }
+      
+        if(entname.getText().isBlank())
+        {
+             JOptionPane.showMessageDialog(this," Enter enterprise name");
         }
-
-        public boolean validateData(JComponent input) {
-
-            String name=input.getName();
-            String errorMsg="";
-            boolean raiseError = false;
-            String text=((JTextField) input).getText().trim();
-
-            if (text == null || text.isEmpty()) {
-
-                raiseError = false;
-                errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
-            }
-            else {
-                switch (name) {
-                    case "Enterprise Name":
-                    if (!text.matches("^[a-zA-z ]*$")) {
-                        raiseError = true;
-                        errorMsg = String.format("Please enter valid values for %s", name);
-                    }
-                    break;
-
-                    default:
-                    break;
-                }
-            }
-            if (raiseError) {
-                JOptionPane.showMessageDialog(this, errorMsg);
-                return false;
-            }
-            return true;
+        else if(entaddress.getText().isBlank())
+        {
+            JOptionPane.showMessageDialog(this," Enter enterprise address");
+        }
+       else
+        {
+            Enterprise e=new Enterprise(entname.getText(),estdate.getDate(),entaddress.getText());
+            TableFilling2();
+            
+            
+        }
+        
+                    
+       
     }//GEN-LAST:event_createActionPerformed
 
     private void Create1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Create1ActionPerformed
@@ -522,10 +521,16 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int s = enterpriseadmin.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Enterprise " );
+        }
         for (Enterprise ent : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
-            if (ent.getCompanyId() == enterpriseadmin.getValueAt(s, 1)) {
+            if (ent.getCompanyName() == enterpriseadmin.getValueAt(s, 0)) {
 
                 ecoSystem.getEnterpriseDirectory().getEnterprisedirectory().remove(ent);
+                TableFilling2();
+                break;
             }
 
         }
@@ -534,12 +539,18 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s =manufacturertable.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }   
+        else{
         for(Manufacturer ma :ecoSystem.getManufacturerCatalog().getManufacturerList()){
             
-            if(ma.getManufacturerId() == manufacturertable.getValueAt(s, 1)){
+            if(ma.getManufacturerId().equals(manufacturertable.getValueAt(s, 0))){
                 ecoSystem.getManufacturerCatalog().getManufacturerList().remove(ma);
             
             }
+        }
             
         }
         
@@ -547,36 +558,43 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        Enterprise d=null;
         int s = manufacturertable.getSelectedRow();
-        for (Manufacturer me : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
-            if (me.getManufacturerId() == manufacturertable.getValueAt(s, 1)) {
-                if(me.getManufacturerId() == manufacturertable.getValueAt(s, 1)){
-                    me.setManufacturerName(manufacturername.getText());
-                    me.setEmailId(emailid.getText());
-                    
-
-                    
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }   
+        for(Enterprise e:ecoSystem.getEnterpriseDirectory().getEnterprisedirectory())
+        {
+            if(e.getCompanyName().equals(enterpriselist.getSelectedItem().toString()))
+            {
+                d=e;
+            }    
                 
-            
+        } 
+        for (Manufacturer mu : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
+            if (mu.getManufacturerId().equals(manufacturertable.getValueAt(s, 0).toString())) {
+
+                mu.setManufacturerName(manufacturername.getText());
+                mu.setEmailId(emailid.getText());
+                mu.setPassword(password.getText());
+                mu.setEnterprise(d);
             }
-
-               
-                
-                
-                
-                
-
-            }
-
         }
+             
+        
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         int s = manufacturertable.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }    
         for (Manufacturer mu : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
-            if (mu.getManufacturerId() == manufacturertable.getValueAt(s, 1)) {
+            if (mu.getManufacturerId().equals(manufacturertable.getValueAt(s, 0).toString())) {
 
                 manufacturername.setText(mu.getManufacturerName());
                 emailid.setText(mu.getEmailId());
@@ -602,14 +620,24 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int s = enterpriseadmin.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"Select Enterprise");
+        }   
+        else{
         for (Enterprise ent : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
-            if (ent.getCompanyId() == enterpriseadmin.getValueAt(s, 1)) {
+            if (ent.getCompanyName().equals(enterpriseadmin.getValueAt(s, 0).toString())) {
 
                 ent.setCompanyName(entname.getText());
                 ent.setCompanyAddress(entaddress.getText());
                 ent.setCompanyEstDate(estdate.getDate());
+                TableFilling2();
+                JOptionPane.showMessageDialog(this,"EnterPrise Updated");
+                break;
+                
 
             }
+        }
 
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -617,18 +645,45 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int s = enterpriseadmin.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"select enterprise");
+        }
+        else
+        {
         for (Enterprise ent : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
-            if (ent.getCompanyId() == enterpriseadmin.getValueAt(s, 1)) {
+            if (ent.getCompanyName().equals(enterpriseadmin.getValueAt(s,0).toString())) {
 
                 entname.setText(ent.getCompanyName());
                 entaddress.setText(ent.getCompanyAddress());
                 estdate.setDate(ent.getCompanyEstDate());
+                break;
                
 
             }
+        }
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void backbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbuttonMouseClicked
+        // TODO add your handling code here:
+        dB4OUtil.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_backbuttonMouseClicked
+
+    private void create1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create1ActionPerformed
+        // TODO add your handling code here:
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_create1ActionPerformed
+
+    private void create2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create2ActionPerformed
+        // TODO add your handling code here:
+        entaddress.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_create2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -673,10 +728,9 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         for (Enterprise ent : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
 
             Object[] row = new Object[4];
-            row[0] = ent.getCompanyId();
-            row[1] = ent.getCompanyName();
-            row[2] = ent.getCompanyAddress();
-            row[3] = ent.getCompanyEstDate();
+            row[0] = ent.getCompanyName();
+            row[1] =ent.getCompanyAddress();
+            row[2] = ent.getCompanyEstDate();
             
             
 
@@ -702,6 +756,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel Enterprise;
     private javax.swing.JLabel backbutton;
     private javax.swing.JButton create;
+    private javax.swing.JButton create1;
+    private javax.swing.JButton create2;
     private javax.swing.JTextField emailid;
     private javax.swing.JTextField entaddress;
     private javax.swing.JTable enterpriseadmin;
@@ -723,7 +779,6 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -737,5 +792,40 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField password;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
+
+    private void TableFilling3() {
+           SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) manufacturertable.getModel();
+        model.setRowCount(0);
+
+        for (Manufacturer ent : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
+
+            Object[] row = new Object[4];
+            row[0] = ent.getManufacturerId();
+            row[1] =ent.getManufacturerName();
+            row[2] = ent.getEmailId();
+            row[3]=ent.getEnterprise().getCompanyName();
+            
+            
+
+            model.addRow(row);
+
+        }
+
+    }
+
+    private void fillenter() {
+       
+        ArrayList<String> vaccineList = new ArrayList<String>();
+        for (Enterprise c : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
+            vaccineList.add(c.getCompanyName());
+           // System.out.print(c.getName());
+        }
+        DefaultComboBoxModel vaccineModelList = new DefaultComboBoxModel(vaccineList.toArray());
+        enterpriselist.setModel(vaccineModelList);
+        
+        
+        
+    }
 }
 

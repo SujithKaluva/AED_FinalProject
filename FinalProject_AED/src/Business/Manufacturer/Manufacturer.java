@@ -82,5 +82,9 @@ public class Manufacturer {
     public void removeVaccine(Vaccine vObj){
         this.vaccinelist.remove(vObj);
     }
+
+    public void setPassword(String password) {
+        this.password = PasswordEncryption.getEncryptedPassword(password);
+    }
     
 }

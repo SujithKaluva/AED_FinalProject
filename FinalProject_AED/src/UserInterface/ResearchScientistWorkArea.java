@@ -5,6 +5,7 @@
 package UserInterface;
 
 import Business.Appointment.Appointment;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Role.ResearchScientist;
 import Business.disease.Disease;
@@ -29,12 +30,14 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     Ecosystem ecoSystem = Ecosystem.getInstance();
     Vaccine vac;
     ResearchScientist loggedInUser;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
    
     public ResearchScientistWorkArea(ResearchScientist e) {
         initComponents();
         this.loggedInUser=e;
-       // DefaultComboBoxModel diseases = new DefaultComboBoxModel(ecoSystem.getDiseaseComboList().toArray());
-        //diseaseBox.setModel(diseases);
+        welcome.setText("Hello "+loggedInUser.getFirstName()+" "+loggedInUser.getLastName());
+//        ecoSystem = dB40Util.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
          jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         populateVaccine();
@@ -70,6 +73,8 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         dname = new javax.swing.JTextField();
         dcode = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        welcome = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -153,6 +158,16 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setText("Disease Code");
 
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jLabel13.setText("jLabel11");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+
+        welcome.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
         workPanelLayout.setHorizontalGroup(
@@ -168,39 +183,41 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                         .addComponent(jButton5)
                         .addGap(144, 144, 144))
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(69, 69, 69)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(40, 40, 40)
-                                .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(vcode, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(name))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addGap(21, 21, 21)
-                                        .addComponent(dsym))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, workPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(createVaccine)
-                                            .addComponent(doses, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(workPanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(dcode, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                                    .addGap(165, 165, 165)
+                                    .addComponent(createVaccine))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                                    .addGap(46, 46, 46)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel15)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel14))
+                                    .addGap(207, 207, 207)))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel11))
+                                .addGap(40, 40, 40)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dcode, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dsym, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(vcode, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(doses, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(78, 78, 78))
+            .addGroup(workPanelLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +227,11 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
+                        .addGap(32, 32, 32)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(47, 47, 47)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16))
@@ -241,7 +262,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -255,7 +276,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(0, 0, 1500, 1000);
+        jPanel4.setBounds(0, 0, 1050, 700);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.OverlayLayout(jPanel3));
@@ -292,26 +313,32 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
 
     private void createVaccineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createVaccineActionPerformed
         // TODO add your handling code here:
-        if (!vcode.getText().isBlank()) {
+        if (vcode.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Vaccine Code is mandatory!");
-        } else if (!name.getText().isBlank()) {
+        } else if (name.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Vaccine Name is mandatory!");
         } else if (!doses.getText().matches("^[0-9]")) {
             JOptionPane.showMessageDialog(this, "Doses count is mandatory!");
         } 
-         if (!dcode.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Vaccine Code is mandatory!");
-        } else if (!dname.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Vaccine Name is mandatory!");
-        } else if (!dsym.getText().matches("^[0-9]")) {
-            JOptionPane.showMessageDialog(this, "Doses count is mandatory!");
+        else if (dcode.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Disease Code is mandatory!");
+        } else if (dname.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Disease Name is mandatory!");
+        } else if (dsym.getText().matches("^[0-9]")) {
+            JOptionPane.showMessageDialog(this, "Symptoms are mandatory!");
         } else {
             
           
                    Disease d=new Disease(dcode.getText(),dname.getText(),dsym.getText());
                     Vaccine vacc = new Vaccine(vcode.getText(), name.getText(), Integer.valueOf(doses.getText()), 0, 0, 0, d,loggedInUser.getManufacturer());
+                    populateVaccine();
                     JOptionPane.showMessageDialog(this, "Vaccine added Successful!"); 
-                
+                    vcode.setText("");
+                    name.setText("");
+                    doses.setText("");
+                    dcode.setText("");
+                    dname.setText("");
+                    dsym.setText("");
         }
             
        
@@ -323,13 +350,23 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         Boolean g=false;
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }   
+        else{
+            
+        
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
 
                 ecoSystem.getVaccineDirectory().getVaccineDirectory().remove(c);
+                populateVaccine();
                 g=true;
+                break;
             }
 
+        }
         }
         if(g){
         JOptionPane.showMessageDialog(this, "Vaccine Deleted Successful!"); 
@@ -343,10 +380,16 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }   
+        else
+        {    
           Boolean g=false;
           Disease d=new Disease(dcode.getText(),dname.getText(),dsym.getText());
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
                 
                 vac=c;
                 c.setD(d);
@@ -354,12 +397,16 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
                 c.setVcode(vcode.getText());
                 c.setName(name.getText());
                 g=true;
+                dname.setText("");
+                dcode.setText("");
+                dsym.setText("");
+                vcode.setText("");
+                name.setText("");
+                doses.setText("");
+                populateVaccine();
 
             }
 
-        }
-        if(vac==null){
-        JOptionPane.showMessageDialog(this, "Select Vaccine"); 
         }
         if(g)
         {
@@ -368,14 +415,20 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(this, "Updation Failed"); 
             
-
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int s = vaccineT.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        }  
+        else
+        {   
         for (Vaccine c : ecoSystem.vaccineDirectory.getVaccineDirectory()) {
-            if (c.getVcode() == vaccineT.getValueAt(s, 1)) {
+            if (c.getVcode().equals(vaccineT.getValueAt(s, 0))) {
                  
                 vac=c;
                 vcode.setText(c.getVcode());
@@ -389,12 +442,20 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
             }
 
         }
-        if(vac==null)
-        {
-            JOptionPane.showMessageDialog(this, "Select Vaccine"); 
+        
         }
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+
+        dB40Util.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
 
     /**
      * @param args the command line arguments
@@ -443,6 +504,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -454,6 +516,7 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField name;
     private javax.swing.JTable vaccineT;
     private javax.swing.JTextField vcode;
+    private javax.swing.JLabel welcome;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -461,20 +524,17 @@ public class ResearchScientistWorkArea extends javax.swing.JFrame {
          SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         DefaultTableModel model = (DefaultTableModel) vaccineT.getModel();
         model.setRowCount(0);
-        for(ResearchScientist vObj : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()){
-            for(Vaccine vac:vObj.getManufacturer().getVaccinelist())
-            {   
-            
-            Object[] row = new Object[10];
-            row[0] =vac.getVcode();
-            row[1] =vac.getName();
-            row[2] =vac.getDoses();
-            row[3] = vac.getD().getDiseaseCode();
-            row[4] = vac.getD().getDiseaseName();
-            row[5]=vac.getD().getDiseaseSymptoms();     
-            model.addRow(row);
+        for(Vaccine vObj : ecoSystem.getVaccineDirectory().getVaccineDirectory()){
+            if(vObj.getManufacturer().getManufacturerId().equalsIgnoreCase(loggedInUser.getManufacturer().getManufacturerId())){
+                Object[] row = new Object[10];
+                row[0] =vObj.getVcode();
+                row[1] =vObj.getName();
+                row[2] =vObj.getDoses();
+                row[3] = vObj.getD().getDiseaseCode();
+                row[4] = vObj.getD().getDiseaseName();
+                row[5]=vObj.getD().getDiseaseSymptoms();     
+                model.addRow(row);
             }
-        
         
         }
         

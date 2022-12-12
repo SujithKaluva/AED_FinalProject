@@ -5,6 +5,7 @@
 package UserInterface;
 
 import Business.Clinic.Clinic;
+import Business.DB4OUtil.DB4OUtil;
 import Business.Ecosystem.Ecosystem;
 import Business.Manufacturer.Manufacturer;
 import Business.Role.FinanceAdmin;
@@ -16,6 +17,7 @@ import Business.vaccine.VaccineDetails;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
@@ -33,13 +35,19 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
      * Creates new form ClinicProviderWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    Manufacturer loggedInUser;
+    DB4OUtil dB40Util = DB4OUtil.getInstance();
+    Manufacturer man;
+    FinanceAdmin fda;
+    SalesAdmin sda;
+    ResearchScientist rs;
 
-    public ManufacturerWorkArea(Manufacturer manObj) {
+    public ManufacturerWorkArea(Manufacturer man) {
         initComponents();
-        loggedInUser = manObj;
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
+//        ecoSystem = dB40Util.retrieveSystem();
+//        Ecosystem.setInstance(ecoSystem);
+        this.man=man;
         fname.setName("patientFirstName");
         lname.setName("patientLastName");
         email.setName("patientEmailId");
@@ -47,6 +55,13 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         gender.setName("patientGender");
         phone.setName("patientPhone");
         password.setName("password");
+         fname1.setName("patientFirstName");
+        lname1.setName("patientLastName");
+        email1.setName("patientEmailId");
+        dob1.setName("patientDOB");
+        gender1.setName("patientGender");
+        phone1.setName("patientPhone");
+        password1.setName("password");
          jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
         jPanel8.setBackground(new Color(255, 255, 255, 90));
@@ -56,8 +71,9 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         TableFilling();
         TableFilling1();
         TableFilling2();
-        DefaultComboBoxModel vaccineCList = new DefaultComboBoxModel(ecoSystem.getVaccineComboList().toArray());
-        Vaccine.setModel(vaccineCList);
+        populateCombo();
+       // DefaultComboBoxModel vaccineCList = new DefaultComboBoxModel(ecoSystem.getVaccineComboList().toArray());
+       // Vaccine.setModel(vaccineCList);
     }
 
     /**
@@ -93,6 +109,10 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        location = new javax.swing.JTextField();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -118,7 +138,10 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         sdelete = new javax.swing.JButton();
         supdate = new javax.swing.JButton();
         sselect = new javax.swing.JButton();
-        jLabel34 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
+        location1 = new javax.swing.JTextField();
+        jButton13 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -139,7 +162,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         tarp = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         qua = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         workPanel2 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -162,7 +184,10 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
-        jLabel36 = new javax.swing.JLabel();
+        jButton11 = new javax.swing.JButton();
+        location3 = new javax.swing.JTextField();
+        jButton12 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -273,48 +298,88 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         });
 
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jLabel33.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel33MouseClicked(evt);
+            }
+        });
+
+        jButton6.setText("Set Location");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setText("Update Password");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setText("Update");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanelLayout = new javax.swing.GroupLayout(workPanel);
         workPanel.setLayout(workPanelLayout);
         workPanelLayout.setHorizontalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanelLayout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lname))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(143, 143, 143)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lname))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(gender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGap(143, 143, 143)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton15)
+                                    .addComponent(jButton6))
+                                .addGap(59, 59, 59)))
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(location)
                             .addComponent(phone)
-                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(100, 100, 100)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                            .addComponent(password))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton14)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
@@ -365,16 +430,31 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addGap(32, 32, 32)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton14))
                             .addComponent(jLabel1))
-                        .addGap(65, 65, 65)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jButton6)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton15))
+                            .addGroup(workPanelLayout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)))
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addComponent(jButton1)))
-                .addGap(44, 44, 44)
-                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -504,48 +584,84 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
+        jButton10.setText("Set Location");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        location1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                location1ActionPerformed(evt);
+            }
+        });
+
+        jButton13.setText("Update Password");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton16.setText("Update");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanel1Layout = new javax.swing.GroupLayout(workPanel1);
         workPanel1.setLayout(workPanel1Layout);
         workPanel1Layout.setHorizontalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGap(122, 122, 122)
+                .addGap(109, 109, 109)
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fname1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lname1))
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(email1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(workPanel1Layout.createSequentialGroup()
-                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gender1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dob1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(workPanel1Layout.createSequentialGroup()
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(phone1)
-                            .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel1Layout.createSequentialGroup()
-                        .addComponent(screate)
-                        .addGap(100, 100, 100)))
+                            .addComponent(screate)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(location1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(password1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(workPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fname1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lname1))
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(gender1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dob1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(phone1)
+                                    .addComponent(email1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -555,17 +671,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addComponent(sselect)
                 .addGap(138, 138, 138))
-            .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel34)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         workPanel1Layout.setVerticalGroup(
             workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel34)
-                .addGap(21, 21, 21)
+                .addGap(73, 73, 73)
                 .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(workPanel1Layout.createSequentialGroup()
@@ -597,16 +707,30 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                             .addComponent(jLabel19))
                         .addGap(32, 32, 32)
                         .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton13))
                             .addComponent(jLabel2))
-                        .addGap(65, 65, 65)
+                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jButton10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton16))
+                            .addGroup(workPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(location1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(workPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sdelete)
+                            .addComponent(supdate)
+                            .addComponent(sselect)))
+                    .addGroup(workPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
                         .addComponent(screate)))
-                .addGap(44, 44, 44)
-                .addGroup(workPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sdelete)
-                    .addComponent(supdate)
-                    .addComponent(sselect))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         jPanel2.add(workPanel1);
@@ -619,7 +743,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jPanel8.add(jLabel22);
 
         jPanel2.add(jPanel8);
-        jPanel8.setBounds(0, 0, 1500, 1000);
+        jPanel8.setBounds(0, 0, 1042, 700);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -688,8 +812,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             }
         });
 
-        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -725,9 +847,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                         .addGap(526, 526, 526)
                         .addComponent(jButton2))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel35))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(430, 430, 430)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(500, Short.MAX_VALUE))
@@ -735,9 +854,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel35)
-                .addGap(35, 35, 35)
+                .addGap(99, 99, 99)
                 .addComponent(jLabel6)
                 .addGap(69, 69, 69)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -874,8 +991,26 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable5);
 
-        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/previous (4).png"))); // NOI18N
-        jLabel36.setText("jLabel36");
+        jButton11.setText("Set Location");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Update Password");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jButton17.setText("Update");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanel2Layout = new javax.swing.GroupLayout(workPanel2);
         workPanel2.setLayout(workPanel2Layout);
@@ -901,7 +1036,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                             .addGroup(workPanel2Layout.createSequentialGroup()
                                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(gender2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -912,17 +1047,21 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(phone2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(password2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
-                                .addComponent(rcreate)
-                                .addGap(100, 100, 100))))
+                                    .addComponent(rcreate)
+                                    .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(phone2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                                        .addComponent(password2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                                        .addComponent(location3)))))
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton12))
                     .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton17)
+                            .addComponent(jButton11))))
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton7)
@@ -938,8 +1077,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
+                        .addGap(77, 77, 77)
                         .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel23)
                             .addComponent(fname2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -966,23 +1104,29 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                         .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(phone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel26))
-                        .addGap(32, 32, 32)
-                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(29, 29, 29)
+                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
                             .addComponent(password2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
+                            .addComponent(jButton12))
+                        .addGap(23, 23, 23)
+                        .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton11)
+                            .addComponent(location3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(rcreate)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton17)
+                .addGap(35, 35, 35)
                 .addGroup(workPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton8)
-                    .addComponent(jButton9))
-                .addContainerGap(157, Short.MAX_VALUE))
+                    .addComponent(jButton9)
+                    .addComponent(rcreate))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         jPanel6.add(workPanel2);
-        workPanel2.setBounds(0, 0, 1200, 675);
+        workPanel2.setBounds(0, 0, 1200, 700);
 
         jPanel11.setMaximumSize(new java.awt.Dimension(1200, 700));
         jPanel11.setMinimumSize(new java.awt.Dimension(1200, 700));
@@ -1029,6 +1173,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
         for (VaccineDetails c : ecoSystem.vaccineDetailsDirectory.getVaccineDetailsDirectory()) {
             if (c.getVaccine().getName().equalsIgnoreCase(Vaccine.getSelectedItem().toString())){
                 c.setVaccineId(vid.getText());
@@ -1037,11 +1182,20 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.getVaccine().setMaxprice(Integer.parseInt(maxp.getText()));
                 c.getVaccine().setMinprice(Integer.parseInt(minp.getText()));
                 c.getVaccine().setTargetprice(Integer.valueOf(tarp.getText()));
+                JOptionPane.showMessageDialog(this, "Vaccine Details Updated");
+                vid.setText("");
+                bid.setText("");
+                maxp.setText("");
+                minp.setText("");
+                tarp.setText("");
+                qua.setText("");
+                break;
+                
 
             }
 
         }
-        JOptionPane.showMessageDialog(this, "Vaccine Details Updated");
+        
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1057,8 +1211,15 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this, "select finance Admin");
+        } 
+        else
+        {    
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
+                fda=c;
                 c.setFirstName(fname.getText());
                 c.setLastName(lname.getText());
                 c.setDateOfBirth(dob.getDate());
@@ -1066,9 +1227,21 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
-
+                JOptionPane.showMessageDialog(this, " finance Admin Updated");
+                TableFilling();
+                fname.setText("");
+                lname.setText("");
+                dob.setDate(null);
+                email.setText("");
+                phone.setText("");
+                password.setText("");
+                location.setText("");
+                
+                break;
+                
             }
 
+        }
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1098,8 +1271,16 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 
-            //FinanceAdmin patient = new FinanceAdmin(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
-
+            FinanceAdmin patient = new FinanceAdmin(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),man,location.getText());
+            JOptionPane.showMessageDialog(this, "Finance Admin Created");
+            TableFilling();
+              fname.setText("");
+                lname.setText("");
+                dob.setDate(null);
+                email.setText("");
+                phone.setText("");
+                password.setText("");
+                location.setText("");
             //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
             //back to login page
@@ -1178,11 +1359,20 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
+        if(s==-1)
+        {    
+        JOptionPane.showMessageDialog(this, "select finance Admin");
+        }
+        else
+        {
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0).toString())) {
 
                 ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory().remove(c);
+                TableFilling();
+                break;
             }
+        }
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -1190,9 +1380,15 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"select finance admin");
+        }   
+        else
+        {
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-            if (c.getFinanceAdminId() == jTable2.getValueAt(s, 1)) {
-
+            if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
+                fda=c;
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
                 dob.setDate(c.getDateOfBirth());
@@ -1200,8 +1396,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 email.setText(c.getEmailId());
                 phone.setText(c.getPhoneNumber() + "");
                 password.setText(c.getPassword());
+                 break;
+                
 
             }
+        }
 
         }
 
@@ -1247,9 +1446,17 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         }
 
         if (validated && validatedOtherFields) {
-
-            //SalesAdmin patient = new SalesAdmin(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()));
-
+//String password,String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, Manufacturer manufacturer, String location
+            SalesAdmin patient = new SalesAdmin(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),man,location1.getText());
+             JOptionPane.showMessageDialog(this, "Sales Admin Created");
+             TableFilling1();
+               fname1.setText("");
+                lname1.setText("");
+                dob1.setDate(null);
+                email1.setText("");
+                phone1.setText("");
+                password1.setText("");
+                location1.setText("");
             //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
             //back to login page
@@ -1321,11 +1528,23 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void sdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sdeleteActionPerformed
         // TODO add your handling code here:
         int s = jTable3.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"Select sales Admin");
+        }   
+        else
+        {
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
-            if (c.getSalesAdminId() == jTable3.getValueAt(s, 1)) {
+            if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
 
                 ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory().remove(c);
+                 JOptionPane.showMessageDialog(this,"Sales Admin Deleted");
+                TableFilling1();
+                break;
+                
+                
             }
+        }
 
         }
 
@@ -1335,8 +1554,14 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void supdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supdateActionPerformed
         // TODO add your handling code here:
         int s = jTable3.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this,"Select Sales Admin");
+        }    
+        else
+        {
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
-            if (c.getSalesAdminId() == jTable3.getValueAt(s, 1)) {
+            if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
 
                 c.setFirstName(fname.getText());
                 c.setLastName(lname.getText());
@@ -1345,18 +1570,36 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(this,"Sales Admin Updated");
+                
+                TableFilling1();
+                  fname1.setText("");
+                lname1.setText("");
+                dob1.setDate(null);
+                email1.setText("");
+                phone1.setText("");
+                password1.setText("");
+                location1.setText("");
+                break;
+                
 
             }
-
+        }
         }
     }//GEN-LAST:event_supdateActionPerformed
 
     private void sselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sselectActionPerformed
         // TODO add your handling code here:
         int s = jTable3.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this,"Select Sales Admin");
+        }
+        else
+        {    
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
-            if (c.getSalesAdminId() == jTable3.getValueAt(s, 1)) {
-
+            if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
+                 sda=c;
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
                 dob.setDate(c.getDateOfBirth());
@@ -1367,6 +1610,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
             }
 
+        }
         }
 
 
@@ -1413,17 +1657,19 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 
-           // ResearchScientist patient = new ResearchScientist(password2.getText(), fname2.getText(), lname2.getText(), dob2.getDate(), email2.getText(), gender2.getSelectedItem().toString(), Long.parseLong(phone2.getText()));
+           ResearchScientist patient = new ResearchScientist(password2.getText(), fname2.getText(), lname2.getText(), dob2.getDate(), email2.getText(), gender2.getSelectedItem().toString(), Long.parseLong(phone2.getText()),man,location3.getText());
 
             //back to login page
             JOptionPane.showMessageDialog(this, "Added Successfully!");
-            password2.setText("");
+            TableFilling2();
+           password2.setText("");
             fname2.setText("");
             lname2.setText("");
             email2.setText("");
             gender2.setSelectedItem(null);
             dob2.setDate(null);
             phone2.setText("");
+            location3.setText("");
         } else {
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
         }
@@ -1492,10 +1738,20 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         int s = jTable5.getSelectedRow();
+        if(s==-1)
+        {
+             JOptionPane.showMessageDialog(this,"Select Research Scientist");
+        }   
+        else
+        {
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
-            if (c.getReaserchScientistId() == jTable5.getValueAt(s, 1)) {
+            if (c.getReaserchScientistId().equals(jTable5.getValueAt(s, 1))) {
                 ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory().remove(c);
+                TableFilling2();
+                JOptionPane.showMessageDialog(this," Research Scientist Deleted");
+                break;
             }
+        }
 
         }
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1503,6 +1759,12 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         int s = jTable5.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"Select research scientist");
+            
+        } 
+        else{
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
             if (c.getReaserchScientistId() == jTable5.getValueAt(s, 1)) {
 
@@ -1513,8 +1775,19 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(this,"research scientist Updated");
+                TableFilling2();
+               fname2.setText("");
+                lname2.setText("");
+                dob2.setDate(null);
+                email2.setText("");
+                phone2.setText("");
+                password2.setText("");
+                location3.setText("");
+                break;
 
             }
+        }
 
         }
 
@@ -1524,8 +1797,14 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         int s = jTable5.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this,"Select Research scientist");
+        }   
+        else
+        {
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
-            if (c.getReaserchScientistId() == jTable5.getValueAt(s, 1)) {
+            if (c.getReaserchScientistId() == jTable5.getValueAt(s, 0)) {
 
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
@@ -1536,6 +1815,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 password.setText(c.getPassword());
 
             }
+        }
 
         }
 
@@ -1549,6 +1829,106 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private void quaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_quaActionPerformed
+
+    private void location1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_location1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_location1ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jLabel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MouseClicked
+        // TODO add your handling code here:
+        
+         dB40Util.storeSystem(Ecosystem.getInstance());
+        Login mf = new Login();
+        mf.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel33MouseClicked
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+          if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (FinanceAdmin pObj : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
+                if (fda.getFinanceAdminId().equals(pObj.getFinanceAdminId())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Finance Password Updated");
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+         if (password.getText().isBlank()) {
+           JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        }
+         else
+         {
+            for (SalesAdmin pObj:ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory())
+            {
+                if (pObj.getSalesAdminId().equals(sda.getSalesAdminId())) {
+                    pObj.setPassword(password1.getText());
+                    JOptionPane.showMessageDialog(this, "Finance Password Updated");
+                    break;
+                }
+            }
+         }
+        
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        if (password.getText().isBlank()) {
+           JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        }
+         else
+         {
+            for (ResearchScientist pObj:ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory())
+            {
+                if (pObj.getReaserchScientistId().equals(rs.getReaserchScientistId())) 
+                {
+                    pObj.setPassword(password2.getText());
+                    JOptionPane.showMessageDialog(this, "Research Scientist Password Updated");
+                    break;
+                }
+            }
+         }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        location.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+        
+        location1.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        Location lobj = new Location();
+        lobj.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // TODO add your handling code here:
+        location3.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1583,7 +1963,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new ManufacturerWorkArea().setVisible(true);
+               // new ManufacturerWorkArea().setVisible(true);
             }
         });
     }
@@ -1595,7 +1975,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (FinanceAdmin person : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
-
+            if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getFinanceAdminId();
             row[1] = person.getFirstName();
@@ -1607,6 +1988,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             row[7] = person.getPassword();
 
             model.addRow(row);
+            }
 
         }
 
@@ -1619,7 +2001,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (SalesAdmin person : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
-
+          if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getSalesAdminId();
             row[1] = person.getFirstName();
@@ -1633,6 +2016,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             model.addRow(row);
 
         }
+        }
 
     }
 
@@ -1643,7 +2027,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (ResearchScientist person : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
-
+         if(person.getManufacturer().getManufacturerId().equals(man.getManufacturerId()))
+            {
             Object[] row = new Object[12];
             row[0] = person.getReaserchScientistId();
             row[1] = person.getFirstName();
@@ -1657,9 +2042,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             model.addRow(row);
 
         }
+        }
 
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Vaccine;
     private javax.swing.JTextField bid;
@@ -1676,10 +2063,19 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> gender1;
     private javax.swing.JComboBox<String> gender2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -1710,9 +2106,6 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1739,6 +2132,9 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField lname;
     private javax.swing.JTextField lname1;
     private javax.swing.JTextField lname2;
+    private javax.swing.JTextField location;
+    private javax.swing.JTextField location1;
+    private javax.swing.JTextField location3;
     private javax.swing.JTextField maxp;
     private javax.swing.JTextField minp;
     private javax.swing.JTextField password;
@@ -1759,4 +2155,16 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     private javax.swing.JPanel workPanel1;
     private javax.swing.JPanel workPanel2;
     // End of variables declaration//GEN-END:variables
+
+    private void populateCombo() {
+        ArrayList<String> vaccineList=new ArrayList<String>();
+        for(Vaccine c:ecoSystem.getVaccineDirectory().getVaccineDirectory())
+        {
+            vaccineList.add(c.getName());
+            
+        }
+        DefaultComboBoxModel vaccineModelList=new DefaultComboBoxModel(vaccineList.toArray());
+        Vaccine.setModel(vaccineModelList);
+        
+    }
 }
