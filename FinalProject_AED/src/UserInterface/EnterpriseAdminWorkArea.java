@@ -10,6 +10,8 @@ import Business.Role.EnterpriseAdmin;
 import Business.enterprise.Enterprise;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,6 +32,8 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     public EnterpriseAdminWorkArea(EnterpriseAdmin enterpriseAdmin) {
         initComponents();
         TableFilling2();
+        TableFilling3();
+        fillenter();
         this.loggedInUser = enterpriseAdmin;
     }
 
@@ -499,12 +503,18 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int s =manufacturertable.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }   
+        else{
         for(Manufacturer ma :ecoSystem.getManufacturerCatalog().getManufacturerList()){
             
-            if(ma.getManufacturerId() == manufacturertable.getValueAt(s, 1)){
+            if(ma.getManufacturerId().equals(manufacturertable.getValueAt(s, 0))){
                 ecoSystem.getManufacturerCatalog().getManufacturerList().remove(ma);
             
             }
+        }
             
         }
         
@@ -512,36 +522,43 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        Enterprise d=null;
         int s = manufacturertable.getSelectedRow();
-        for (Manufacturer me : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
-            if (me.getManufacturerId() == manufacturertable.getValueAt(s, 1)) {
-                if(me.getManufacturerId() == manufacturertable.getValueAt(s, 1)){
-                    me.setManufacturerName(manufacturername.getText());
-                    me.setEmailId(emailid.getText());
-                    
-
-                    
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }   
+        for(Enterprise e:ecoSystem.getEnterpriseDirectory().getEnterprisedirectory())
+        {
+            if(e.getCompanyName().equals(enterpriselist.getSelectedItem().toString()))
+            {
+                d=e;
+            }    
                 
-            
+        } 
+        for (Manufacturer mu : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
+            if (mu.getManufacturerId().equals(manufacturertable.getValueAt(s, 0).toString())) {
+
+                mu.setManufacturerName(manufacturername.getText());
+                mu.setEmailId(emailid.getText());
+                mu.setPassword(password.getText());
+                mu.setEnterprise(d);
             }
-
-               
-                
-                
-                
-                
-
-            }
-
         }
+             
+        
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         int s = manufacturertable.getSelectedRow();
+        if(s==-1)
+        {
+            JOptionPane.showMessageDialog(this," select Manufacturer" );
+        }    
         for (Manufacturer mu : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
-            if (mu.getManufacturerId() == manufacturertable.getValueAt(s, 1)) {
+            if (mu.getManufacturerId().equals(manufacturertable.getValueAt(s, 0).toString())) {
 
                 manufacturername.setText(mu.getManufacturerName());
                 emailid.setText(mu.getEmailId());
@@ -718,5 +735,40 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
     private javax.swing.JTextField password;
     private javax.swing.JPanel workPanel;
     // End of variables declaration//GEN-END:variables
+
+    private void TableFilling3() {
+           SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DefaultTableModel model = (DefaultTableModel) manufacturertable.getModel();
+        model.setRowCount(0);
+
+        for (Manufacturer ent : ecoSystem.getManufacturerCatalog().getManufacturerList()) {
+
+            Object[] row = new Object[4];
+            row[0] = ent.getManufacturerId();
+            row[1] =ent.getManufacturerName();
+            row[2] = ent.getEmailId();
+            row[3]=ent.getEnterprise().getCompanyName();
+            
+            
+
+            model.addRow(row);
+
+        }
+
+    }
+
+    private void fillenter() {
+       
+        ArrayList<String> vaccineList = new ArrayList<String>();
+        for (Enterprise c : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
+            vaccineList.add(c.getCompanyName());
+           // System.out.print(c.getName());
+        }
+        DefaultComboBoxModel vaccineModelList = new DefaultComboBoxModel(vaccineList.toArray());
+        enterpriselist.setModel(vaccineModelList);
+        
+        
+        
+    }
 }
 
