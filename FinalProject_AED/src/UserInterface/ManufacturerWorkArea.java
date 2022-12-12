@@ -37,6 +37,9 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
     Ecosystem ecoSystem = Ecosystem.getInstance();
     DB4OUtil dB40Util = DB4OUtil.getInstance();
     Manufacturer man;
+    FinanceAdmin fda;
+    SalesAdmin sda;
+    ResearchScientist rs;
 
     public ManufacturerWorkArea(Manufacturer man) {
         initComponents();
@@ -569,6 +572,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         });
 
         jButton13.setText("Update Password");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanel1Layout = new javax.swing.GroupLayout(workPanel1);
         workPanel1.setLayout(workPanel1Layout);
@@ -942,6 +950,11 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         jButton11.setText("Set Location");
 
         jButton12.setText("Update Password");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout workPanel2Layout = new javax.swing.GroupLayout(workPanel2);
         workPanel2.setLayout(workPanel2Layout);
@@ -1148,6 +1161,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         {    
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
             if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
+                fda=c;
                 c.setFirstName(fname.getText());
                 c.setLastName(lname.getText());
                 c.setDateOfBirth(dob.getDate());
@@ -1316,7 +1330,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         {
         for (FinanceAdmin c : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
             if (c.getFinanceAdminId().equals(jTable2.getValueAt(s, 0))) {
-
+                fda=c;
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
                 dob.setDate(c.getDateOfBirth());
@@ -1527,7 +1541,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         {    
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
             if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
-
+                 sda=c;
                 fname.setText(c.getFirstName());
                 lname.setText(c.getLastName());
                 dob.setDate(c.getDateOfBirth());
@@ -1589,7 +1603,8 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
             //back to login page
             JOptionPane.showMessageDialog(this, "Added Successfully!");
-            password2.setText("");
+            TableFilling2();
+           password2.setText("");
             fname2.setText("");
             lname2.setText("");
             email2.setText("");
@@ -1776,7 +1791,56 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
+          if (password.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        } else {
+            for (FinanceAdmin pObj : ecoSystem.getFinanceAdminDirectory().getFinanceAdminDirectory()) {
+                if (fda.getFinanceAdminId().equals(pObj.getFinanceAdminId())) {
+                    pObj.setPassword(password.getText());
+                    JOptionPane.showMessageDialog(this, "Finance Password Updated");
+                    break;
+                }
+            }
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+         if (password.getText().isBlank()) {
+           JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        }
+         else
+         {
+            for (SalesAdmin pObj:ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory())
+            {
+                if (pObj.getSalesAdminId().equals(sda.getSalesAdminId())) {
+                    pObj.setPassword(password1.getText());
+                    JOptionPane.showMessageDialog(this, "Finance Password Updated");
+                    break;
+                }
+            }
+         }
+        
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        if (password.getText().isBlank()) {
+           JOptionPane.showMessageDialog(this, "Password Cannot be empty");
+        }
+         else
+         {
+            for (ResearchScientist pObj:ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory())
+            {
+                if (pObj.getReaserchScientistId().equals(rs.getReaserchScientistId())) 
+                {
+                    pObj.setPassword(password2.getText());
+                    JOptionPane.showMessageDialog(this, "Research Scientist Password Updated");
+                    break;
+                }
+            }
+         }
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
