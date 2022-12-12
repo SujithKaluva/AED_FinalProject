@@ -1227,6 +1227,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
                 c.setGender(gender.getSelectedItem().toString());
+                c.setLocation(location.getText());
                 JOptionPane.showMessageDialog(this, " finance Admin Updated");
                 TableFilling();
                 fname.setText("");
@@ -1434,7 +1435,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
         }
-        JTextField[] VARIABLE_CONSTANTS = {fname, lname, email, phone, password};
+        JTextField[] VARIABLE_CONSTANTS = {fname1, lname1, email1, phone1, password1};
         for (JTextField field : VARIABLE_CONSTANTS) {
             if (!validateData1(field)) {
                 validated = false;
@@ -1447,7 +1448,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 //String password,String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, Manufacturer manufacturer, String location
-            SalesAdmin patient = new SalesAdmin(password.getText(), fname.getText(), lname.getText(), dob.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),man,location1.getText());
+            SalesAdmin patient = new SalesAdmin(password1.getText(), fname1.getText(), lname1.getText(), dob1.getDate(), email1.getText(), gender1.getSelectedItem().toString(), Long.parseLong(phone1.getText()),man,location1.getText());
              JOptionPane.showMessageDialog(this, "Sales Admin Created");
              TableFilling1();
                fname1.setText("");
@@ -1563,13 +1564,14 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
             if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
 
-                c.setFirstName(fname.getText());
-                c.setLastName(lname.getText());
-                c.setDateOfBirth(dob.getDate());
-                c.setEmailId(email.getText());
-                c.setPassword(password.getText());
-                c.setPhoneNumber(Long.valueOf(phone.getText()));
-                c.setGender(gender.getSelectedItem().toString());
+                c.setFirstName(fname1.getText());
+                c.setLastName(lname1.getText());
+                c.setDateOfBirth(dob1.getDate());
+                c.setEmailId(email1.getText());
+                //c.setPassword(password1.getText());
+                c.setPhoneNumber(Long.valueOf(phone1.getText()));
+                c.setGender(gender1.getSelectedItem().toString());
+                c.setLocation(location1.getText());
                 JOptionPane.showMessageDialog(this,"Sales Admin Updated");
                 
                 TableFilling1();
@@ -1578,7 +1580,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
                 dob1.setDate(null);
                 email1.setText("");
                 phone1.setText("");
-                password1.setText("");
+                //password1.setText("");
                 location1.setText("");
                 break;
                 
@@ -1600,13 +1602,13 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         for (SalesAdmin c : ecoSystem.getSalesAdminDirectory().getSalesAdminDirectory()) {
             if (c.getSalesAdminId().equals(jTable3.getValueAt(s, 0).toString())) {
                  sda=c;
-                fname.setText(c.getFirstName());
-                lname.setText(c.getLastName());
-                dob.setDate(c.getDateOfBirth());
-                gender.setSelectedItem(c.getGender());
-                email.setText(c.getEmailId());
-                phone.setText(c.getPhoneNumber() + "");
-                password.setText(c.getPassword());
+                fname1.setText(c.getFirstName());
+                lname1.setText(c.getLastName());
+                dob1.setDate(c.getDateOfBirth());
+                gender1.setSelectedItem(c.getGender());
+                email1.setText(c.getEmailId());
+                phone1.setText(c.getPhoneNumber() + "");
+                //password1.setText(c.getPassword());
 
             }
 
@@ -1768,13 +1770,14 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
             if (c.getReaserchScientistId() == jTable5.getValueAt(s, 1)) {
 
-                c.setFirstName(fname.getText());
-                c.setLastName(lname.getText());
-                c.setDateOfBirth(dob.getDate());
-                c.setEmailId(email.getText());
-                c.setPassword(password.getText());
+                c.setFirstName(fname2.getText());
+                c.setLastName(lname2.getText());
+                c.setDateOfBirth(dob2.getDate());
+                c.setEmailId(email2.getText());
+//                c.setPassword(password.getText());
                 c.setPhoneNumber(Long.valueOf(phone.getText()));
-                c.setGender(gender.getSelectedItem().toString());
+                c.setGender(gender2.getSelectedItem().toString());
+                c.setLocation(location3.getText());
                 JOptionPane.showMessageDialog(this,"research scientist Updated");
                 TableFilling2();
                fname2.setText("");
@@ -1806,13 +1809,13 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         for (ResearchScientist c : ecoSystem.getResearchScientistDirectory().getResearchScientistDirectory()) {
             if (c.getReaserchScientistId() == jTable5.getValueAt(s, 0)) {
 
-                fname.setText(c.getFirstName());
-                lname.setText(c.getLastName());
-                dob.setDate(c.getDateOfBirth());
-                gender.setSelectedItem(c.getGender());
-                email.setText(c.getEmailId());
-                phone.setText(c.getPhoneNumber() + "");
-                password.setText(c.getPassword());
+                fname2.setText(c.getFirstName());
+                lname2.setText(c.getLastName());
+                dob2.setDate(c.getDateOfBirth());
+                gender2.setSelectedItem(c.getGender());
+                email2.setText(c.getEmailId());
+                phone2.setText(c.getPhoneNumber() + "");
+//                password2.setText(c.getPassword());
 
             }
         }
