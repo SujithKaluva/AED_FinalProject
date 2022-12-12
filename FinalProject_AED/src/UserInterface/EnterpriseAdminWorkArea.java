@@ -819,7 +819,7 @@ public class EnterpriseAdminWorkArea extends javax.swing.JFrame {
         ArrayList<String> vaccineList = new ArrayList<String>();
         for (Enterprise c : ecoSystem.getEnterpriseDirectory().getEnterprisedirectory()) {
             vaccineList.add(c.getCompanyName());
-           // System.out.print(c.getName());
+            System.out.print(c.getCompanyName());
         }
         DefaultComboBoxModel vaccineModelList = new DefaultComboBoxModel(vaccineList.toArray());
         enterpriselist.setModel(vaccineModelList);

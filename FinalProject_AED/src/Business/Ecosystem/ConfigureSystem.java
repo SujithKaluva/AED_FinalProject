@@ -10,6 +10,7 @@ import Business.Manufacturer.Manufacturer;
 import Business.Orders.Orders;
 import Business.Role.ClinicAdmin;
 import Business.Role.EnterpriseAdmin;
+import Business.Role.FinanceAdmin;
 import Business.Role.Patient;
 import Business.Role.ResearchScientist;
 import Business.Role.SalesAdmin;
@@ -49,6 +50,7 @@ public class ConfigureSystem {
         ResearchScientist rScientist = new ResearchScientist("password", "research", "scientist", d, "sujith@gmail.com", "Male", 1234567890l, man1, "Bos");
         EnterpriseAdmin entAdmin = new EnterpriseAdmin("password", "Enterprise", "Admin", d, "sujith@gmail.com", "Male", 9876543210l, "Delhi");
         Orders ord = new Orders(clinicObj, vac2, 1, 100, salesperson1, "Booked", d, d, "test");
+        FinanceAdmin fAdmin = new FinanceAdmin("password", "Finance", "Admin", d, "sujith@gmail.com", "Male", 1234567890l, man1, "H");
         return system;
     }
 } 

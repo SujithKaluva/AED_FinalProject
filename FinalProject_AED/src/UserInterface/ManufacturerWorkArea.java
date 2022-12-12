@@ -1126,7 +1126,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
         );
 
         jPanel6.add(workPanel2);
-        workPanel2.setBounds(0, 0, 1200, 700);
+        workPanel2.setBounds(0, 0, 1200, 697);
 
         jPanel11.setMaximumSize(new java.awt.Dimension(1200, 700));
         jPanel11.setMinimumSize(new java.awt.Dimension(1200, 700));
@@ -1866,7 +1866,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-         if (password.getText().isBlank()) {
+         if (password1.getText().isBlank()) {
            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
         }
          else
@@ -1875,7 +1875,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
             {
                 if (pObj.getSalesAdminId().equals(sda.getSalesAdminId())) {
                     pObj.setPassword(password1.getText());
-                    JOptionPane.showMessageDialog(this, "Finance Password Updated");
+                    JOptionPane.showMessageDialog(this, "Sales Admin Password Updated");
                     break;
                 }
             }
@@ -1885,7 +1885,7 @@ public class ManufacturerWorkArea extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-        if (password.getText().isBlank()) {
+        if (password2.getText().isBlank()) {
            JOptionPane.showMessageDialog(this, "Password Cannot be empty");
         }
          else

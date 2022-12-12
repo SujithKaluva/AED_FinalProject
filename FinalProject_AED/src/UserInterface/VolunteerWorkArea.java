@@ -232,7 +232,18 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
 
     private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
         // TODO add your handling code here:
+        boolean validatedOtherFields = false;
+        String status = status1.getSelectedItem() == null ? "" : status1.getSelectedItem().toString();
+        
+        if(!status.isEmpty()){
+             validatedOtherFields = true;
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        
         int s = vTable.getSelectedRow();
+        
         if (s == -1) {
             JOptionPane.showMessageDialog(this, "Please select an Appointment");
         } else {
@@ -274,8 +285,8 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         dB4OUtil.storeSystem(Ecosystem.getInstance());
-        Login frame = new Login();
-        frame.setVisible(true);
+        Login login = new Login();
+        login.setVisible(true);
         dispose();
     }//GEN-LAST:event_backbutton1MouseClicked
 
@@ -288,7 +299,7 @@ public class VolunteerWorkArea extends javax.swing.JFrame {
         model.setRowCount(0);
         for (Appointment vObj : ecoSystem.getAppointmenthistory().getAppointmenthistory()) {
 
-            if (vObj.getVolunteer()!=null && vObj.getVolunteer().getVolunteerId().equals(vou.getVolunteerId())) {
+            if (vObj.getVolunteer().getVolunteerId().equals(vou.getVolunteerId())) {
                 Object[] row = new Object[11];
                 row[0] = vObj.getAppid();
                 row[1] = vObj.getPatient().getFirstName();
