@@ -47,6 +47,14 @@ public class Manufacturer {
         return manufacturerName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
