@@ -27,6 +27,9 @@ public class clinicDirectory {
         this.clinicdirectory = clinicdirectory;
     }
     
+    public void addClinic(Clinic c){
+        this.clinicdirectory.add(c);
+    }
     
 }
 

@@ -4,6 +4,9 @@
  */
 package Business.Clinic;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.Ecosystem.Ecosystem;
+
 /**
  *
  * @author tendusmac
@@ -15,13 +18,17 @@ public class Clinic {
     private String clinicId;
     private long clinicPhoneNumber;
     private static int clinicadmincounter=1;
+    DB4OUtil db4oUtil = DB4OUtil.getInstance();
+    Ecosystem ecoSystem = Ecosystem.getInstance();
 
-    public Clinic(String clinicName, String clinicAddress, String clinicId, long clinicPhoneNumber) {
+    public Clinic(String clinicName, String clinicAddress, long clinicPhoneNumber) {
         this.clinicName = clinicName;
         this.clinicAddress = clinicAddress;
         this.clinicId = "clinicId_"+this.clinicadmincounter;
         this.clinicPhoneNumber = clinicPhoneNumber;
         clinicadmincounter++;
+        ecoSystem.clinicdirectory.addClinic(this);
+        //db4oUtil.storeSystem(ecoSystem);
         
     }
 
@@ -56,9 +63,5 @@ public class Clinic {
     public void setClinicPhoneNumber(long clinicPhoneNumber) {
         this.clinicPhoneNumber = clinicPhoneNumber;
     }
-    
-    
-    
-    
     
 }

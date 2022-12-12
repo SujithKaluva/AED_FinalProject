@@ -67,6 +67,7 @@ public class DB4OUtil {
         ObjectContainer conn = createConnection();
         conn.store(system);
         conn.commit();
+        System.out.print("Stored In DB");
         conn.close();
     }
     
