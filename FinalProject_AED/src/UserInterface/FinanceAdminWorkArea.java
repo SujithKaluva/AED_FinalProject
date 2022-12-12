@@ -386,16 +386,16 @@ public class FinanceAdminWorkArea extends javax.swing.JFrame {
         // SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         DefaultTableModel model = (DefaultTableModel) financetable1.getModel();
         model.setRowCount(0);
-        for(VaccineDetails vObj : ecoSystem.getVaccineDetailsDirectory().getVaccineDetailsDirectory()){
-            if(vObj.getVaccine().getManufacturer().getManufacturerId().equals(fa.getManufacturer().getManufacturerId()))
+        for(Vaccine vObj : ecoSystem.getVaccineDirectory().getVaccineDirectory()){
+            if(vObj.getManufacturer().getManufacturerId().equals(fa.getManufacturer().getManufacturerId()))
             {   
             
             Object[] row = new Object[10];
-            row[0] =vObj.getVaccine().getVcode();
-            row[1] =vObj.getVaccine().getName();
-            row[2] =vObj.getVaccine().getMaxprice();
-            row[3] = vObj.getVaccine().getMinprice();
-            row[4] = vObj.getVaccine().getTargetprice();
+            row[0] =vObj.getVcode();
+            row[1] =vObj.getName();
+            row[2] =vObj.getMaxprice();
+            row[3] = vObj.getMinprice();
+            row[4] = vObj.getTargetprice();
             
             model.addRow(row);
             }

@@ -33,8 +33,6 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
     public SalesPersonWorkArea(SalesPerson h) {
         initComponents();
         this.setVisible(true);
-//        ecoSystem = dB4OUtil.retrieveSystem();
-//        Ecosystem.setInstance(ecoSystem);
         this.sp = h;
         TableFilling();
         welcome.setText("Hello "+h.getFirstName()+" "+h.getLastName());
@@ -320,6 +318,27 @@ public class SalesPersonWorkArea extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        
+        boolean validated = false;
+        boolean validatedOtherFields = false;
+        
+        String status = ordstatus.getSelectedItem() == null ? "" : ordstatus.getSelectedItem().toString();
+        JDateChooser strtDt = orddate;
+        JDateChooser strtDt1 = deldate;
+        int p=Integer.valueOf(ordprice.getText());
+        
+        
+        
+        
+        if(!status.isEmpty() && strtDt!=null && strtDt1!=null){
+             validatedOtherFields = true;
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        
+        
+        
         int s = salespersontable.getSelectedRow();
         if (s == -1) {
             JOptionPane.showMessageDialog(this, "Select a row");

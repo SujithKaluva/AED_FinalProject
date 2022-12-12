@@ -24,19 +24,20 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
     /**
      * Creates new form SysAdminWorkArea1
      */
-    Ecosystem ecoSystem =Ecosystem.getInstance();
+    Ecosystem ecoSystem = Ecosystem.getInstance();
     EnterpriseAdmin ad;
+
     public SysAdminWorkArea() {
         initComponents();
         jPanel4.setBackground(new Color(255, 255, 255, 90));
         workPanel.setBackground(new Color(255, 255, 255, 100));
-         firstname.setText("fname");
-                lastname.setText("lname");
-                dob.setDate(null);
-                email.setText("email");
-                phone.setText("phone");
-                password1.setText("password");
-                location.setText("");
+        firstname.setName("fname");
+        lastname.setName("lname");
+        dob.setName(null);
+        email.setName("email");
+        phone.setName("phone");
+        password1.setName("password");
+        location.setName("");
         populatet();
     }
 
@@ -126,13 +127,13 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "First Name", "Last name", "Date of Birth", "Gender", "Email ID", "Phone Number", "Password"
+                "ID", "First Name", "Last name", "Gender", "Email ID", "Phone Number", "Password"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
@@ -209,62 +210,59 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
         workPanelLayout.setHorizontalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(workPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel33)
+                .addGap(40, 40, 40)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(12, 12, 12)
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(workPanelLayout.createSequentialGroup()
-                                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(workPanelLayout.createSequentialGroup()
-                                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(phone)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                                                            .addGap(0, 0, Short.MAX_VALUE)
-                                                            .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addGroup(workPanelLayout.createSequentialGroup()
-                                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(lastname))
-                                                .addGroup(workPanelLayout.createSequentialGroup()
-                                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(workPanelLayout.createSequentialGroup()
-                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(workPanelLayout.createSequentialGroup()
-                                                .addGap(119, 119, 119)
-                                                .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel33)))
+                                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(workPanelLayout.createSequentialGroup()
+                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(phone)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
+                                                    .addGap(0, 0, Short.MAX_VALUE)
+                                                    .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(workPanelLayout.createSequentialGroup()
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(lastname))
+                                        .addGroup(workPanelLayout.createSequentialGroup()
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(workPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(workPanelLayout.createSequentialGroup()
+                                        .addGap(119, 119, 119)
+                                        .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(160, 160, 160)
+                        .addGap(154, 154, 154)
                         .addComponent(create)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton1)
                         .addGap(97, 97, 97)))
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,19 +271,17 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
                         .addGap(88, 88, 88)
                         .addComponent(delete)
                         .addGap(85, 85, 85)
-                        .addComponent(select)
-                        .addContainerGap())
+                        .addComponent(select))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(185, 185, 185)
-                                .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(346, 346, 346)
-                                .addComponent(jLabel3)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addGap(93, 93, 93)
+                        .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(254, 254, 254)
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         workPanelLayout.setVerticalGroup(
             workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,9 +298,10 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(workPanelLayout.createSequentialGroup()
-                                .addGap(156, 156, 156)
+                                .addGap(50, 50, 50)
                                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel10)
                                     .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -346,7 +343,6 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addGap(18, 18, 18))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, workPanelLayout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)))
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -354,7 +350,7 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
                             .addComponent(update)
                             .addComponent(delete)
                             .addComponent(select))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         jPanel1.add(workPanel);
@@ -413,7 +409,7 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
 
     private void jLabel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel33MouseClicked
         // TODO add your handling code here:
-        Login login =new Login();
+        Login login = new Login();
         login.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel33MouseClicked
@@ -424,67 +420,60 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
-        
-         int s = jTable2.getSelectedRow();
-        if(s==-1)
-        {
-             JOptionPane.showMessageDialog(this, "select enterprise Admin");
-        } 
-        else
-        {    
-        for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
-            if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
-                //fda=c;
-                c.setFirstName(firstname.getText());
-                c.setLastName(lastname.getText());
-                c.setDateOfBirth(dob.getDate());
-                c.setEmailId(email.getText());
-                c.setPassword(password1.getText());
-                c.setPhoneNumber(Long.valueOf(phone.getText()));
-                c.setGender(gender.getSelectedItem().toString());
-                JOptionPane.showMessageDialog(this, " EnterPrise Admin Updated");
-                populatet();
-                firstname.setText("");
-                lastname.setText("");
-                dob.setDate(null);
-                email.setText("");
-                phone.setText("");
-                password1.setText("");
-                location.setText("");
-                
-                break;
-                
-            }
 
-        }
+        int s = jTable2.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "select enterprise Admin");
+        } else {
+            for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
+                if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
+                    //fda=c;
+                    c.setFirstName(firstname.getText());
+                    c.setLastName(lastname.getText());
+                    c.setDateOfBirth(dob.getDate());
+                    c.setEmailId(email.getText());
+//                c.setPassword(password1.getText());
+                    c.setPhoneNumber(Long.valueOf(phone.getText()));
+                    c.setGender(gender.getSelectedItem().toString());
+                    JOptionPane.showMessageDialog(this, " EnterPrise Admin Updated");
+                    populatet();
+                    firstname.setText("");
+                    lastname.setText("");
+                    dob.setDate(null);
+                    email.setText("");
+                    phone.setText("");
+                    password1.setText("");
+                    location.setText("");
+
+                    break;
+
+                }
+
+            }
         }
     }//GEN-LAST:event_updateActionPerformed
 
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
         // TODO add your handling code here:
-        
-         int s = jTable2.getSelectedRow();
-        if(s==-1)
-        {
-            JOptionPane.showMessageDialog(this,"select enterprise admin");
-        }   
-        else
-        {
-        for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
-            if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
-                ad=c;
-                firstname.setText(c.getFirstName());
-                lastname.setText(c.getLastName());
-                jDateChooser1.setDate(c.getDateOfBirth());
-                gender.setSelectedItem(c.getGender());
-                email.setText(c.getEmailId());
-                phone.setText(c.getPhoneNumber() + "");
-                password1.setText(c.getPassword());
-                 break;
-                
 
+        int s = jTable2.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "select enterprise admin");
+        } else {
+            for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
+                if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
+                    ad = c;
+                    firstname.setText(c.getFirstName());
+                    lastname.setText(c.getLastName());
+                    jDateChooser1.setDate(c.getDateOfBirth());
+                    gender.setSelectedItem(c.getGender());
+                    email.setText(c.getEmailId());
+                    phone.setText(c.getPhoneNumber() + "");
+//                password1.setText(c.getPassword());
+                    break;
+
+                }
             }
-        }
 
         }
     }//GEN-LAST:event_selectActionPerformed
@@ -492,28 +481,24 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         int s = jTable2.getSelectedRow();
-        if(s==-1)
-        {
-            JOptionPane.showMessageDialog(this,"select enterprise admin");
-        }   
-        else
-        {
-        for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
-            if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
-                   ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList().remove(c);
-                 break;
-                
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "select enterprise admin");
+        } else {
+            for (EnterpriseAdmin c : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
+                if (c.getEntAdminId().equals(jTable2.getValueAt(s, 0))) {
+                    ecoSystem.getEnterpriseAdminDirectory().removeEnterpriseAdmin(ad);
+                    break;
 
+                }
             }
-        }
 
         }
-        
+
     }//GEN-LAST:event_deleteActionPerformed
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
-         boolean validated = false;
+        boolean validated = false;
         boolean validatedOtherFields = false;
         String selectedGender = gender.getSelectedItem().toString();
 
@@ -536,16 +521,16 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
 
         if (validated && validatedOtherFields) {
 //String password, String firstName, String lastName, Date dateOfBirth, String emailId, String gender, long phoneNumber, String location
-            EnterpriseAdmin patient = new EnterpriseAdmin(password1.getText(), firstname.getText(), lastname.getText(), jDateChooser1.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()),location.getText());
+            EnterpriseAdmin patient = new EnterpriseAdmin(password1.getText(), firstname.getText(), lastname.getText(), jDateChooser1.getDate(), email.getText(), gender.getSelectedItem().toString(), Long.parseLong(phone.getText()), location.getText());
             JOptionPane.showMessageDialog(this, "EnterPrise Admin Created");
             populatet();
-              firstname.setText("");
-                lastname.setText("");
-                dob.setDate(null);
-                email.setText("");
-                phone.setText("");
-                password1.setText("");
-                location.setText("");
+            firstname.setText("");
+            lastname.setText("");
+            dob.setDate(null);
+            email.setText("");
+            phone.setText("");
+            password1.setText("");
+            location.setText("");
             //System.out.println("Patient Size" + ecoSystem.getPatientDirectory().getPatientList().size());
             //System.out.println("Person Size" + ecoSystem.getPersonDirectory().getPersonList().size());
             //back to login page
@@ -691,19 +676,17 @@ public class SysAdminWorkArea extends javax.swing.JFrame {
 
         for (EnterpriseAdmin odd : ecoSystem.getEnterpriseAdminDirectory().getEnterpriseAdminList()) {
 
-            
-                Object[] row = new Object[7];
-                row[0] = odd.getEntAdminId();
-                row[1] = odd.getFirstName();
-                row[2] = odd.getLastName();
-                row[3] =dateFormat.format(odd.getDateOfBirth());
-                
-                row[4] = odd.getEmailId();
-                row[5] = odd.getPhoneNumber();
-                row[6] = odd.getLocation();
+            Object[] row = new Object[8];
+            row[0] = odd.getEntAdminId();
+            row[1] = odd.getFirstName();
+            row[2] = odd.getLastName();
+            //row[3] = dateFormat.format(odd.getDateOfBirth()).toString();
 
-                model.addRow(row);
-            
+            row[3] = odd.getEmailId();
+            row[4] = odd.getPhoneNumber();
+            row[5] = odd.getLocation();
+
+            model.addRow(row);
 
         }
 

@@ -34,8 +34,9 @@ public class PatientWorkArea extends javax.swing.JFrame {
      * Creates new form PatientWorkArea
      */
     Ecosystem ecoSystem = Ecosystem.getInstance();
-    DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     Patient patient;
+    
 
     //Patient selectedPatient;
     public PatientWorkArea(Patient p) {
@@ -52,6 +53,15 @@ public class PatientWorkArea extends javax.swing.JFrame {
         profilePopulate();
         populateClinicVacc();
         populateCombo();
+        
+        fname.setName("First Name");
+        lname.setName("Last Name");
+        phone.setName("phone");
+        dob.setName("DOB");
+        email1.setName("email");
+        gender.setName("Gender");
+        password.setName("password");
+        qua.setName("location");
 
     }
 
@@ -112,7 +122,6 @@ public class PatientWorkArea extends javax.swing.JFrame {
         apptable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 700));
         setSize(new java.awt.Dimension(1200, 700));
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1200, 700));
@@ -139,6 +148,11 @@ public class PatientWorkArea extends javax.swing.JFrame {
         jLabel13.setText("Vaccine");
 
         Vaccinedetails.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Vaccinedetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VaccinedetailsActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 3, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 102));
@@ -174,6 +188,11 @@ public class PatientWorkArea extends javax.swing.JFrame {
             .addGroup(workPanelLayout.createSequentialGroup()
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(workPanelLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(backbutton)
+                        .addGap(18, 18, 18)
+                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel13)
@@ -184,12 +203,7 @@ public class PatientWorkArea extends javax.swing.JFrame {
                             .addComponent(apod, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(workPanelLayout.createSequentialGroup()
                         .addGap(236, 236, 236)
-                        .addComponent(jButton1))
-                    .addGroup(workPanelLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(backbutton)
-                        .addGap(18, 18, 18)
-                        .addComponent(welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1)))
                 .addGap(82, 82, 82)
                 .addGroup(workPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -562,7 +576,36 @@ public class PatientWorkArea extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        for (Patient pObj : ecoSystem.getPatientdirectory().getPatientdirectory()) {
+        
+        
+        boolean validated = false;
+        boolean validatedOtherFields = false;
+        
+        String selectedGender = gender.getSelectedItem() == null ? "" : gender.getSelectedItem().toString();
+        JDateChooser strtDt = dob;
+        
+        if(strtDt!=null){
+            validatedOtherFields = true;
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "All Fields are Mandatory!");
+        }
+        
+        JTextField[] VARIABLE_CONSTANTS = { fname, lname,phone,email1,password,qua};
+        for (JTextField field : VARIABLE_CONSTANTS) {
+            if (!validateData(field)) {
+                validated = false;
+                break;
+            } else {
+                validated = true;
+                System.out.println("Validated");
+            }
+        }
+        
+        
+        
+        if(validated && validatedOtherFields){
+            for (Patient pObj : ecoSystem.getPatientdirectory().getPatientdirectory()) {
             if (patient.getPatientId().equals(pObj.getPatientId())) {
                 pObj.setFirstName(fname.getText());
                 pObj.setLastName(lname.getText());
@@ -576,8 +619,70 @@ public class PatientWorkArea extends javax.swing.JFrame {
                 break;
             }
         }
+            
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public boolean validateData(JComponent input){
+        String name = input.getName();
+        String errorMsg = "";
+        boolean raiseError = false;
+        String text = ((JTextField) input).getText().trim();
+        if (text == null || text.isEmpty()) {
+            raiseError = true;
+            errorMsg = String.format("Please enter a value. The value for %s cannot be empty", name);
+        }
+        else{
+            switch(name){
+                case "First Name":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                case "Last Name":
+                    if (!text.matches("^[a-zA-z ]*$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter valid values for %s", name);
+                    }
+                    break;
+                    
+                case "Phone":
+                    if (!text.matches("^[0-9]{10}")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+                
+                case "email":
+                    for (Patient p : ecoSystem.getPatientdirectory().getPatientdirectory()) {
+                        if (p.getEmailId().equals(text)) {
+                            raiseError = true;
+                            errorMsg = String.format("Email Id already exists, please enter a valid mail Id", name);
+                            break;
+                        }
+                    }
+                    if (!text.matches("^(.+)@(.+)$")) {
+                        raiseError = true;
+                        errorMsg = String.format("Please enter a valid %s", name);
+                    }
+                    break;
+                    
+                default:
+                    break;
+                    
+                
+            
+            }
+        }
+        if (raiseError) {
+            JOptionPane.showMessageDialog(this, errorMsg);
+            return false;
+        }
+        return true;
+    }
+            
     private void lnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lnameActionPerformed
@@ -609,6 +714,7 @@ public class PatientWorkArea extends javax.swing.JFrame {
                     v = c;
                     break;
                 }
+
             }
 
             if (selectClinic == null) {
@@ -619,7 +725,6 @@ public class PatientWorkArea extends javax.swing.JFrame {
                 Appointment app = new Appointment(v.getD(), v, selectClinic, apod.getDate(), patient, "Booked", "", null, v.getMaxprice());
                 appointmentPopulate();
                 JOptionPane.showMessageDialog(this, "Appointment Booked");
-                //dB4OUtil.storeSystem(ecoSystem);
             }
         }
 
@@ -649,8 +754,8 @@ public class PatientWorkArea extends javax.swing.JFrame {
 
     private void backbutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backbutton1MouseClicked
         // TODO add your handling code here:
-        //dB4OUtil.storeSystem(ecoSystem);
-        Login mf = new Login(ecoSystem);
+        dB4OUtil.storeSystem(ecoSystem);
+        Login mf = new Login();
         mf.setVisible(true);
         dispose();
     }//GEN-LAST:event_backbutton1MouseClicked
@@ -680,6 +785,10 @@ public class PatientWorkArea extends javax.swing.JFrame {
         // TODO add your handling code here:
         qua.setText(ecoSystem.getgMapsLocation().getLatitude() + "," + ecoSystem.getgMapsLocation().getLongitude());
     }//GEN-LAST:event_populateLocationActionPerformed
+
+    private void VaccinedetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaccinedetailsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VaccinedetailsActionPerformed
 
     /**
      * @param args the command line arguments
