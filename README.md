@@ -1,4 +1,4 @@
-AED Final Project - Vaccine Management System
+AED Final Project - Vaccine Management & Distribution System
 
 Team Mates
 
@@ -6,7 +6,16 @@ Sujith Kaluva - 002768094
 Sreeja Vangoori - 002788038
 Dinesh Yelchuri - 002760628
 
-Our project is a Vaccine Management System, in which the application manages everything from the creation of new vaccines, to the distribution of vaccines to patients.
+* Collaborated and Designed an e2e application with rich and user-friendly interfaces using Java, Swing GUI, and Db4o database. This application consists of 16 distinct user roles, wherein each role has a unique user interface with its respective functionalities and data access.
+
+* Developed application with functionalities such as Password Encryption using SHA-256, Google Maps API for location, Email notifications to users on each update, Announcements Board for each user, and Charts for Sales and Finance Dashboards. Additionally, only a patient has access to sign up, other users can be created only by respective admins or System Admin.
+
+* Included validations, handled exceptions, and thoroughly tested for each CRUD operation. (Eg: Validation for Vaccine Booking with Doses already taken by Patient from Medical history)
+
+* Created an interface that can be adopted by the healthcare industry with the scope to add or delete more roles of management.
+
+
+The application manages everything from the creation of new vaccines, to the distribution of vaccines to patients.
 
 For each work, we have different roles defined. The details of the role are listed below.
 
